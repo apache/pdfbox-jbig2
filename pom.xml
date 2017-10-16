@@ -1,0 +1,208 @@
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>18</version>
+        <relativePath/>
+    </parent>
+    
+	<groupId>org.apache.pdfbox</groupId>
+	<artifactId>jbig2-imageio</artifactId>
+	<version>3.0.0-SNAPSHOT</version>
+	
+	<name>PDFBox JBIG2 ImageIO plugin</name>
+	
+	<description>
+		Java Image I/O plugin for reading JBIG2-compressed image data. 
+		Formerly known as the levigo JBig2 ImageIO plugin (com.levigo.jbig2:levigo-jbig2-imageio).
+	</description>
+	
+	<url>https://github.com/levigo/jbig2-imageio</url>
+
+	<developers>
+		<developer>
+			<id>krzikams</id>
+			<name>Matthäus Mayer</name>
+			<email>m.mayer@levigo.de</email>
+			<roles>
+				<role>retired developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>hennejg</id>
+			<name>Jörg Henne</name>
+			<email>j.henne@levigo.de</email>
+			<roles>
+				<role>project transition to ASL/ASF</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshot Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>sonatype-nexus-staging</id>
+			<name>Sonatype Nexus Release Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<scm>
+    	<connection>scm:git:ssh://github.com/levigo/jbig2-imageio.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/levigo/jbig2-imageio.git</developerConnection>
+    	<url>https://github.com/levigo/jbig2-imageio</url>
+    	<tag>HEAD</tag>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<debug>false</debug>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<inherited>false</inherited>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<header>${basedir}/LICENSE-HEADER.txt</header>
+					<failIfMissing>true</failIfMissing>
+					<aggregate>true</aggregate>
+					<useDefaultExcludes>false</useDefaultExcludes>
+					<excludes>
+						<exclude>**/.classpath</exclude>
+						<exclude>**/.project</exclude>
+						<exclude>**/.settings/**</exclude>
+						<exclude>**/target/**</exclude>
+						<exclude>**/.idea/**</exclude>
+						<exclude>**/atlassian-ide-plugin.xml</exclude>
+					</excludes>
+					<includes>
+						<include>**/*.xml</include>
+						<include>**/*.md</include>
+						<include>**/src/**/*.java</include>
+						<include>**/src/**/*.properties</include>
+						<include>**/META-INF/services/*</include>
+						<include>**/*.yml</include>
+					</includes>
+					<headerDefinitions>
+					   <headerDefinition>src/build/license-maven-plugin/additionalHeaders.xml</headerDefinition>
+					</headerDefinitions>
+					<mapping>
+						<md>MD_STYLE</md>
+						<CacheBridge>SCRIPT_STYLE</CacheBridge>
+						<ReaderSpi>SCRIPT_STYLE</ReaderSpi>
+						<LoggerBridge>SCRIPT_STYLE</LoggerBridge>
+						<TestService>SCRIPT_STYLE</TestService>
+						<ImageReaderSpi>SCRIPT_STYLE</ImageReaderSpi>
+					</mapping>
+				</configuration>
+				<executions>
+					<execution>
+						<id>check-headers</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+          <!-- Keep changes in the local repo, push will be done afterwards -->
+          <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
+          <!-- Use a better name for the tag -->
+          <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.9</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<configuration>
+							<homedir>${levigo-jbig2-imageio.gpg.homedir}</homedir>
+							<keyname>${levigo-jbig2-imageio.gpg.keyname}</keyname>
+							<passphrase>${levigo-jbig2-imageio.gpg.passphrase}</passphrase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
