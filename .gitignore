@@ -1,4 +1,7 @@
 .idea/
+.settings/
+.project
+.classpath
 atlassian-ide-plugin.xml
 levigo-jbig2-imageio.iml
 target/
