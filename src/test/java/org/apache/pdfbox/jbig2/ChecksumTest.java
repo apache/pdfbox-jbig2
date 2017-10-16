@@ -152,24 +152,33 @@ public class ChecksumTest {
     InputStream is = getClass().getResourceAsStream(filepath);
     System.out.println("####################################");
     System.out.println("File: " + filepath);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    if (is != null && is.available() > 0)
+    {
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(is);
 
-    JBIG2Document doc = new JBIG2Document(iis);
+        JBIG2Document doc = new JBIG2Document(iis);
 
-    long time = System.currentTimeMillis();
-    Bitmap b = doc.getPage(imageIndex).getBitmap();
-    long duration = System.currentTimeMillis() - time;
+        long time = System.currentTimeMillis();
+        Bitmap b = doc.getPage(imageIndex).getBitmap();
+        long duration = System.currentTimeMillis() - time;
 
-    byte[] digest = MessageDigest.getInstance("MD5").digest(b.getByteArray());
+        byte[] digest = MessageDigest.getInstance("MD5").digest(b.getByteArray());
 
-    StringBuilder stringBuilder = new StringBuilder();
-    for (byte toAppend : digest) {
-      stringBuilder.append(toAppend);
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte toAppend : digest)
+        {
+            stringBuilder.append(toAppend);
+        }
+        System.out.println("Completed decoding in " + duration + " ms");
+        System.out.println("####################################\n");
+
+        Assert.assertEquals(checksum, stringBuilder.toString());
     }
-    System.out.println("Completed decoding in " + duration + " ms");
-    System.out.println("####################################\n");
-
-    Assert.assertEquals(checksum, stringBuilder.toString());
+    else
+    {
+        System.out.println("File not found\n");
+        System.out.println("####################################\n");
+    }
   }
 }
