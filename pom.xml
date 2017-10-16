@@ -38,7 +38,16 @@
 		Formerly known as the levigo JBig2 ImageIO plugin (com.levigo.jbig2:levigo-jbig2-imageio).
 	</description>
 	
-	<url>https://github.com/levigo/jbig2-imageio</url>
+    <organization>
+        <name>The Apache Software Foundation</name>
+        <url>http://pdfbox.apache.org</url>
+    </organization>
+  
+
+    <issueManagement>
+        <system>jira</system>
+        <url>https://issues.apache.org/jira/browse/PDFBOX</url>
+    </issueManagement>
 
 	<developers>
 		<developer>
@@ -59,26 +68,12 @@
 		</developer>
 	</developers>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshot Repository</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</snapshotRepository>
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Sonatype Nexus Release Staging Repository</name>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-
-	<scm>
-    	<connection>scm:git:ssh://github.com/levigo/jbig2-imageio.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/levigo/jbig2-imageio.git</developerConnection>
-    	<url>https://github.com/levigo/jbig2-imageio</url>
-    	<tag>HEAD</tag>
-	</scm>
-
+    <scm>
+      <connection>scm:git:http://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</connection>
+      <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</developerConnection>
+      <url>https://git-wip-us.apache.org/repos/asf?p=pdfbox-jbig2.git</url>
+    </scm>
+	
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -99,78 +94,62 @@
 					<optimize>true</optimize>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<inherited>false</inherited>
-				<groupId>com.mycila</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>3.0</version>
-				<configuration>
-					<header>${basedir}/LICENSE-HEADER.txt</header>
-					<failIfMissing>true</failIfMissing>
-					<aggregate>true</aggregate>
-					<useDefaultExcludes>false</useDefaultExcludes>
-					<excludes>
-						<exclude>**/.classpath</exclude>
-						<exclude>**/.project</exclude>
-						<exclude>**/.settings/**</exclude>
-						<exclude>**/target/**</exclude>
-						<exclude>**/.idea/**</exclude>
-						<exclude>**/atlassian-ide-plugin.xml</exclude>
-					</excludes>
-					<includes>
-						<include>**/*.xml</include>
-						<include>**/*.md</include>
-						<include>**/src/**/*.java</include>
-						<include>**/src/**/*.properties</include>
-						<include>**/META-INF/services/*</include>
-						<include>**/*.yml</include>
-					</includes>
-					<headerDefinitions>
-					   <headerDefinition>src/build/license-maven-plugin/additionalHeaders.xml</headerDefinition>
-					</headerDefinitions>
-					<mapping>
-						<md>MD_STYLE</md>
-						<CacheBridge>SCRIPT_STYLE</CacheBridge>
-						<ReaderSpi>SCRIPT_STYLE</ReaderSpi>
-						<LoggerBridge>SCRIPT_STYLE</LoggerBridge>
-						<TestService>SCRIPT_STYLE</TestService>
-						<ImageReaderSpi>SCRIPT_STYLE</ImageReaderSpi>
-					</mapping>
-				</configuration>
-				<executions>
-					<execution>
-						<id>check-headers</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-          <!-- Keep changes in the local repo, push will be done afterwards -->
-          <pushChanges>false</pushChanges>
-          <localCheckout>true</localCheckout>
-          <!-- Use a better name for the tag -->
-          <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-            <version>1.9</version>
-          </dependency>
-        </dependencies>
-      </plugin>
+            <plugin>
+		      <artifactId>maven-release-plugin</artifactId>
+		      <configuration>
+		          <autoVersionSubmodules>true</autoVersionSubmodules>
+		          <!-- Keep changes in the local repo, push will be done afterwards -->
+		          <pushChanges>false</pushChanges>
+		          <localCheckout>true</localCheckout>
+		          <!-- Use a better name for the tag -->
+		          <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
+		      </configuration>
+		      <dependencies>
+		          <dependency>
+		            <groupId>org.apache.maven.scm</groupId>
+		            <artifactId>maven-scm-provider-gitexe</artifactId>
+		            <version>1.9</version>
+		          </dependency>
+		      </dependencies>
+		    </plugin>
 		</plugins>
 	</build>
 
 	<profiles>
+        <profile>
+            <id>pedantic</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.rat</groupId>
+                        <artifactId>apache-rat-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>2.1.0</version>
+                        <configuration>
+                            <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 		<profile>
 			<id>release-sign-artifacts</id>
 			<activation>
