@@ -25,7 +25,6 @@ import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.decoder.mmr.MMRDecompressor;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
