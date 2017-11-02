@@ -27,16 +27,16 @@
         <relativePath/>
     </parent>
     
-	<groupId>org.apache.pdfbox</groupId>
-	<artifactId>jbig2-imageio</artifactId>
-	<version>3.0.0-SNAPSHOT</version>
+    <groupId>org.apache.pdfbox</groupId>
+    <artifactId>jbig2-imageio</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
 	
-	<name>PDFBox JBIG2 ImageIO plugin</name>
+    <name>PDFBox JBIG2 ImageIO plugin</name>
 	
-	<description>
-		Java Image I/O plugin for reading JBIG2-compressed image data. 
-		Formerly known as the levigo JBig2 ImageIO plugin (com.levigo.jbig2:levigo-jbig2-imageio).
-	</description>
+    <description>
+	Java Image I/O plugin for reading JBIG2-compressed image data. 
+	Formerly known as the levigo JBig2 ImageIO plugin (com.levigo.jbig2:levigo-jbig2-imageio).
+    </description>
 	
     <organization>
         <name>The Apache Software Foundation</name>
@@ -49,24 +49,170 @@
         <url>https://issues.apache.org/jira/browse/PDFBOX</url>
     </issueManagement>
 
-	<developers>
-		<developer>
-			<id>krzikams</id>
-			<name>Matthäus Mayer</name>
-			<email>m.mayer@levigo.de</email>
-			<roles>
-				<role>retired developer</role>
-			</roles>
-		</developer>
-		<developer>
-			<id>hennejg</id>
-			<name>Jörg Henne</name>
-			<email>j.henne@levigo.de</email>
-			<roles>
-				<role>project transition to ASL/ASF</role>
-			</roles>
-		</developer>
-	</developers>
+    <!-- Developers listed by PMC Chair, PMC all alphabetical-->
+    <developers>
+        <developer>
+            <id>lehmi</id>
+            <name>Andreas Lehmkühler</name>
+            <roles>
+                <role>PMC Chair</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>adam</id>
+            <name>Adam Nichols</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>blitchfield</id>
+            <name>Ben Litchfield</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>carrier</id>
+            <name>Brian Carrier</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>danielwilson</id>
+            <name>Daniel Wilson</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>gbailleul</id>
+            <name>Guillaume Bailleul</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>hennejg</id>
+            <name>Jörg Henne</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>holdersn</id>
+            <name>Sebastian Holder</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>jahewson</id>
+            <name>John Hewson</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>jeremias</id>
+            <name>Jeremias Maerki</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>kjackson</id>
+            <name>Kevin Jackson</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>koch</id>
+            <name>Johannes Koch</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>koehlecn</id>
+            <name>Carolin Köhler</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>mmayer</id>
+            <name>Matthäus Mayer</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>msayhoun</id>
+            <name>Maruan Sayhoun</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>pkoch</id>
+            <name>Phillipp Koch</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tallison</id>
+            <name>Tim Allison</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tchojecki</id>
+            <name>Thomas Chojecki</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tboehme</id>
+            <name>Timo Boehme</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>tilman</id>
+            <name>Tilman Hausherr</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>vfed</id>
+            <name>Villu Ruusmann</name>
+            <roles>
+                <role>PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>leleueri</id>
+            <name>Eric Leleu</name>
+            <roles>
+                <role>Emeritus PMC Member</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>jukka</id>
+            <name>Jukka Zitting</name>
+            <roles>
+                <role>Emeritus PMC Member</role>
+            </roles>
+        </developer>
+    </developers>
 
     <scm>
       <connection>scm:git:http://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</connection>
@@ -74,14 +220,14 @@
       <url>https://git-wip-us.apache.org/repos/asf?p=pdfbox-jbig2.git</url>
     </scm>
 	
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.10</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+    <dependencies>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.10</version>
+		<scope>test</scope>
+	</dependency>
+    </dependencies>
 
 	<build>
 		<plugins>
@@ -112,6 +258,18 @@
 		          </dependency>
 		      </dependencies>
 		    </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                   <execution>
+                      <id>attach-sources</id>
+                      <goals>
+                        <goal>jar</goal>
+                      </goals>
+                   </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 
