@@ -229,35 +229,35 @@
 	</dependency>
     </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<debug>false</debug>
-					<optimize>true</optimize>
-				</configuration>
-			</plugin>
+    <build>
+        <plugins>
             <plugin>
-		      <artifactId>maven-release-plugin</artifactId>
-		      <configuration>
-		          <autoVersionSubmodules>true</autoVersionSubmodules>
-		          <!-- Keep changes in the local repo, push will be done afterwards -->
-		          <pushChanges>false</pushChanges>
-		          <localCheckout>true</localCheckout>
-		          <!-- Use a better name for the tag -->
-		          <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
-		      </configuration>
-		      <dependencies>
-		          <dependency>
-		            <groupId>org.apache.maven.scm</groupId>
-		            <artifactId>maven-scm-provider-gitexe</artifactId>
-		            <version>1.9</version>
-		          </dependency>
-		      </dependencies>
-		    </plugin>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<configuration>
+			<source>1.7</source>
+			<target>1.7</target>
+			<debug>false</debug>
+			<optimize>true</optimize>
+			</configuration>
+            </plugin>
+            <plugin>
+		<artifactId>maven-release-plugin</artifactId>
+		<configuration>
+			<autoVersionSubmodules>true</autoVersionSubmodules>
+		        <!-- Keep changes in the local repo, push will be done afterwards -->
+		        <pushChanges>false</pushChanges>
+		        <localCheckout>true</localCheckout>
+		        <!-- Use a better name for the tag -->
+		        <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
+		</configuration>
+		<dependencies>
+			<dependency>
+			        <groupId>org.apache.maven.scm</groupId>
+			        <artifactId>maven-scm-provider-gitexe</artifactId>
+		        	<version>1.9</version>
+		        </dependency>
+		</dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
@@ -270,10 +270,26 @@
                    </execution>
                 </executions>
             </plugin>
-		</plugins>
-	</build>
+	</plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.rat</groupId>
+                    <artifactId>apache-rat-plugin</artifactId>
+                    <version>0.11</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>src/test/resources/images/*</exclude>
+                            <exclude>src/test/resources/images/arith/*</exclude>
+                            <exclude>src/test/resources/com/levigo/jbig2/github/*</exclude>
+                        </excludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+   </build>
 
-	<profiles>
+   <profiles>
         <profile>
             <id>pedantic</id>
             <build>
