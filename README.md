@@ -14,7 +14,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --->
-:warning: Please note that this component is currently undergoing migration under the ASF PDFBox umbrella. The new Maven coordinates are not yet working. In the mean time please refer to the [latest released version](https://github.com/levigo/jbig2-imageio/tree/levigo-jbig2-imageio-2.0).
 
 # Welcome to the Java ImageIO plugin for the JBIG2 image format!
 The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBIG2 image compression standard.
@@ -42,7 +41,7 @@ This ImageIO plugin is licensed under the [Apache Software License 2.0](https://
 Please take a look at the [release notes](release-notes.md).
 
 ## Support
-Support is available through the [Apache PDFBox community}(https://pdfbox.apache.org/support.html)
+Support is available through the [Apache PDFBox community](https://pdfbox.apache.org/support.html)
 
 ## Usage
 ### Introduction
@@ -59,14 +58,15 @@ Using the JBIG2 plugin with an existing application that already supports Java I
 
 ### Use dependency management
 The JBIG2 ImageIO-Plugin is available from [Maven Central](http://search.maven.org/). 
+:warning: The plugin will be available once we released the first Apache based version.
 
 #### Maven
 To use the plugin within a Maven POM-based project, simply include a dependency to the following artifact in the appropriate ```pom.xml```:
 
     <dependency>
-      <groupId>org.apache.pdfbox.jbig2</groupId>
-		<artifactId>pdfbox-jbig2-imageio</artifactId>
-      <version>3.0-SNAPSHOT</version>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>jbig2-imageio</artifactId>
+      <version>3.0.0-SNAPSHOT</version>
     </dependency>
 
 ### How to deal with embedded JBIG2 data
