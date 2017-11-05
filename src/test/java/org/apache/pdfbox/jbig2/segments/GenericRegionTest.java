@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -38,9 +40,12 @@ public class GenericRegionTest {
 
   @Test
   public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
 
     // Twelfth Segment (number 11)
     SubInputStream sis = new SubInputStream(iis, 523, 35);
@@ -76,9 +81,12 @@ public class GenericRegionTest {
   @Ignore
   @Test
   public void decodeTemplate0Test() throws Throwable {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Twelfth Segment (number 11)
     SubInputStream sis = new SubInputStream(iis, 523, 35);
     GenericRegion gr = new GenericRegion();
@@ -91,9 +99,12 @@ public class GenericRegionTest {
   @Test
   public void decodeWithArithmetichCoding() throws Throwable {
 
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Twelfth Segment (number 11)
     SubInputStream sis = new SubInputStream(iis, 523, 35);
     GenericRegion gr = new GenericRegion(sis);
@@ -105,9 +116,12 @@ public class GenericRegionTest {
   @Ignore
   @Test
   public void decodeWithMMR() throws Throwable {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Fifth Segment (number 4)
     SubInputStream sis = new SubInputStream(iis, 190, 59);
     GenericRegion gr = new GenericRegion(sis);

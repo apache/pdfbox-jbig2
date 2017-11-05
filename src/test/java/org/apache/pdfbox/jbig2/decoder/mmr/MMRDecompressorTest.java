@@ -18,6 +18,7 @@
 package org.apache.pdfbox.jbig2.decoder.mmr;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assume.assumeTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,27 +34,31 @@ import org.junit.Test;
 public class MMRDecompressorTest {
 
   @Test
-  public void mmrDecodingTest() throws IOException, InvalidHeaderValueException {
+    public void mmrDecodingTest() throws IOException, InvalidHeaderValueException
+    {
     final byte[] expected = new byte[]{
         0, 0, 2, 34, 38, 102, -17, -1, 2, 102, 102, //
         -18, -18, -17, -1, -1, 0, 2, 102, 102, 127, //
         -1, -1, -1, 0, 0, 0, 4, 68, 102, 102, 127
     };
+    final String filepath = "/images/sampledata.jb2";
 
-    final InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    final InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    final ImageInputStream iis = disf.getInputStream(is);
-
+    final ImageInputStream iis = disf.getInputStream(inputStream);
+    
     // Sixth Segment (number 5)
     final SubInputStream sis = new SubInputStream(iis, 252, 38);
-
+    
     final MMRDecompressor mmrd = new MMRDecompressor(16 * 4, 4, sis);
-
+    
     final Bitmap b = mmrd.uncompress();
     final byte[] actual = b.getByteArray();
 
     assertArrayEquals(expected, actual);
-
     // new TestImage(b.getByteArray(), (int) b.getWidth(), (int) b.getHeight(), b.getRowStride());
   }
 }

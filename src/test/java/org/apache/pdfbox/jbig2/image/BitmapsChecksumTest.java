@@ -18,6 +18,7 @@
 package org.apache.pdfbox.jbig2.image;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assume.assumeTrue;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -124,6 +125,9 @@ public class BitmapsChecksumTest {
   @Test
   public void test() throws IOException, JBIG2Exception, NoSuchAlgorithmException {
     final InputStream inputStream = JBIG2ImageReaderDemo.class.getResourceAsStream(resourcePath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     final InputStreamFactory disf = new DefaultInputStreamFactory();
     final ImageInputStream iis = disf.getInputStream(inputStream);
 
@@ -143,6 +147,7 @@ public class BitmapsChecksumTest {
     }
 
     assertArrayEquals(checksum.getBytes(), sb.toString().getBytes());
+
   }
 
   static class RasterChecksumCalculator {
@@ -154,6 +159,9 @@ public class BitmapsChecksumTest {
       final URL imageUrl = JBIG2ImageReaderDemo.class.getResource(resourcePath);
 
       final InputStream inputStream = new FileInputStream(new File(imageUrl.getPath()));
+      // skip test if input stream isn't available
+      assumeTrue(inputStream != null && inputStream.available() > 0);
+
       final InputStreamFactory disf = new DefaultInputStreamFactory();
       final ImageInputStream iis = disf.getInputStream(inputStream);
 

@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -149,36 +151,31 @@ public class ChecksumTest {
   public void compareChecksum() throws Throwable {
     int imageIndex = 1;
 
-    InputStream is = getClass().getResourceAsStream(filepath);
+    InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     System.out.println("####################################");
     System.out.println("File: " + filepath);
-    if (is != null && is.available() > 0)
+    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+    ImageInputStream iis = disf.getInputStream(inputStream);
+
+    JBIG2Document doc = new JBIG2Document(iis);
+
+    long time = System.currentTimeMillis();
+    Bitmap b = doc.getPage(imageIndex).getBitmap();
+    long duration = System.currentTimeMillis() - time;
+
+    byte[] digest = MessageDigest.getInstance("MD5").digest(b.getByteArray());
+
+    StringBuilder stringBuilder = new StringBuilder();
+    for (byte toAppend : digest)
     {
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(is);
-
-        JBIG2Document doc = new JBIG2Document(iis);
-
-        long time = System.currentTimeMillis();
-        Bitmap b = doc.getPage(imageIndex).getBitmap();
-        long duration = System.currentTimeMillis() - time;
-
-        byte[] digest = MessageDigest.getInstance("MD5").digest(b.getByteArray());
-
-        StringBuilder stringBuilder = new StringBuilder();
-        for (byte toAppend : digest)
-        {
-            stringBuilder.append(toAppend);
-        }
-        System.out.println("Completed decoding in " + duration + " ms");
-        System.out.println("####################################\n");
-
-        Assert.assertEquals(checksum, stringBuilder.toString());
+        stringBuilder.append(toAppend);
     }
-    else
-    {
-        System.out.println("File not found\n");
-        System.out.println("####################################\n");
-    }
+    System.out.println("Completed decoding in " + duration + " ms");
+    System.out.println("####################################\n");
+
+    Assert.assertEquals(checksum, stringBuilder.toString());
   }
 }

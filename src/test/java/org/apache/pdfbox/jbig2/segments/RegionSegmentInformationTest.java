@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,9 +34,12 @@ public class RegionSegmentInformationTest {
 
   @Test
   public void parseHeaderTest() throws IOException {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     SubInputStream sis = new SubInputStream(iis, 130, 49);
     RegionSegmentInformation rsi = new RegionSegmentInformation(sis);
     rsi.parseHeader();

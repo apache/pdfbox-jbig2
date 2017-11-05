@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -28,16 +30,18 @@ import junit.framework.Assert;
 import org.apache.pdfbox.jbig2.*;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.*;
-import org.apache.pdfbox.jbig2.segments.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class PatternDictionaryTest {
   @Test
   public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Sixth Segment (number 5)
     SubInputStream sis = new SubInputStream(iis, 245, 45);
     PatternDictionary pd = new PatternDictionary();
@@ -55,9 +59,12 @@ public class PatternDictionaryTest {
   @Ignore
   @Test
   public void decodeTestWithOutput() throws Throwable {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Sixth Segment (number 5)
     SubInputStream sis = new SubInputStream(iis, 245, 45);
 
@@ -76,9 +83,12 @@ public class PatternDictionaryTest {
   @Ignore
   @Test
   public void decodeTestWithOutput2() throws Throwable {
-    InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
+    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     // Twelfth Segment (number 12)
     SubInputStream sis = new SubInputStream(iis, 569, 28);
 

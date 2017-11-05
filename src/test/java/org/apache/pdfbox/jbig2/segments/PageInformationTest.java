@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -35,9 +37,12 @@ public class PageInformationTest {
 	@Test
 	public void parseHeaderCompleteTest() throws IOException,
 			InvalidHeaderValueException {
-		InputStream is = getClass().getResourceAsStream("/images/sampledata.jb2");
-		DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(is);
+		InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+	    // skip test if input stream isn't available
+	    assumeTrue(inputStream != null && inputStream.available() > 0);
+
+	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+		ImageInputStream iis = disf.getInputStream(inputStream);
 		// Second Segment (number 1)
 		SubInputStream sis = new SubInputStream(iis, 59, 19);
 		PageInformation pi = new PageInformation();
@@ -60,10 +65,13 @@ public class PageInformationTest {
 	@Test
 	public void parseHeaderXOROperatorTest() throws IOException,
 			InvalidHeaderValueException {
-		InputStream is = getClass().getResourceAsStream(
+		InputStream inputStream = getClass().getResourceAsStream(
 				"/sampledata_pageinformation_with_xor-opartor.jb2");
-		DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(is);
+	    // skip test if input stream isn't available
+	    assumeTrue(inputStream != null && inputStream.available() > 0);
+
+	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+		ImageInputStream iis = disf.getInputStream(inputStream);
 		// Second Segment (number 1)
 		SubInputStream sis = new SubInputStream(iis, 59, 19);
 		PageInformation pi = new PageInformation();
@@ -76,10 +84,13 @@ public class PageInformationTest {
 	@Test
 	public void parseHeaderANDOperatorTest() throws IOException,
 			InvalidHeaderValueException {
-		InputStream is = getClass().getResourceAsStream(
+		InputStream inputStream = getClass().getResourceAsStream(
 				"/sampledata_pageinformation_with_and-opartor.jb2");
-		DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(is);
+	    // skip test if input stream isn't available
+	    assumeTrue(inputStream != null && inputStream.available() > 0);
+
+	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+		ImageInputStream iis = disf.getInputStream(inputStream);
 		// Second Segment (number 1)
 		SubInputStream sis = new SubInputStream(iis, 59, 19);
 		PageInformation pi = new PageInformation();

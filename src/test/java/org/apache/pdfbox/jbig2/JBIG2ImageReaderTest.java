@@ -17,6 +17,8 @@
 
 package org.apache.pdfbox.jbig2;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
 import java.io.IOException;
@@ -58,6 +60,9 @@ public class JBIG2ImageReaderTest {
     int imageIndex = 0;
 
     InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
 
@@ -78,6 +83,9 @@ public class JBIG2ImageReaderTest {
     int imageIndex = 0;
 
     InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
 
@@ -94,6 +102,9 @@ public class JBIG2ImageReaderTest {
     int imageIndex = 0;
 
     InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
     JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
@@ -110,6 +121,9 @@ public class JBIG2ImageReaderTest {
     int imageIndex = 0;
 
     InputStream inputStream = getClass().getResourceAsStream(filepath);
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
     JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());

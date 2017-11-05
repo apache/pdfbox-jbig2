@@ -18,6 +18,7 @@
 package org.apache.pdfbox.jbig2.image;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assume.assumeTrue;
 
 import java.awt.Rectangle;
 import java.io.IOException;
@@ -38,6 +39,9 @@ public class BitmapsBlitTest {
   @Test
   public void testCompleteBitmapTransfer() throws IOException, JBIG2Exception {
     final InputStream inputStream = getClass().getResourceAsStream("/images/042_1.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     final ImageInputStream iis = disf.getInputStream(inputStream);
 
@@ -56,6 +60,9 @@ public class BitmapsBlitTest {
   @Test
   public void test() throws IOException, JBIG2Exception {
     final InputStream inputStream = getClass().getResourceAsStream("/images/042_1.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputStream != null && inputStream.available() > 0);
+
     final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     final ImageInputStream iis = disf.getInputStream(inputStream);
 
