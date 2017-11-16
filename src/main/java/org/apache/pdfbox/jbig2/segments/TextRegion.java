@@ -420,11 +420,17 @@ public class TextRegion implements Region {
         } else {
           /* 6.4.8 */
           final long idS = decodeIdS();
-          /*
+          
+          /* 
            * If result is OOB, then all the symbol instances in this strip have been decoded;
-           * proceed to step 3 d) respectively 3 b)
+           * proceed to step 3 d) respectively 3 b). Also exit, if the expected number of
+           * instances have been decoded.
+           * 
+           * The latter exit condition guards against pathological cases where a strip's
+           * S never contains OOB and thus never terminates as illustrated in
+           * https://bugs.chromium.org/p/chromium/issues/detail?id=450971 case  pdfium-loop2.pdf.
            */
-          if (idS == Long.MAX_VALUE)
+          if (idS == Long.MAX_VALUE || instanceCounter >= amountOfSymbolInstances)
             break;
 
           currentS += (idS + sbdsOffset);
