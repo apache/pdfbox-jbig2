@@ -19,6 +19,8 @@ package org.apache.pdfbox.jbig2.segments;
 
 import static org.junit.Assume.assumeTrue;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -36,9 +38,12 @@ import org.junit.Test;
 public class PatternDictionaryTest {
   @Test
   public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
-    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+
+    final File inputFile = new File("target/images/sampledata.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    final InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream iis = disf.getInputStream(inputStream);
@@ -59,11 +64,14 @@ public class PatternDictionaryTest {
   @Ignore
   @Test
   public void decodeTestWithOutput() throws Throwable {
-    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
 
+    final File inputFile = new File("target/images/sampledata.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputFile.exists());
+
+    final InputStream inputStream = new FileInputStream(inputFile);
+      
+    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream iis = disf.getInputStream(inputStream);
     // Sixth Segment (number 5)
     SubInputStream sis = new SubInputStream(iis, 245, 45);
@@ -83,9 +91,12 @@ public class PatternDictionaryTest {
   @Ignore
   @Test
   public void decodeTestWithOutput2() throws Throwable {
-    InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+
+    final File inputFile = new File("target/images/sampledata.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    final InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream iis = disf.getInputStream(inputStream);

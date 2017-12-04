@@ -19,6 +19,8 @@ package org.apache.pdfbox.jbig2.segments;
 
 import static org.junit.Assume.assumeTrue;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -37,9 +39,12 @@ public class PageInformationTest {
 	@Test
 	public void parseHeaderCompleteTest() throws IOException,
 			InvalidHeaderValueException {
-		InputStream inputStream = getClass().getResourceAsStream("/images/sampledata.jb2");
+
+	    final File inputFile = new File("target/images/sampledata.jb2");
 	    // skip test if input stream isn't available
-	    assumeTrue(inputStream != null && inputStream.available() > 0);
+	    assumeTrue(inputFile.exists());
+
+	    final InputStream inputStream = new FileInputStream(inputFile);
 
 	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
 		ImageInputStream iis = disf.getInputStream(inputStream);

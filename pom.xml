@@ -229,65 +229,91 @@
 	</dependency>
     </dependencies>
 
-    <build>
-        <plugins>
+    <!-- enable the usage of external testfiles with -Dskip-external-testfiles=false  -->
+    <properties>
+        <skip-external-testfiles>true</skip-external-testfiles>
+    </properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<debug>false</debug>
+					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<!-- Keep changes in the local repo, push will be done afterwards -->
+					<pushChanges>false</pushChanges>
+					<localCheckout>true</localCheckout>
+					<!-- Use a better name for the tag -->
+					<tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>1.9</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
             <plugin>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<configuration>
-			<source>1.7</source>
-			<target>1.7</target>
-			<debug>false</debug>
-			<optimize>true</optimize>
-			</configuration>
-            </plugin>
-            <plugin>
-		<artifactId>maven-release-plugin</artifactId>
-		<configuration>
-			<autoVersionSubmodules>true</autoVersionSubmodules>
-		        <!-- Keep changes in the local repo, push will be done afterwards -->
-		        <pushChanges>false</pushChanges>
-		        <localCheckout>true</localCheckout>
-		        <!-- Use a better name for the tag -->
-		        <tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
-		</configuration>
-		<dependencies>
-			<dependency>
-			        <groupId>org.apache.maven.scm</groupId>
-			        <artifactId>maven-scm-provider-gitexe</artifactId>
-		        	<version>1.9</version>
-		        </dependency>
-		</dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.3.0</version>
                 <executions>
-                   <execution>
-                      <id>attach-sources</id>
-                      <goals>
-                        <goal>jar</goal>
-                      </goals>
-                   </execution>
+                    <execution>
+                        <id>Testfiles</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip-external-testfiles}</skip>
+                            <url>https://github.com/apache/pdfbox-testfiles/raw/master/jbig2/build-files/build-testfiles.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}/images</outputDirectory>
+                            <sha512>5185b59b4117d830a05a225e7e4b3a8239f249c78f6133204d62d510991daf769d287cd704ba91895964ff3df8722fb304d1e571f3b4d250e663a064c53a3091</sha512>
+                        </configuration>
+                    </execution>
                 </executions>
-            </plugin>
-	</plugins>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.rat</groupId>
-                    <artifactId>apache-rat-plugin</artifactId>
-                    <version>0.11</version>
-                    <configuration>
-                        <excludes>
-                            <exclude>src/test/resources/images/*</exclude>
-                            <exclude>src/test/resources/images/arith/*</exclude>
-                            <exclude>src/test/resources/com/levigo/jbig2/github/*</exclude>
-                        </excludes>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-   </build>
+            </plugin>			
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.rat</groupId>
+					<artifactId>apache-rat-plugin</artifactId>
+					<version>0.11</version>
+					<configuration>
+						<excludes>
+							<exclude>src/test/resources/images/*</exclude>
+							<exclude>src/test/resources/images/arith/*</exclude>
+							<exclude>src/test/resources/com/levigo/jbig2/github/*</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
    <profiles>
         <profile>

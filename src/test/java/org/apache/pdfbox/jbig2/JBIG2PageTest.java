@@ -17,8 +17,12 @@
 
 package org.apache.pdfbox.jbig2;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -44,10 +48,13 @@ public class JBIG2PageTest {
   @Test
   public void composeDisplayTest() throws IOException, JBIG2Exception {
 
-    String filepath = "/images/amb_1.jb2";
+    final File inputFile = new File("target/images/amb_1.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputFile.exists());
+
     int pageNumber = 1;
 
-    InputStream is = getClass().getResourceAsStream(filepath);
+    InputStream is = new FileInputStream(inputFile);
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream iis = disf.getInputStream(is);
     JBIG2Document doc = new JBIG2Document(iis);
@@ -64,12 +71,13 @@ public class JBIG2PageTest {
     int runs = 40;
     long avg = 0;
 
-    String path = "/images/042_8.jb2";
+    final File inputFile = new File("target/images/042_8.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputFile.exists());
+
     int pageNumber = 1;
 
-    System.out.println("File: " + path);
-
-    InputStream is = getClass().getResourceAsStream(path);
+    InputStream is = new FileInputStream(inputFile);
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream iis = disf.getInputStream(is);
 

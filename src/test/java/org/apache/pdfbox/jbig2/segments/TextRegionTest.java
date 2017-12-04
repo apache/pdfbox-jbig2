@@ -17,7 +17,11 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import static org.junit.Assume.assumeTrue;
+
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -40,12 +44,16 @@ public class TextRegionTest {
   @Ignore
   @Test
   public void textRegionWith() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
-    String filepath = "/images/042_11.jb2";
+
     int pageNumber = 1;
 
-    InputStream is = getClass().getResourceAsStream(filepath);
+    final File inputFile = new File("target/images/042_11.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputFile.exists());
+
+    InputStream inputStream = new FileInputStream(inputFile);
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
+    ImageInputStream iis = disf.getInputStream(inputStream);
     JBIG2ImageReader jb2 = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
     jb2.setInput(iis);
     BufferedImage b = jb2.read(pageNumber);

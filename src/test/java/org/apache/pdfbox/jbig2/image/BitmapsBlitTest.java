@@ -21,6 +21,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assume.assumeTrue;
 
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -38,10 +40,13 @@ public class BitmapsBlitTest {
 
   @Test
   public void testCompleteBitmapTransfer() throws IOException, JBIG2Exception {
-    final InputStream inputStream = getClass().getResourceAsStream("/images/042_1.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
 
+    final File inputFile = new File("target/images/042_1.jb2");
+    // skip test if input stream isn't available
+    assumeTrue(inputFile.exists());
+
+    final InputStream inputStream = new FileInputStream(inputFile);
+  
     final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     final ImageInputStream iis = disf.getInputStream(inputStream);
 
@@ -59,9 +64,12 @@ public class BitmapsBlitTest {
 
   @Test
   public void test() throws IOException, JBIG2Exception {
-    final InputStream inputStream = getClass().getResourceAsStream("/images/042_1.jb2");
+
+    final File inputFile = new File("target/images/042_1.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    final InputStream inputStream = new FileInputStream(inputFile);
 
     final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     final ImageInputStream iis = disf.getInputStream(inputStream);

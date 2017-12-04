@@ -21,6 +21,8 @@ import static org.junit.Assume.assumeTrue;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -56,12 +58,14 @@ public class JBIG2ImageReaderTest {
 
   @Test
   public void testRead() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
-    String filepath = "/images/042_1.jb2";
+
     int imageIndex = 0;
 
-    InputStream inputStream = getClass().getResourceAsStream(filepath);
+    final File inputFile = new File("target/images/042_1.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
@@ -79,12 +83,14 @@ public class JBIG2ImageReaderTest {
 
   @Test
   public void testReadRaster() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
-    String filepath = "/images/042_1.jb2";
+
     int imageIndex = 0;
 
-    InputStream inputStream = getClass().getResourceAsStream(filepath);
+    final File inputFile = new File("target/images/042_1.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
@@ -98,12 +104,14 @@ public class JBIG2ImageReaderTest {
 
   @Test
   public void testReadImageReadParamNull() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
-    String filepath = "/images/042_1.jb2";
-    int imageIndex = 0;
 
-    InputStream inputStream = getClass().getResourceAsStream(filepath);
+    int imageIndex = 0;
+    
+    final File inputFile = new File("target/images/042_1.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
@@ -117,12 +125,14 @@ public class JBIG2ImageReaderTest {
   @Test
   public void testReadRasterImageReadParamNull() throws IOException, InvalidHeaderValueException,
       IntegerMaxValueException {
-    String filepath = "/images/042_1.jb2";
-    int imageIndex = 0;
 
-    InputStream inputStream = getClass().getResourceAsStream(filepath);
+    int imageIndex = 0;
+    
+    final File inputFile = new File("target/images/042_1.jb2");
     // skip test if input stream isn't available
-    assumeTrue(inputStream != null && inputStream.available() > 0);
+    assumeTrue(inputFile.exists());
+
+    InputStream inputStream = new FileInputStream(inputFile);
 
     DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
     ImageInputStream imageInputStream = disf.getInputStream(inputStream);
