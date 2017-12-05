@@ -20,7 +20,7 @@ The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBI
 This component is part of the [Apache PDFBox® project](https://pdfbox.apache.org/) 
 
 ## Status
-[![Build Status](https://travis-ci.org/levigo/jbig2-imageio.svg?branch=master)](https://travis-ci.org/levigo/jbig2-imageio)
+[![Build Status](https://travis-ci.org/apache/pdfbox-jbig2.svg?branch=master)](https://travis-ci.org/apache/pdfbox-jbig2)
 
 ## Features
 The key features of the plugin are:
