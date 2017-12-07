@@ -31,7 +31,7 @@ import javax.imageio.stream.ImageInputStream;
  */
 public class JBIG2ImageReaderSpi extends ImageReaderSpi {
 
-  private static final String VENDOR = "levigo solutions gmbh";
+  private static final String VENDOR = "Apache Software Foundation";
   private static final String VERSION = "1.4.1";
   private static final String READER_CLASS_NAME = "org.apache.pdfbox.jbig2.JBIG2ImageReader";
   private static final String[] NAMES = {
