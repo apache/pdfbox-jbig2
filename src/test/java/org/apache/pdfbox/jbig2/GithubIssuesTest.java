@@ -46,8 +46,8 @@ public class GithubIssuesTest {
         83, 74, -69, -60, -122, -99, 21, 126, -115, 13, 9, 107, -31, -109, 77, -119
     };
 
-    final InputStream imageStream = getClass().getResourceAsStream("/com/levigo/jbig2/github/21.jb2");
-    final InputStream globalsStream = getClass().getResourceAsStream("/com/levigo/jbig2/github/21.glob");
+    final InputStream imageStream = getClass().getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.jb2");
+    final InputStream globalsStream = getClass().getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.glob");
     final ImageInputStream globalsIIS = ImageIO.createImageInputStream(globalsStream);
     final ImageInputStream imageIIS = ImageIO.createImageInputStream(imageStream);
 

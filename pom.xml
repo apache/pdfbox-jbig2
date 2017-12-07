@@ -307,7 +307,7 @@
 						<excludes>
 							<exclude>src/test/resources/images/*</exclude>
 							<exclude>src/test/resources/images/arith/*</exclude>
-							<exclude>src/test/resources/com/levigo/jbig2/github/*</exclude>
+							<exclude>src/test/resources/org/apache/pdfbox/jbig2/github/*</exclude>
 						</excludes>
 					</configuration>
 				</plugin>
