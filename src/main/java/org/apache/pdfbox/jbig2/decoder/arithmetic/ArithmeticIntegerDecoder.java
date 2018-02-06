@@ -35,8 +35,9 @@ public class ArithmeticIntegerDecoder {
   /**
    * Arithmetic Integer Decoding Procedure, Annex A.2.
    * 
+   * @param cxIAx to be decoded value
    * @return Decoded value.
-   * @throws IOException
+   * @throws IOException if an underlying IO operation fails
    */
   public long decode(CX cxIAx) throws IOException {
     int v = 0;
@@ -137,7 +138,7 @@ public class ArithmeticIntegerDecoder {
    * 
    * @return The decoded value.
    * 
-   * @throws IOException
+   * @throws IOException if an underlying IO operation fails
    */
   public int decodeIAID(CX cxIAID, long symCodeLen) throws IOException {
     // A.3 1)

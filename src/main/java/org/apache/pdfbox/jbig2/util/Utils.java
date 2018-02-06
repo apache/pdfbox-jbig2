@@ -29,8 +29,8 @@ public class Utils {
    * <code>enlargeToGrid(r).contains(r) == true</code> holds. This can be depicted as the edges
    * being stretched in an outward direction.
    * 
-   * @param r
-   * @return
+   * @param r the given rectangle
+   * @return the resulting rectangle
    */
   public static Rectangle enlargeRectToGrid(Rectangle2D r) {
     final int x0 = floor(r.getMinX());
@@ -44,8 +44,10 @@ public class Utils {
    * Return a new rectangle which covers the area of the given rectangle with an additional margin
    * on the sides.
    * 
-   * @param r
-   * @param marginX
+   * @param r the given rectangle
+   * @param marginX horizontal  value of the additional margin
+   * @param marginY vertical value of the additional margin
+   * @return the resulting rectangle
    */
   public static Rectangle2D dilateRect(Rectangle2D r, double marginX, double marginY) {
     return new Rectangle2D.Double(r.getX() - marginX, r.getY() - marginY, r.getWidth() + 2 * marginX, r.getHeight() + 2
@@ -55,9 +57,9 @@ public class Utils {
   /**
    * Clamp the value into the range [min..max].
    * 
-   * @param value
-   * @param min
-   * @param max
+   * @param value input value
+   * @param min minimal value
+   * @param max maximal value
    * @return the clamped value
    */
   public static double clamp(double value, double min, double max) {
@@ -72,7 +74,7 @@ public class Utils {
    * A fast implementation of {@link Math#floor(double)}.
    * 
    * @param x the argument
-   * @return
+   * @return resulting floor value
    */
   public static int floor(double x) {
     return (int) (x + BIG_ENOUGH_FLOOR) - BIG_ENOUGH_INT;
@@ -82,7 +84,7 @@ public class Utils {
    * A fast implementation of {@link Math#round(double)}.
    * 
    * @param x the argument
-   * @return
+   * @return rounded value
    */
   public static int round(double x) {
     return (int) (x + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;
@@ -92,7 +94,7 @@ public class Utils {
    * A fast implementation of {@link Math#ceil(double)}.
    * 
    * @param x the argument
-   * @return
+   * @return resulting ceil value
    */
   public static int ceil(double x) {
     return BIG_ENOUGH_INT - (int) (BIG_ENOUGH_FLOOR - x);

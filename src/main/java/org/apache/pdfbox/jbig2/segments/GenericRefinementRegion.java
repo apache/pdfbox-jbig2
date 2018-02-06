@@ -173,9 +173,9 @@ public class GenericRefinementRegion implements Region {
   /**
    * Decode using a template and arithmetic coding, as described in 6.3.5.6
    * 
-   * @throws IOException
-   * @throws InvalidHeaderValueException
-   * @throws IntegerMaxValueException
+   * @throws IOException if an underlying IO operation fails
+   * @throws InvalidHeaderValueException if a segment header value is invalid
+   * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
    */
   public Bitmap getRegionBitmap() throws IOException, IntegerMaxValueException, InvalidHeaderValueException {
     if (null == regionBitmap) {

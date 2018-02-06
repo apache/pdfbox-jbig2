@@ -274,9 +274,10 @@ public class JBIG2ImageReader extends ImageReader {
    * Simply sets the globals.
    * 
    * @param globals - The globals to set.
-   * @throws IOException
+   * @throws IOException if an error occurs
    */
   public void setGlobals(JBIG2Globals globals) throws IOException {
+      // TODO remove throws IOException as there isn't any chance to trigger it
     this.globals = globals;
     this.document = null;
   }

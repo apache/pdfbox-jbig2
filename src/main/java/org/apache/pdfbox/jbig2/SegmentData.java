@@ -34,9 +34,9 @@ public interface SegmentData {
    * @param header - The segments' header (to make referred-to segments available in data part).
    * @param sis - Wrapped {@code ImageInputStream} into {@code SubInputStream}.
    * 
-   * @throws InvalidHeaderValueException
-   * @throws IntegerMaxValueException
-   * @throws IOException
+   * @throws InvalidHeaderValueException if the segment header value is invalid
+   * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
+   * @throws IOException if an underlying IO operation fails
    */
   public void init(SegmentHeader header, SubInputStream sis) throws InvalidHeaderValueException, IntegerMaxValueException,
       IOException;

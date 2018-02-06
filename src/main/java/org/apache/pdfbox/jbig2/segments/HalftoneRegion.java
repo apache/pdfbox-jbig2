@@ -153,7 +153,10 @@ public class HalftoneRegion implements Region {
   /**
    * The procedure is described in JBIG2 ISO standard, 6.6.5.
    * 
-   * @returns The decoded {@link Bitmap} of this region.
+   * @return The decoded {@link Bitmap} of this region.
+   * 
+   * @throws IOException if an underlying IO operation fails
+   * @throws InvalidHeaderValueException if a segment header value is invalid
    */
   public Bitmap getRegionBitmap() throws IOException, InvalidHeaderValueException {
     if (null == halftoneRegionBitmap) {

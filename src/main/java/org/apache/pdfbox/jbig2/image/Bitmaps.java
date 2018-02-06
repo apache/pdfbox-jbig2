@@ -34,20 +34,41 @@ import org.apache.pdfbox.jbig2.util.CombinationOperator;
 
 public class Bitmaps {
 
-  public static WritableRaster asRaster(final Bitmap bitmap) {
-    return asRaster(bitmap, FilterType.Gaussian);
-  }
+    /**
+     * Returns the given bitmap as writable raster.
+     *  
+     * @param bitmap the given bitmap
+     * @return the raster representation of the bitmap
+     */
+     public static WritableRaster asRaster(final Bitmap bitmap) {
+         return asRaster(bitmap, FilterType.Gaussian);
+     }
 
-  public static WritableRaster asRaster(final Bitmap bitmap, final FilterType filterType) {
-    if (bitmap == null)
-      throw new IllegalArgumentException("bitmap must not be null");
+    /**
+     * Returns the given bitmap as writable raster.
+     *  
+     * @param bitmap the given bitmap
+     * @param filterType type of filter which is used when creating the writable raster
+     * @return the raster representation of the bitmap
+     */
+    public static WritableRaster asRaster(final Bitmap bitmap, final FilterType filterType) {
+        if (bitmap == null)
+          throw new IllegalArgumentException("bitmap must not be null");
+    
+        final JBIG2ReadParam param = new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(0, 0, bitmap.getWidth(),
+            bitmap.getHeight()), new Dimension(bitmap.getWidth(), bitmap.getHeight()));
+    
+        return asRaster(bitmap, param, filterType);
+    }
 
-    final JBIG2ReadParam param = new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(0, 0, bitmap.getWidth(),
-        bitmap.getHeight()), new Dimension(bitmap.getWidth(), bitmap.getHeight()));
-
-    return asRaster(bitmap, param, filterType);
-  }
-
+    /**
+     * Returns the given bitmap as writable raster.
+     *  
+     * @param bitmap the given bitmap
+     * @param param ImageReadParam to be used when creating the writable raster
+     * @param filterType type of filter which is used when creating the writable raster
+     * @return the raster representation of the bitmap
+     */
   public static WritableRaster asRaster(Bitmap bitmap, final ImageReadParam param, final FilterType filterType) {
     if (bitmap == null)
       throw new IllegalArgumentException("bitmap must not be null");
@@ -153,10 +174,23 @@ public class Bitmaps {
     return dst;
   }
 
+  /**
+   * Returns the given bitmap as buffered image.
+   * 
+   * @param bitmap the given bitmap
+   * @return the image representation of the bitmap
+   */
   public static BufferedImage asBufferedImage(Bitmap bitmap) {
     return asBufferedImage(bitmap, FilterType.Gaussian);
   }
 
+  /**
+   * Returns the given bitmap as buffered image.
+   * 
+   * @param bitmap the given bitmap
+   * @param filterType type of filter which is used when creating the buffered image
+   * @return the image representation of the bitmap
+   */
   public static BufferedImage asBufferedImage(Bitmap bitmap, FilterType filterType) {
     if (bitmap == null)
       throw new IllegalArgumentException("bitmap must not be null");
@@ -167,6 +201,14 @@ public class Bitmaps {
     return asBufferedImage(bitmap, param, filterType);
   }
 
+  /**
+   * Returns the given bitmap as buffered image.
+   * 
+   * @param bitmap the given bitmap
+   * @param param ImageReadParam to be used when creating the buffered image
+   * @param filterType type of filter which is used when creating the buffered image
+   * @return the image representation of the bitmap
+   */
   public static BufferedImage asBufferedImage(Bitmap bitmap, ImageReadParam param, FilterType filterType) {
     if (bitmap == null)
       throw new IllegalArgumentException("bitmap must not be null");
@@ -217,6 +259,7 @@ public class Bitmaps {
    * Returns the specified rectangle area of the bitmap.
    * 
    * @param roi - A {@link Rectangle} that specifies the requested image section.
+   * @param src the given bitmap
    * @return A {@code Bitmap} that represents the requested image section.
    */
   public static Bitmap extract(final Rectangle roi, final Bitmap src) {
@@ -399,6 +442,7 @@ public class Bitmaps {
    * Parts of the bitmap to blit that are outside of the target bitmap will be ignored.
    * 
    * @param src - The bitmap that should be combined with the one of the current instance.
+   * @param dst - The destination bitmap.
    * @param x - The x coordinate where the upper left corner of the bitmap to blit should be
    *          positioned.
    * @param y - The y coordinate where the upper left corner of the bitmap to blit should be

@@ -33,9 +33,9 @@ public interface Region extends SegmentData {
    * 
    * @return The decoded region as {@link Bitmap}.
    * 
-   * @throws IOException
-   * @throws IntegerMaxValueException
-   * @throws InvalidHeaderValueException
+   * @throws IOException if an underlying IO operation fails
+   * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
+   * @throws InvalidHeaderValueException if the segment header value is invalid
    */
   public Bitmap getRegionBitmap() throws IOException, IntegerMaxValueException, InvalidHeaderValueException;
 

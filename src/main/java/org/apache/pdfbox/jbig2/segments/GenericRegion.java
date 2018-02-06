@@ -152,7 +152,7 @@ public class GenericRegion implements Region {
   /**
    * The procedure is described in 6.2.5.7, page 17.
    * 
-   * @returns The decoded {@link Bitmap} of this region.
+   * @return The decoded {@link Bitmap} of this region.
    */
   public Bitmap getRegionBitmap() throws IOException {
     if (null == regionBitmap) {
@@ -807,6 +807,12 @@ public class GenericRegion implements Region {
 
   /**
    * Used by {@link SymbolDictionary}.
+   * 
+   * @param isMMREncoded the data is MMR encoded
+   * @param dataOffset the offset
+   * @param dataLength the length of the data
+   * @param gbh bitmap height
+   * @param gbw bitmap width
    */
   protected void setParameters(final boolean isMMREncoded, final long dataOffset, final long dataLength, final int gbh,
       final int gbw) {
@@ -821,6 +827,17 @@ public class GenericRegion implements Region {
   }
 
   /**
+   * @param isMMREncoded the data is MMR encoded
+   * @param sdTemplate sd template
+   * @param isTPGDon is TPGDon
+   * @param useSkip use skip
+   * @param sdATX x values gbA pixels
+   * @param sdATY y values gbA pixels
+   * @param symWidth bitmap width
+   * @param hcHeight bitmap height
+   * @param cx context for the arithmetic decoder
+   * @param arithmeticDecoder the arithmetic decode to be used
+   *  
    * Used by {@link SymbolDictionary}.
    */
   protected void setParameters(final boolean isMMREncoded, final byte sdTemplate, final boolean isTPGDon,
@@ -844,6 +861,18 @@ public class GenericRegion implements Region {
 
   /**
    * Used by {@link PatternDictionary} and {@link HalftoneRegion}.
+   * 
+   * @param isMMREncoded the data is MMR encoded
+   * @param dataOffset the offset
+   * @param dataLength the length of the data
+   * @param gbh bitmap height
+   * @param gbw bitmap width
+   * @param gbTemplate gb template 
+   * @param isTPGDon is TPGDon
+   * @param useSkip use skip
+   * @param gbAtX x values of gbA pixels
+   * @param gbAtY y values of gbA pixels
+   * 
    */
   protected void setParameters(final boolean isMMREncoded, final long dataOffset, final long dataLength, final int gbh,
       final int gbw, final byte gbTemplate, final boolean isTPGDon, final boolean useSkip, final short[] gbAtX,
