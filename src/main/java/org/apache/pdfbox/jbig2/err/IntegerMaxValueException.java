@@ -20,23 +20,28 @@ package org.apache.pdfbox.jbig2.err;
 /**
  * Can be used if the maximum value limit of an integer is exceeded.
  */
-public class IntegerMaxValueException extends JBIG2Exception {
+public class IntegerMaxValueException extends JBIG2Exception
+{
 
-  private static final long serialVersionUID = -5534202639860867867L;
+    private static final long serialVersionUID = -5534202639860867867L;
 
-  public IntegerMaxValueException() {
-  }
+    public IntegerMaxValueException()
+    {
+    }
 
-  public IntegerMaxValueException(String message) {
-    super(message);
-  }
+    public IntegerMaxValueException(String message)
+    {
+        super(message);
+    }
 
-  public IntegerMaxValueException(Throwable cause) {
-    super(cause);
-  }
+    public IntegerMaxValueException(Throwable cause)
+    {
+        super(cause);
+    }
 
-  public IntegerMaxValueException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public IntegerMaxValueException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

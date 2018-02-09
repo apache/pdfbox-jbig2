@@ -20,23 +20,28 @@ package org.apache.pdfbox.jbig2.err;
 /**
  * Identifies a JBIG2 exception.
  */
-public class JBIG2Exception extends Exception {
+public class JBIG2Exception extends Exception
+{
 
-  private static final long serialVersionUID = 5063673874564442169L;
+    private static final long serialVersionUID = 5063673874564442169L;
 
-  public JBIG2Exception() {
-  }
+    public JBIG2Exception()
+    {
+    }
 
-  public JBIG2Exception(String message) {
-    super(message);
-  }
+    public JBIG2Exception(String message)
+    {
+        super(message);
+    }
 
-  public JBIG2Exception(Throwable cause) {
-    super(cause);
-  }
+    public JBIG2Exception(Throwable cause)
+    {
+        super(cause);
+    }
 
-  public JBIG2Exception(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public JBIG2Exception(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

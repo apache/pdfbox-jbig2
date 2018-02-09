@@ -20,21 +20,24 @@ package org.apache.pdfbox.jbig2.util;
 /**
  * This enumeration keeps the available logical operator defined in the JBIG2 ISO standard.
  */
-public enum CombinationOperator {
-  OR, AND, XOR, XNOR, REPLACE;
+public enum CombinationOperator
+{
+    OR, AND, XOR, XNOR, REPLACE;
 
-  public static CombinationOperator translateOperatorCodeToEnum(short combinationOperatorCode) {
-    switch (combinationOperatorCode){
-      case 0 :
-        return OR;
-      case 1 :
-        return AND;
-      case 2 :
-        return XOR;
-      case 3 :
-        return XNOR;
-      default :
-        return REPLACE;
+    public static CombinationOperator translateOperatorCodeToEnum(short combinationOperatorCode)
+    {
+        switch (combinationOperatorCode)
+        {
+        case 0:
+            return OR;
+        case 1:
+            return AND;
+        case 2:
+            return XOR;
+        case 3:
+            return XNOR;
+        default:
+            return REPLACE;
+        }
     }
-  }
 }

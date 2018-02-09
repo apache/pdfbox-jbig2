@@ -22,8 +22,10 @@ import java.util.List;
 /**
  * This class represents a fixed size huffman table.
  */
-public class FixedSizeTable extends HuffmanTable {
-  public FixedSizeTable(List<Code> runCodeTable) {
-    initTree(runCodeTable);
-  }
+public class FixedSizeTable extends HuffmanTable
+{
+    public FixedSizeTable(List<Code> runCodeTable)
+    {
+        initTree(runCodeTable);
+    }
 }

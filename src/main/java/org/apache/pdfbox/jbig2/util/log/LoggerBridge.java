@@ -17,8 +17,9 @@
 
 package org.apache.pdfbox.jbig2.util.log;
 
-public interface LoggerBridge {
+public interface LoggerBridge
+{
 
-  Logger getLogger(Class<?> clazz);
+    Logger getLogger(Class<?> clazz);
 
 }

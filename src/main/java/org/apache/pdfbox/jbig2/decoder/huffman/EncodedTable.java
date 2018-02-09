@@ -27,65 +27,69 @@ import org.apache.pdfbox.jbig2.segments.Table;
 /**
  * This class represents a encoded huffman table.
  */
-public class EncodedTable extends HuffmanTable {
+public class EncodedTable extends HuffmanTable
+{
 
-  private Table table;
+    private Table table;
 
-  public EncodedTable(Table table) throws IOException {
-    this.table = table;
-    parseTable();
-  }
-
-  public void parseTable() throws IOException {
-
-    SubInputStream sis = table.getSubInputStream();
-
-    List<Code> codeTable = new ArrayList<Code>();
-
-    int prefLen, rangeLen, rangeLow;
-    int curRangeLow = table.getHtLow();
-
-    /* Annex B.2 5) - decode table lines */
-    while (curRangeLow < table.getHtHigh()) {
-      prefLen = (int) sis.readBits(table.getHtPS());
-      rangeLen = (int) sis.readBits(table.getHtRS());
-      rangeLow = curRangeLow;
-
-      codeTable.add(new Code(prefLen, rangeLen, rangeLow, false));
-
-      curRangeLow += 1 << rangeLen;
+    public EncodedTable(Table table) throws IOException
+    {
+        this.table = table;
+        parseTable();
     }
 
-    /* Annex B.2 6) */
-    prefLen = (int) sis.readBits(table.getHtPS());
+    public void parseTable() throws IOException
+    {
 
-    /*
-     * Annex B.2 7) - lower range table line
-     * 
-     * Made some correction. Spec specifies an incorrect variable -> Replaced highPrefLen with
-     * lowPrefLen
-     */
-    rangeLen = 32;
-    rangeLow = table.getHtHigh() - 1;
-    codeTable.add(new Code(prefLen, rangeLen, rangeLow, true));
-    // }
+        SubInputStream sis = table.getSubInputStream();
 
-    /* Annex B.2 8) */
-    prefLen = (int) sis.readBits(table.getHtPS());
+        List<Code> codeTable = new ArrayList<Code>();
 
-    /* Annex B.2 9) - upper range table line */
-    rangeLen = 32;
-    rangeLow = table.getHtHigh();
-    codeTable.add(new Code(prefLen, rangeLen, rangeLow, false));
+        int prefLen, rangeLen, rangeLow;
+        int curRangeLow = table.getHtLow();
 
-    /* Annex B.2 10) - out-of-band table line */
-    if (table.getHtOOB() == 1) {
-      prefLen = (int) sis.readBits(table.getHtPS());
-      codeTable.add(new Code(prefLen, -1, -1, false));
+        /* Annex B.2 5) - decode table lines */
+        while (curRangeLow < table.getHtHigh())
+        {
+            prefLen = (int) sis.readBits(table.getHtPS());
+            rangeLen = (int) sis.readBits(table.getHtRS());
+            rangeLow = curRangeLow;
+
+            codeTable.add(new Code(prefLen, rangeLen, rangeLow, false));
+
+            curRangeLow += 1 << rangeLen;
+        }
+
+        /* Annex B.2 6) */
+        prefLen = (int) sis.readBits(table.getHtPS());
+
+        /*
+         * Annex B.2 7) - lower range table line
+         * 
+         * Made some correction. Spec specifies an incorrect variable -> Replaced highPrefLen with lowPrefLen
+         */
+        rangeLen = 32;
+        rangeLow = table.getHtHigh() - 1;
+        codeTable.add(new Code(prefLen, rangeLen, rangeLow, true));
+        // }
+
+        /* Annex B.2 8) */
+        prefLen = (int) sis.readBits(table.getHtPS());
+
+        /* Annex B.2 9) - upper range table line */
+        rangeLen = 32;
+        rangeLow = table.getHtHigh();
+        codeTable.add(new Code(prefLen, rangeLen, rangeLow, false));
+
+        /* Annex B.2 10) - out-of-band table line */
+        if (table.getHtOOB() == 1)
+        {
+            prefLen = (int) sis.readBits(table.getHtPS());
+            codeTable.add(new Code(prefLen, -1, -1, false));
+        }
+
+        System.out.println(codeTableToString(codeTable));
+
+        initTree(codeTable);
     }
-
-    System.out.println(codeTableToString(codeTable));
-
-    initTree(codeTable);
-  }
 }

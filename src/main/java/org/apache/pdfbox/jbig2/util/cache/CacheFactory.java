@@ -22,34 +22,40 @@ import java.util.Iterator;
 import org.apache.pdfbox.jbig2.util.ServiceLookup;
 
 /**
- * Retrieves a {@link Cache} via registered {@link CacheBridge} through
- * <code>META-INF/services</code> lookup.
+ * Retrieves a {@link Cache} via registered {@link CacheBridge} through <code>META-INF/services</code> lookup.
  */
-public class CacheFactory {
+public class CacheFactory
+{
 
-  private static CacheBridge cacheBridge;
+    private static CacheBridge cacheBridge;
 
-  private static ClassLoader clsLoader;
+    private static ClassLoader clsLoader;
 
-  public static Cache getCache(ClassLoader clsLoader) {
-    if (null == cacheBridge) {
-      final ServiceLookup<CacheBridge> serviceLookup = new ServiceLookup<CacheBridge>();
-      final Iterator<CacheBridge> cacheBridgeServices = serviceLookup.getServices(CacheBridge.class, clsLoader);
+    public static Cache getCache(ClassLoader clsLoader)
+    {
+        if (null == cacheBridge)
+        {
+            final ServiceLookup<CacheBridge> serviceLookup = new ServiceLookup<CacheBridge>();
+            final Iterator<CacheBridge> cacheBridgeServices = serviceLookup
+                    .getServices(CacheBridge.class, clsLoader);
 
-      if (!cacheBridgeServices.hasNext()) {
-        throw new IllegalStateException("No implementation of " + CacheBridge.class
-            + " was avaliable using META-INF/services lookup");
-      }
-      cacheBridge = cacheBridgeServices.next();
+            if (!cacheBridgeServices.hasNext())
+            {
+                throw new IllegalStateException("No implementation of " + CacheBridge.class
+                        + " was avaliable using META-INF/services lookup");
+            }
+            cacheBridge = cacheBridgeServices.next();
+        }
+        return cacheBridge.getCache();
     }
-    return cacheBridge.getCache();
-  }
 
-  public static Cache getCache() {
-    return getCache(clsLoader != null ? clsLoader : CacheBridge.class.getClassLoader());
-  }
+    public static Cache getCache()
+    {
+        return getCache(clsLoader != null ? clsLoader : CacheBridge.class.getClassLoader());
+    }
 
-  public static void setClassLoader(ClassLoader clsLoader) {
-    CacheFactory.clsLoader = clsLoader;
-  }
+    public static void setClassLoader(ClassLoader clsLoader)
+    {
+        CacheFactory.clsLoader = clsLoader;
+    }
 }

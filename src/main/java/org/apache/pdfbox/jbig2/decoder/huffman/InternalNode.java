@@ -27,93 +27,115 @@ import org.apache.pdfbox.jbig2.decoder.huffman.HuffmanTable.Code;
 /**
  * This class represents an internal node of a huffman tree. It contains two child nodes.
  */
-class InternalNode extends Node {
-  private final int depth;
+class InternalNode extends Node
+{
+    private final int depth;
 
-  private Node zero;
-  private Node one;
+    private Node zero;
+    private Node one;
 
-  protected InternalNode() {
-    depth = 0;
-  }
-
-  protected InternalNode(int depth) {
-    this.depth = depth;
-  }
-
-  protected void append(Code c) {
-    if (JBIG2ImageReader.DEBUG)
-      System.out.println("I'm working on " + c.toString());
-
-    // ignore unused codes
-    if (c.prefixLength == 0)
-      return;
-
-    int shift = c.prefixLength - 1 - depth;
-
-    if (shift < 0)
-      throw new IllegalArgumentException("Negative shifting is not possible.");
-
-    int bit = (c.code >> shift) & 1;
-    if (shift == 0) {
-      if (c.rangeLength == -1) {
-        // the child will be a OutOfBand
-        if (bit == 1) {
-          if (one != null)
-            throw new IllegalStateException("already have a OOB for " + c);
-          one = new OutOfBandNode(c);
-        } else {
-          if (zero != null)
-            throw new IllegalStateException("already have a OOB for " + c);
-          zero = new OutOfBandNode(c);
-        }
-      } else {
-        // the child will be a ValueNode
-        if (bit == 1) {
-          if (one != null)
-            throw new IllegalStateException("already have a ValueNode for " + c);
-          one = new ValueNode(c);
-        } else {
-          if (zero != null)
-            throw new IllegalStateException("already have a ValueNode for " + c);
-          zero = new ValueNode(c);
-        }
-      }
-    } else {
-      // the child will be an InternalNode
-      if (bit == 1) {
-        if (one == null)
-          one = new InternalNode(depth + 1);
-        ((InternalNode) one).append(c);
-      } else {
-        if (zero == null)
-          zero = new InternalNode(depth + 1);
-        ((InternalNode) zero).append(c);
-      }
+    protected InternalNode()
+    {
+        depth = 0;
     }
-  }
 
-  @Override
-  protected long decode(ImageInputStream iis) throws IOException {
-    int b = iis.readBit();
-    Node n = b == 0 ? zero : one;
-    return n.decode(iis);
-  }
+    protected InternalNode(int depth)
+    {
+        this.depth = depth;
+    }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder("\n");
+    protected void append(Code c)
+    {
+        if (JBIG2ImageReader.DEBUG)
+            System.out.println("I'm working on " + c.toString());
 
-    pad(sb);
-    sb.append("0: ").append(zero).append("\n");
-    pad(sb);
-    sb.append("1: ").append(one).append("\n");
+        // ignore unused codes
+        if (c.prefixLength == 0)
+            return;
 
-    return sb.toString();
-  }
+        int shift = c.prefixLength - 1 - depth;
 
-  private void pad(StringBuilder sb) {
-    for (int i = 0; i < depth; i++)
-      sb.append("   ");
-  }
+        if (shift < 0)
+            throw new IllegalArgumentException("Negative shifting is not possible.");
+
+        int bit = (c.code >> shift) & 1;
+        if (shift == 0)
+        {
+            if (c.rangeLength == -1)
+            {
+                // the child will be a OutOfBand
+                if (bit == 1)
+                {
+                    if (one != null)
+                        throw new IllegalStateException("already have a OOB for " + c);
+                    one = new OutOfBandNode(c);
+                }
+                else
+                {
+                    if (zero != null)
+                        throw new IllegalStateException("already have a OOB for " + c);
+                    zero = new OutOfBandNode(c);
+                }
+            }
+            else
+            {
+                // the child will be a ValueNode
+                if (bit == 1)
+                {
+                    if (one != null)
+                        throw new IllegalStateException("already have a ValueNode for " + c);
+                    one = new ValueNode(c);
+                }
+                else
+                {
+                    if (zero != null)
+                        throw new IllegalStateException("already have a ValueNode for " + c);
+                    zero = new ValueNode(c);
+                }
+            }
+        }
+        else
+        {
+            // the child will be an InternalNode
+            if (bit == 1)
+            {
+                if (one == null)
+                    one = new InternalNode(depth + 1);
+                ((InternalNode) one).append(c);
+            }
+            else
+            {
+                if (zero == null)
+                    zero = new InternalNode(depth + 1);
+                ((InternalNode) zero).append(c);
+            }
+        }
+    }
+
+    @Override
+    protected long decode(ImageInputStream iis) throws IOException
+    {
+        int b = iis.readBit();
+        Node n = b == 0 ? zero : one;
+        return n.decode(iis);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("\n");
+
+        pad(sb);
+        sb.append("0: ").append(zero).append("\n");
+        pad(sb);
+        sb.append("1: ").append(one).append("\n");
+
+        return sb.toString();
+    }
+
+    private void pad(StringBuilder sb)
+    {
+        for (int i = 0; i < depth; i++)
+            sb.append("   ");
+    }
 }

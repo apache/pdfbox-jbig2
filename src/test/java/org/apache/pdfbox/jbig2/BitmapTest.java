@@ -25,74 +25,83 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class BitmapTest {
+public class BitmapTest
+{
 
-  @Test
-  public void getPixelAndSetPixelTest() {
-    final Bitmap bitmap = new Bitmap(37, 49);
-    assertEquals(0, bitmap.getPixel(3, 19));
-    
-    bitmap.setPixel(3, 19, (byte) 1);
+    @Test
+    public void getPixelAndSetPixelTest()
+    {
+        final Bitmap bitmap = new Bitmap(37, 49);
+        assertEquals(0, bitmap.getPixel(3, 19));
 
-    assertEquals(1, bitmap.getPixel(3, 19));
-  }
+        bitmap.setPixel(3, 19, (byte) 1);
 
-  @Test
-  public void getByteAndSetByteTest() {
-    Bitmap bitmap = new Bitmap(16, 16);
+        assertEquals(1, bitmap.getPixel(3, 19));
+    }
 
-    byte value = (byte) 4;
-    bitmap.setByte(0, value);
-    bitmap.setByte(31, value);
+    @Test
+    public void getByteAndSetByteTest()
+    {
+        Bitmap bitmap = new Bitmap(16, 16);
 
-    assertEquals(value, bitmap.getByte(0));
-    assertEquals(value, bitmap.getByte(31));
-  }
+        byte value = (byte) 4;
+        bitmap.setByte(0, value);
+        bitmap.setByte(31, value);
 
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void getByteThrowsExceptionTest() {
-    Bitmap bitmap = new Bitmap(16, 16);
-    bitmap.getByte(32);
-  }
+        assertEquals(value, bitmap.getByte(0));
+        assertEquals(value, bitmap.getByte(31));
+    }
 
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void setByteThrowsExceptionTest() {
-    Bitmap bitmap = new Bitmap(16, 16);
-    bitmap.setByte(32, (byte) 0);
-  }
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void getByteThrowsExceptionTest()
+    {
+        Bitmap bitmap = new Bitmap(16, 16);
+        bitmap.getByte(32);
+    }
 
-  @Test
-  public void getByteAsIntegerTest() {
-    Bitmap bitmap = new Bitmap(16, 16);
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void setByteThrowsExceptionTest()
+    {
+        Bitmap bitmap = new Bitmap(16, 16);
+        bitmap.setByte(32, (byte) 0);
+    }
 
-    byte byteValue = (byte) 4;
-    int integerValue = byteValue;
-    bitmap.setByte(0, byteValue);
-    bitmap.setByte(31, byteValue);
+    @Test
+    public void getByteAsIntegerTest()
+    {
+        Bitmap bitmap = new Bitmap(16, 16);
 
-    Assert.assertEquals(integerValue, bitmap.getByteAsInteger(0));
-    Assert.assertEquals(integerValue, bitmap.getByteAsInteger(31));
+        byte byteValue = (byte) 4;
+        int integerValue = byteValue;
+        bitmap.setByte(0, byteValue);
+        bitmap.setByte(31, byteValue);
 
-  }
+        Assert.assertEquals(integerValue, bitmap.getByteAsInteger(0));
+        Assert.assertEquals(integerValue, bitmap.getByteAsInteger(31));
 
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void getByteAsIntegerThrowsExceptionTest() {
-    Bitmap bitmap = new Bitmap(16, 16);
-    bitmap.getByte(32);
-  }
+    }
 
-  @Test
-  public void getHeightTest() {
-    int height = 16;
-    Bitmap bitmap = new Bitmap(1, height);
-    Assert.assertEquals(height, bitmap.getHeight());
-  }
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void getByteAsIntegerThrowsExceptionTest()
+    {
+        Bitmap bitmap = new Bitmap(16, 16);
+        bitmap.getByte(32);
+    }
 
-  @Test
-  public void getWidthTest() {
-    int width = 16;
-    Bitmap bitmap = new Bitmap(width, 1);
-    Assert.assertEquals(width, bitmap.getWidth());
-  }
+    @Test
+    public void getHeightTest()
+    {
+        int height = 16;
+        Bitmap bitmap = new Bitmap(1, height);
+        Assert.assertEquals(height, bitmap.getHeight());
+    }
+
+    @Test
+    public void getWidthTest()
+    {
+        int width = 16;
+        Bitmap bitmap = new Bitmap(width, 1);
+        Assert.assertEquals(width, bitmap.getWidth());
+    }
 
 }

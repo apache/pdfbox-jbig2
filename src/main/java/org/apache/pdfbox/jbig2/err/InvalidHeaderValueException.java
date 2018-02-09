@@ -20,23 +20,28 @@ package org.apache.pdfbox.jbig2.err;
 /**
  * Can be used if a segment header value is invalid.
  */
-public class InvalidHeaderValueException extends JBIG2Exception {
+public class InvalidHeaderValueException extends JBIG2Exception
+{
 
-  private static final long serialVersionUID = -5534202639860867867L;
+    private static final long serialVersionUID = -5534202639860867867L;
 
-  public InvalidHeaderValueException() {
-  }
+    public InvalidHeaderValueException()
+    {
+    }
 
-  public InvalidHeaderValueException(String message) {
-    super(message);
-  }
+    public InvalidHeaderValueException(String message)
+    {
+        super(message);
+    }
 
-  public InvalidHeaderValueException(Throwable cause) {
-    super(cause);
-  }
+    public InvalidHeaderValueException(Throwable cause)
+    {
+        super(cause);
+    }
 
-  public InvalidHeaderValueException(String message, Throwable cause) {
-    super(message, cause);
-  }
+    public InvalidHeaderValueException(String message, Throwable cause)
+    {
+        super(message, cause);
+    }
 
 }

@@ -24,36 +24,42 @@ import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 
 /**
- * This class is for debug purpose only. The {@code DictionaryViewer} is able to show a single
- * bitmap or all symbol bitmaps.
+ * This class is for debug purpose only. The {@code DictionaryViewer} is able to show a single bitmap or all symbol
+ * bitmaps.
  */
-class DictionaryViewer {
+class DictionaryViewer
+{
 
-  public static void show(Bitmap b) {
-    new TestImage(Bitmaps.asBufferedImage(b));
-  }
-
-  public static void show(List<Bitmap> symbols) {
-    int width = 0;
-    int height = 0;
-
-    for (Bitmap b : symbols) {
-      width += b.getWidth();
-
-      if (b.getHeight() > height) {
-        height = b.getHeight();
-      }
+    public static void show(Bitmap b)
+    {
+        new TestImage(Bitmaps.asBufferedImage(b));
     }
 
-    Bitmap result = new Bitmap(width, height);
+    public static void show(List<Bitmap> symbols)
+    {
+        int width = 0;
+        int height = 0;
 
-    int xOffset = 0;
+        for (Bitmap b : symbols)
+        {
+            width += b.getWidth();
 
-    for (Bitmap b : symbols) {
-      Bitmaps.blit(b, result, xOffset, 0, CombinationOperator.REPLACE);
-      xOffset += b.getWidth();
+            if (b.getHeight() > height)
+            {
+                height = b.getHeight();
+            }
+        }
+
+        Bitmap result = new Bitmap(width, height);
+
+        int xOffset = 0;
+
+        for (Bitmap b : symbols)
+        {
+            Bitmaps.blit(b, result, xOffset, 0, CombinationOperator.REPLACE);
+            xOffset += b.getWidth();
+        }
+
+        new TestImage(Bitmaps.asBufferedImage(result));
     }
-
-    new TestImage(Bitmaps.asBufferedImage(result));
-  }
 }

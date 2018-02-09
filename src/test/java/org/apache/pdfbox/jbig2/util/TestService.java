@@ -17,6 +17,7 @@
 
 package org.apache.pdfbox.jbig2.util;
 
-public interface TestService {
+public interface TestService
+{
 
 }

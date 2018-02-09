@@ -32,25 +32,27 @@ import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
 import org.junit.Assert;
 
-public class RegionSegmentInformationTest {
+public class RegionSegmentInformationTest
+{
 
-  @Test
-  public void parseHeaderTest() throws IOException {
+    @Test
+    public void parseHeaderTest() throws IOException
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    InputStream inputStream = new FileInputStream(inputFile);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    SubInputStream sis = new SubInputStream(iis, 130, 49);
-    RegionSegmentInformation rsi = new RegionSegmentInformation(sis);
-    rsi.parseHeader();
-    Assert.assertEquals(37, rsi.getBitmapWidth());
-    Assert.assertEquals(8, rsi.getBitmapHeight());
-    Assert.assertEquals(4, rsi.getXLocation());
-    Assert.assertEquals(1, rsi.getYLocation());
-    Assert.assertEquals(CombinationOperator.OR, rsi.getCombinationOperator());
-  }
+        InputStream inputStream = new FileInputStream(inputFile);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        SubInputStream sis = new SubInputStream(iis, 130, 49);
+        RegionSegmentInformation rsi = new RegionSegmentInformation(sis);
+        rsi.parseHeader();
+        Assert.assertEquals(37, rsi.getBitmapWidth());
+        Assert.assertEquals(8, rsi.getBitmapHeight());
+        Assert.assertEquals(4, rsi.getXLocation());
+        Assert.assertEquals(1, rsi.getYLocation());
+        Assert.assertEquals(CombinationOperator.OR, rsi.getCombinationOperator());
+    }
 }

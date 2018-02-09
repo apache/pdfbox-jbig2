@@ -20,31 +20,37 @@ package org.apache.pdfbox.jbig2.util.cache;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
-public class SoftReferenceCache implements Cache {
+public class SoftReferenceCache implements Cache
+{
 
-  private HashMap<Object, SoftReference<?>> cache = new HashMap<Object, SoftReference<?>>();
+    private HashMap<Object, SoftReference<?>> cache = new HashMap<Object, SoftReference<?>>();
 
-  public Object put(Object key, Object value, int sizeEstimate) {
-    SoftReference<Object> softReference = new SoftReference<Object>(value);
-    SoftReference<?> oldValue = cache.put(key, softReference);
-    return getValueNullSafe(oldValue);
-  }
+    public Object put(Object key, Object value, int sizeEstimate)
+    {
+        SoftReference<Object> softReference = new SoftReference<Object>(value);
+        SoftReference<?> oldValue = cache.put(key, softReference);
+        return getValueNullSafe(oldValue);
+    }
 
-  public Object get(Object key) {
-    SoftReference<?> softReference = cache.get(key);
-    return getValueNullSafe(softReference);
-  }
+    public Object get(Object key)
+    {
+        SoftReference<?> softReference = cache.get(key);
+        return getValueNullSafe(softReference);
+    }
 
-  public void clear() {
-    cache.clear();
-  }
+    public void clear()
+    {
+        cache.clear();
+    }
 
-  public Object remove(Object key) {
-    SoftReference<?> removedObj = cache.remove(key);
-    return getValueNullSafe(removedObj);
-  }
+    public Object remove(Object key)
+    {
+        SoftReference<?> removedObj = cache.remove(key);
+        return getValueNullSafe(removedObj);
+    }
 
-  private Object getValueNullSafe(SoftReference<?> softReference) {
-    return softReference == null ? null : softReference.get();
-  }
+    private Object getValueNullSafe(SoftReference<?> softReference)
+    {
+        return softReference == null ? null : softReference.get();
+    }
 }

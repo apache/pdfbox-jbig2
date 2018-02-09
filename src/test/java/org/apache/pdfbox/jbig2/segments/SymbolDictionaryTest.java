@@ -20,5 +20,6 @@ package org.apache.pdfbox.jbig2.segments;
 import org.junit.Ignore;
 
 @Ignore
-public class SymbolDictionaryTest {
+public class SymbolDictionaryTest
+{
 }

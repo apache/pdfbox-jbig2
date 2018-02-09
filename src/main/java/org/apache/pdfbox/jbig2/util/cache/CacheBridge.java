@@ -17,8 +17,9 @@
 
 package org.apache.pdfbox.jbig2.util.cache;
 
-public interface CacheBridge {
+public interface CacheBridge
+{
 
-  Cache getCache();
+    Cache getCache();
 
 }

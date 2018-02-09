@@ -23,26 +23,33 @@ import java.awt.Rectangle;
 import javax.imageio.ImageReadParam;
 
 /**
- * This class extends {@code ImageReadParam} and contains region of interest and scale / subsampling
- * functionality
+ * This class extends {@code ImageReadParam} and contains region of interest and scale / subsampling functionality
  */
-public class JBIG2ReadParam extends ImageReadParam {
+public class JBIG2ReadParam extends ImageReadParam
+{
 
-  public JBIG2ReadParam() {
-    this(1, 1, 0, 0, null, null);
-  }
-
-  public JBIG2ReadParam(final int sourceXSubsampling, final int sourceYSubsampling, final int subsamplingXOffset,
-      final int subsamplingYOffset, final Rectangle sourceRegion, final Dimension sourceRenderSize) {
-    this.canSetSourceRenderSize = true;
-    this.sourceRegion = sourceRegion;
-    this.sourceRenderSize = sourceRenderSize;
-
-    if (sourceXSubsampling < 1 || sourceYSubsampling < 1) {
-      throw new IllegalArgumentException("Illegal subsampling factor: shall be 1 or greater; but was "
-          + " sourceXSubsampling=" + sourceXSubsampling + ", sourceYSubsampling=" + sourceYSubsampling);
+    public JBIG2ReadParam()
+    {
+        this(1, 1, 0, 0, null, null);
     }
 
-    setSourceSubsampling(sourceXSubsampling, sourceYSubsampling, subsamplingXOffset, subsamplingYOffset);
-  }
+    public JBIG2ReadParam(final int sourceXSubsampling, final int sourceYSubsampling,
+            final int subsamplingXOffset, final int subsamplingYOffset,
+            final Rectangle sourceRegion, final Dimension sourceRenderSize)
+    {
+        this.canSetSourceRenderSize = true;
+        this.sourceRegion = sourceRegion;
+        this.sourceRenderSize = sourceRenderSize;
+
+        if (sourceXSubsampling < 1 || sourceYSubsampling < 1)
+        {
+            throw new IllegalArgumentException(
+                    "Illegal subsampling factor: shall be 1 or greater; but was "
+                            + " sourceXSubsampling=" + sourceXSubsampling + ", sourceYSubsampling="
+                            + sourceYSubsampling);
+        }
+
+        setSourceSubsampling(sourceXSubsampling, sourceYSubsampling, subsamplingXOffset,
+                subsamplingYOffset);
+    }
 }

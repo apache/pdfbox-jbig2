@@ -17,6 +17,7 @@
 
 package org.apache.pdfbox.jbig2.util;
 
-public class TestServiceImpl implements TestService {
+public class TestServiceImpl implements TestService
+{
 
 }

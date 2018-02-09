@@ -33,7 +33,8 @@ import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.junit.Test;
 
-public class MMRDecompressorTest {
+public class MMRDecompressorTest
+{
 
     @Test
     public void mmrDecodingTest() throws IOException, InvalidHeaderValueException
@@ -47,7 +48,7 @@ public class MMRDecompressorTest {
         assumeTrue(inputFile.exists());
 
         final InputStream inputStream = new FileInputStream(inputFile);
-    
+
         final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
         final ImageInputStream iis = disf.getInputStream(inputStream);
 
@@ -58,7 +59,7 @@ public class MMRDecompressorTest {
 
         final Bitmap b = mmrd.uncompress();
         final byte[] actual = b.getByteArray();
-    
+
         assertArrayEquals(expected, actual);
     }
 }

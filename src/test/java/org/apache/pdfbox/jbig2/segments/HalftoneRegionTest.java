@@ -35,37 +35,39 @@ import org.apache.pdfbox.jbig2.segments.HalftoneRegion;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
 
-public class HalftoneRegionTest {
+public class HalftoneRegionTest
+{
 
-  @Test
-  public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
+    @Test
+    public void parseHeaderTest() throws IOException, InvalidHeaderValueException
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Seventh Segment (number 6)
-    SubInputStream sis = new SubInputStream(iis, 302, 87);
-    HalftoneRegion hr = new HalftoneRegion(sis);
-    hr.init(null, sis);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Seventh Segment (number 6)
+        SubInputStream sis = new SubInputStream(iis, 302, 87);
+        HalftoneRegion hr = new HalftoneRegion(sis);
+        hr.init(null, sis);
 
-    Assert.assertEquals(true, hr.isMMREncoded());
-    Assert.assertEquals(0, hr.getHTemplate());
-    Assert.assertEquals(false, hr.isHSkipEnabled());
-    Assert.assertEquals(CombinationOperator.OR, hr.getCombinationOperator());
-    Assert.assertEquals(0, hr.getHDefaultPixel());
+        Assert.assertEquals(true, hr.isMMREncoded());
+        Assert.assertEquals(0, hr.getHTemplate());
+        Assert.assertEquals(false, hr.isHSkipEnabled());
+        Assert.assertEquals(CombinationOperator.OR, hr.getCombinationOperator());
+        Assert.assertEquals(0, hr.getHDefaultPixel());
 
-    Assert.assertEquals(8, hr.getHGridWidth());
-    Assert.assertEquals(9, hr.getHGridHeight());
-    Assert.assertEquals(0, hr.getHGridX());
-    Assert.assertEquals(0, hr.getHGridY());
-    Assert.assertEquals(1024, hr.getHRegionX());
-    Assert.assertEquals(0, hr.getHRegionY());
+        Assert.assertEquals(8, hr.getHGridWidth());
+        Assert.assertEquals(9, hr.getHGridHeight());
+        Assert.assertEquals(0, hr.getHGridX());
+        Assert.assertEquals(0, hr.getHGridY());
+        Assert.assertEquals(1024, hr.getHRegionX());
+        Assert.assertEquals(0, hr.getHRegionY());
 
-  }
+    }
 
 }

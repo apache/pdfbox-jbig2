@@ -28,22 +28,27 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 /**
  * This segment flags an end of stripe (see JBIG2 ISO standard, 7.4.9).
  */
-public class EndOfStripe implements SegmentData {
+public class EndOfStripe implements SegmentData
+{
 
-  private SubInputStream subInputStream;
-  private int lineNumber;
+    private SubInputStream subInputStream;
+    private int lineNumber;
 
-  private void parseHeader() throws IOException, IntegerMaxValueException, InvalidHeaderValueException {
-    lineNumber = (int) (subInputStream.readBits(32) & 0xffffffff);
-  }
+    private void parseHeader()
+            throws IOException, IntegerMaxValueException, InvalidHeaderValueException
+    {
+        lineNumber = (int) (subInputStream.readBits(32) & 0xffffffff);
+    }
 
-  public void init(SegmentHeader header, SubInputStream sis) throws IntegerMaxValueException,
-      InvalidHeaderValueException, IOException {
-    this.subInputStream = sis;
-    parseHeader();
-  }
+    public void init(SegmentHeader header, SubInputStream sis)
+            throws IntegerMaxValueException, InvalidHeaderValueException, IOException
+    {
+        this.subInputStream = sis;
+        parseHeader();
+    }
 
-  public int getLineNumber() {
-    return lineNumber;
-  }
+    public int getLineNumber()
+    {
+        return lineNumber;
+    }
 }

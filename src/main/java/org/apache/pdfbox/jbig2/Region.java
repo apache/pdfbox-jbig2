@@ -26,23 +26,25 @@ import org.apache.pdfbox.jbig2.segments.RegionSegmentInformation;
 /**
  * Interface for all JBIG2 region segments.
  */
-public interface Region extends SegmentData {
+public interface Region extends SegmentData
+{
 
-  /**
-   * Decodes and returns a regions content.
-   * 
-   * @return The decoded region as {@link Bitmap}.
-   * 
-   * @throws IOException if an underlying IO operation fails
-   * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
-   * @throws InvalidHeaderValueException if the segment header value is invalid
-   */
-  public Bitmap getRegionBitmap() throws IOException, IntegerMaxValueException, InvalidHeaderValueException;
+    /**
+     * Decodes and returns a regions content.
+     * 
+     * @return The decoded region as {@link Bitmap}.
+     * 
+     * @throws IOException if an underlying IO operation fails
+     * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
+     * @throws InvalidHeaderValueException if the segment header value is invalid
+     */
+    public Bitmap getRegionBitmap()
+            throws IOException, IntegerMaxValueException, InvalidHeaderValueException;
 
-  /**
-   * Simply returns the {@link RegionSegmentInformation}.
-   * 
-   * @return The {@link RegionSegmentInformation}.
-   */
-  public RegionSegmentInformation getRegionInfo();
+    /**
+     * Simply returns the {@link RegionSegmentInformation}.
+     * 
+     * @return The {@link RegionSegmentInformation}.
+     */
+    public RegionSegmentInformation getRegionInfo();
 }

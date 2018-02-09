@@ -38,105 +38,110 @@ import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class GenericRegionTest {
+public class GenericRegionTest
+{
 
-  @Test
-  public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+    @Test
+    public void parseHeaderTest() throws IOException, InvalidHeaderValueException
+    {
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
 
-    // Twelfth Segment (number 11)
-    SubInputStream sis = new SubInputStream(iis, 523, 35);
-    GenericRegion gr = new GenericRegion();
-    gr.init(null, sis);
+        // Twelfth Segment (number 11)
+        SubInputStream sis = new SubInputStream(iis, 523, 35);
+        GenericRegion gr = new GenericRegion();
+        gr.init(null, sis);
 
-    Assert.assertEquals(54, gr.getRegionInfo().getBitmapWidth());
-    Assert.assertEquals(44, gr.getRegionInfo().getBitmapHeight());
-    Assert.assertEquals(4, gr.getRegionInfo().getXLocation());
-    Assert.assertEquals(11, gr.getRegionInfo().getYLocation());
-    Assert.assertEquals(CombinationOperator.OR, gr.getRegionInfo().getCombinationOperator());
+        Assert.assertEquals(54, gr.getRegionInfo().getBitmapWidth());
+        Assert.assertEquals(44, gr.getRegionInfo().getBitmapHeight());
+        Assert.assertEquals(4, gr.getRegionInfo().getXLocation());
+        Assert.assertEquals(11, gr.getRegionInfo().getYLocation());
+        Assert.assertEquals(CombinationOperator.OR, gr.getRegionInfo().getCombinationOperator());
 
-    Assert.assertFalse(gr.useExtTemplates());
-    Assert.assertFalse(gr.isMMREncoded());
-    Assert.assertEquals(0, gr.getGbTemplate());
-    Assert.assertTrue(gr.isTPGDon());
+        Assert.assertFalse(gr.useExtTemplates());
+        Assert.assertFalse(gr.isMMREncoded());
+        Assert.assertEquals(0, gr.getGbTemplate());
+        Assert.assertTrue(gr.isTPGDon());
 
-    short[] gbAtX = gr.getGbAtX();
-    short[] gbAtY = gr.getGbAtY();
-    Assert.assertEquals(3, gbAtX[0]);
-    Assert.assertEquals(-1, gbAtY[0]);
-    Assert.assertEquals(-3, gbAtX[1]);
-    Assert.assertEquals(-1, gbAtY[1]);
-    Assert.assertEquals(2, gbAtX[2]);
-    Assert.assertEquals(-2, gbAtY[2]);
-    Assert.assertEquals(-2, gbAtX[3]);
-    Assert.assertEquals(-2, gbAtY[3]);
-  }
+        short[] gbAtX = gr.getGbAtX();
+        short[] gbAtY = gr.getGbAtY();
+        Assert.assertEquals(3, gbAtX[0]);
+        Assert.assertEquals(-1, gbAtY[0]);
+        Assert.assertEquals(-3, gbAtX[1]);
+        Assert.assertEquals(-1, gbAtY[1]);
+        Assert.assertEquals(2, gbAtX[2]);
+        Assert.assertEquals(-2, gbAtY[2]);
+        Assert.assertEquals(-2, gbAtX[3]);
+        Assert.assertEquals(-2, gbAtY[3]);
+    }
 
-  // TESTS WITH TESTOUTPUT
-  // Ignore in build process
+    // TESTS WITH TESTOUTPUT
+    // Ignore in build process
 
-  @Ignore
-  @Test
-  public void decodeTemplate0Test() throws Throwable {
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+    @Ignore
+    @Test
+    public void decodeTemplate0Test() throws Throwable
+    {
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Twelfth Segment (number 11)
-    SubInputStream sis = new SubInputStream(iis, 523, 35);
-    GenericRegion gr = new GenericRegion();
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Twelfth Segment (number 11)
+        SubInputStream sis = new SubInputStream(iis, 523, 35);
+        GenericRegion gr = new GenericRegion();
 
-    gr.init(null, sis);
-    new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
-  }
+        gr.init(null, sis);
+        new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
+    }
 
-  @Ignore
-  @Test
-  public void decodeWithArithmetichCoding() throws Throwable {
+    @Ignore
+    @Test
+    public void decodeWithArithmetichCoding() throws Throwable
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Twelfth Segment (number 11)
-    SubInputStream sis = new SubInputStream(iis, 523, 35);
-    GenericRegion gr = new GenericRegion(sis);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Twelfth Segment (number 11)
+        SubInputStream sis = new SubInputStream(iis, 523, 35);
+        GenericRegion gr = new GenericRegion(sis);
 
-    gr.init(null, sis);
-    new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
-  }
+        gr.init(null, sis);
+        new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
+    }
 
-  @Ignore
-  @Test
-  public void decodeWithMMR() throws Throwable {
+    @Ignore
+    @Test
+    public void decodeWithMMR() throws Throwable
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Fifth Segment (number 4)
-    SubInputStream sis = new SubInputStream(iis, 190, 59);
-    GenericRegion gr = new GenericRegion(sis);
-    gr.init(null, sis);
-    new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
-  }
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Fifth Segment (number 4)
+        SubInputStream sis = new SubInputStream(iis, 190, 59);
+        GenericRegion gr = new GenericRegion(sis);
+        gr.init(null, sis);
+        new TestImage(Bitmaps.asBufferedImage(gr.getRegionBitmap()));
+    }
 }

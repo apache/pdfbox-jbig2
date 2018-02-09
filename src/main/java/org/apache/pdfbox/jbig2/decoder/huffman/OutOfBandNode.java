@@ -23,18 +23,20 @@ import javax.imageio.stream.ImageInputStream;
 
 import org.apache.pdfbox.jbig2.decoder.huffman.HuffmanTable.Code;
 
-
 /**
  * Represents a out of band node in a huffman tree.
  */
-class OutOfBandNode extends Node {
+class OutOfBandNode extends Node
+{
 
-  protected OutOfBandNode(Code c) {
-  }
+    protected OutOfBandNode(Code c)
+    {
+    }
 
-  @Override
-  protected long decode(ImageInputStream iis) throws IOException {
-    return Long.MAX_VALUE;
-  }
+    @Override
+    protected long decode(ImageInputStream iis) throws IOException
+    {
+        return Long.MAX_VALUE;
+    }
 
 }

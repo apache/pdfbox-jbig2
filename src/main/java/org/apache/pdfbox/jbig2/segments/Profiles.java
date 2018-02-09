@@ -24,8 +24,10 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 /**
  * <b>TODO:</b> This class is not implemented yet and empty. Wait for use cases.
  */
-public class Profiles implements SegmentData {
+public class Profiles implements SegmentData
+{
 
-  public void init(SegmentHeader header, SubInputStream sis) {
-  }
+    public void init(SegmentHeader header, SubInputStream sis)
+    {
+    }
 }

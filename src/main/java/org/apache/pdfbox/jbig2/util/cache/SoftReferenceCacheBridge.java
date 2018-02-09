@@ -17,12 +17,14 @@
 
 package org.apache.pdfbox.jbig2.util.cache;
 
-public class SoftReferenceCacheBridge implements CacheBridge {
+public class SoftReferenceCacheBridge implements CacheBridge
+{
 
-  private static final SoftReferenceCache cache = new SoftReferenceCache();
+    private static final SoftReferenceCache cache = new SoftReferenceCache();
 
-  public Cache getCache() {
-    return cache;
-  }
+    public Cache getCache()
+    {
+        return cache;
+    }
 
 }

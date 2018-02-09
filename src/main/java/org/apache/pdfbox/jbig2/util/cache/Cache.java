@@ -17,31 +17,32 @@
 
 package org.apache.pdfbox.jbig2.util.cache;
 
-public interface Cache {
+public interface Cache
+{
 
-/**
- * 
- * @param key value to be used as key
- * @param value value to be stored
- * @param sizeEstimate estimated size
- * 
- * @return the old object, that was replaced if present. Otherwise {@code null}.
- */
-  Object put(Object key, Object value, int sizeEstimate);
+    /**
+     * 
+     * @param key value to be used as key
+     * @param value value to be stored
+     * @param sizeEstimate estimated size
+     * 
+     * @return the old object, that was replaced if present. Otherwise {@code null}.
+     */
+    Object put(Object key, Object value, int sizeEstimate);
 
-  Object get(Object key);
+    Object get(Object key);
 
-  /**
-   * Removes all mappings from a map (optional operation).
-   * 
-   * @throws UnsupportedOperationException if {@code clear()} is not supported by the map.
-   */
-  void clear();
+    /**
+     * Removes all mappings from a map (optional operation).
+     * 
+     * @throws UnsupportedOperationException if {@code clear()} is not supported by the map.
+     */
+    void clear();
 
-  /**
-   * 
-   * @param key the key of the to be removed object
-   * @return the removed object, if present. Otherwise {@code null}.
-   */
-  Object remove(Object key);
+    /**
+     * 
+     * @param key the key of the to be removed object
+     * @return the removed object, if present. Otherwise {@code null}.
+     */
+    Object remove(Object key);
 }

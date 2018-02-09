@@ -28,70 +28,82 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 /**
  * This class represents a "Table" segment. It handles custom tables, see Annex B.
  */
-public class Table implements SegmentData {
+public class Table implements SegmentData
+{
 
-  private SubInputStream subInputStream;
+    private SubInputStream subInputStream;
 
-  /** Code table flags, B.2.1, page 87 */
-  private int htOutOfBand;
-  private int htPS;
-  private int htRS;
+    /** Code table flags, B.2.1, page 87 */
+    private int htOutOfBand;
+    private int htPS;
+    private int htRS;
 
-  /** Code table lowest value, B.2.2, page 87 */
-  private int htLow;
+    /** Code table lowest value, B.2.2, page 87 */
+    private int htLow;
 
-  /** Code table highest value, B.2.3, page 87 */
-  private int htHigh;
+    /** Code table highest value, B.2.3, page 87 */
+    private int htHigh;
 
-  private void parseHeader() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
-    int bit;
+    private void parseHeader()
+            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    {
+        int bit;
 
-    /* Bit 7 */
-    if ((bit = subInputStream.readBit()) == 1) {
-      throw new InvalidHeaderValueException("B.2.1 Code table flags: Bit 7 must be zero, but was " + bit);
+        /* Bit 7 */
+        if ((bit = subInputStream.readBit()) == 1)
+        {
+            throw new InvalidHeaderValueException(
+                    "B.2.1 Code table flags: Bit 7 must be zero, but was " + bit);
+        }
+
+        /* Bit 4-6 */
+        htRS = (int) ((subInputStream.readBits(3) + 1) & 0xf);
+
+        /* Bit 1-3 */
+        htPS = (int) ((subInputStream.readBits(3) + 1) & 0xf);
+
+        /* Bit 0 */
+        htOutOfBand = (int) subInputStream.readBit();
+
+        htLow = (int) subInputStream.readBits(32); // & 0xffffffff);
+        htHigh = (int) subInputStream.readBits(32); // & 0xffffffff);
     }
 
-    /* Bit 4-6 */
-    htRS = (int) ((subInputStream.readBits(3) + 1) & 0xf);
+    public void init(SegmentHeader header, SubInputStream sis)
+            throws InvalidHeaderValueException, IOException, IntegerMaxValueException
+    {
+        subInputStream = sis;
 
-    /* Bit 1-3 */
-    htPS = (int) ((subInputStream.readBits(3) + 1) & 0xf);
+        parseHeader();
+    }
 
-    /* Bit 0 */
-    htOutOfBand = (int) subInputStream.readBit();
+    public int getHtOOB()
+    {
+        return htOutOfBand;
+    }
 
-    htLow = (int) subInputStream.readBits(32); // & 0xffffffff);
-    htHigh = (int) subInputStream.readBits(32); // & 0xffffffff);
-  }
+    public int getHtPS()
+    {
+        return htPS;
+    }
 
-  public void init(SegmentHeader header, SubInputStream sis) throws InvalidHeaderValueException, IOException,
-      IntegerMaxValueException {
-    subInputStream = sis;
+    public int getHtRS()
+    {
+        return htRS;
+    }
 
-    parseHeader();
-  }
+    public int getHtLow()
+    {
+        return htLow;
+    }
 
-  public int getHtOOB() {
-    return htOutOfBand;
-  }
+    public int getHtHigh()
+    {
+        return htHigh;
+    }
 
-  public int getHtPS() {
-    return htPS;
-  }
-
-  public int getHtRS() {
-    return htRS;
-  }
-
-  public int getHtLow() {
-    return htLow;
-  }
-
-  public int getHtHigh() {
-    return htHigh;
-  }
-
-  public SubInputStream getSubInputStream() {
-    return subInputStream;
-  }
+    public SubInputStream getSubInputStream()
+    {
+        return subInputStream;
+    }
 }

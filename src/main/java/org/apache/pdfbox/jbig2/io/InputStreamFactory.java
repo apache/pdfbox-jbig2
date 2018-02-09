@@ -22,6 +22,7 @@ import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
 
-public interface InputStreamFactory {
-  public ImageInputStream getInputStream(InputStream is) throws IOException;
+public interface InputStreamFactory
+{
+    public ImageInputStream getInputStream(InputStream is) throws IOException;
 }

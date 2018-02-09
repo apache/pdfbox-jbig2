@@ -20,24 +20,29 @@ package org.apache.pdfbox.jbig2.util;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
-public class ServiceLookup<B> {
+public class ServiceLookup<B>
+{
 
-  public Iterator<B> getServices(Class<B> cls) {
-    return getServices(cls, null);
-  }
-
-  public Iterator<B> getServices(Class<B> cls, ClassLoader clsLoader) {
-    Iterator<B> services = ServiceLoader.load(cls).iterator();
-
-    if (!services.hasNext()) {
-      services = ServiceLoader.load(cls, cls.getClass().getClassLoader()).iterator();
+    public Iterator<B> getServices(Class<B> cls)
+    {
+        return getServices(cls, null);
     }
 
-    if (!services.hasNext() && clsLoader != null) {
-      services = ServiceLoader.load(cls, clsLoader).iterator();
-    }
+    public Iterator<B> getServices(Class<B> cls, ClassLoader clsLoader)
+    {
+        Iterator<B> services = ServiceLoader.load(cls).iterator();
 
-    return services;
-  }
+        if (!services.hasNext())
+        {
+            services = ServiceLoader.load(cls, cls.getClass().getClassLoader()).iterator();
+        }
+
+        if (!services.hasNext() && clsLoader != null)
+        {
+            services = ServiceLoader.load(cls, clsLoader).iterator();
+        }
+
+        return services;
+    }
 
 }

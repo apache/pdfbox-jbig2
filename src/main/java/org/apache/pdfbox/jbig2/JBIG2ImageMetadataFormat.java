@@ -25,29 +25,39 @@ import javax.imageio.metadata.IIOMetadataFormatImpl;
  * @see IIOMetadataFormat
  * @see IIOMetadataFormatImpl
  */
-public class JBIG2ImageMetadataFormat extends IIOMetadataFormatImpl {
+public class JBIG2ImageMetadataFormat extends IIOMetadataFormatImpl
+{
 
-  private static IIOMetadataFormat instance = null;
+    private static IIOMetadataFormat instance = null;
 
-  private JBIG2ImageMetadataFormat() {
-    super(JBIG2ImageMetadata.IMAGE_METADATA_FORMAT_NAME, CHILD_POLICY_SOME);
+    private JBIG2ImageMetadataFormat()
+    {
+        super(JBIG2ImageMetadata.IMAGE_METADATA_FORMAT_NAME, CHILD_POLICY_SOME);
 
-    // root -> ImageDescriptor
-    addElement("ImageDescriptor", JBIG2ImageMetadata.IMAGE_METADATA_FORMAT_NAME, CHILD_POLICY_EMPTY);
-    addAttribute("ImageDescriptor", "imageWidth", DATATYPE_INTEGER, true, null, "1", "65535", true, true);
-    addAttribute("ImageDescriptor", "imageHeight", DATATYPE_INTEGER, true, null, "1", "65535", true, true);
-    addAttribute("ImageDescriptor", "Xdensity", DATATYPE_FLOAT, true, null, "1", "65535", true, true);
-    addAttribute("ImageDescriptor", "Ydensity", DATATYPE_FLOAT, true, null, "1", "65535", true, true);
-  }
-
-  public boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType) {
-    return true;
-  }
-
-  public static synchronized IIOMetadataFormat getInstance() {
-    if (instance == null) {
-      instance = new JBIG2ImageMetadataFormat();
+        // root -> ImageDescriptor
+        addElement("ImageDescriptor", JBIG2ImageMetadata.IMAGE_METADATA_FORMAT_NAME,
+                CHILD_POLICY_EMPTY);
+        addAttribute("ImageDescriptor", "imageWidth", DATATYPE_INTEGER, true, null, "1", "65535",
+                true, true);
+        addAttribute("ImageDescriptor", "imageHeight", DATATYPE_INTEGER, true, null, "1", "65535",
+                true, true);
+        addAttribute("ImageDescriptor", "Xdensity", DATATYPE_FLOAT, true, null, "1", "65535", true,
+                true);
+        addAttribute("ImageDescriptor", "Ydensity", DATATYPE_FLOAT, true, null, "1", "65535", true,
+                true);
     }
-    return instance;
-  }
+
+    public boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType)
+    {
+        return true;
+    }
+
+    public static synchronized IIOMetadataFormat getInstance()
+    {
+        if (instance == null)
+        {
+            instance = new JBIG2ImageMetadataFormat();
+        }
+        return instance;
+    }
 }

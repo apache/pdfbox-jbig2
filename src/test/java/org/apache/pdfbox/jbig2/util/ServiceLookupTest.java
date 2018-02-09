@@ -25,32 +25,37 @@ import java.util.Iterator;
 import org.apache.pdfbox.jbig2.util.ServiceLookup;
 import org.junit.Test;
 
-public class ServiceLookupTest {
+public class ServiceLookupTest
+{
 
-  @Test
-  public void withDefaultClassLoader() {
-    runTest(null);
-  }
+    @Test
+    public void withDefaultClassLoader()
+    {
+        runTest(null);
+    }
 
-  @Test
-  public void withContextClassLoader() {
-    runTest(Thread.currentThread().getContextClassLoader());
-  }
+    @Test
+    public void withContextClassLoader()
+    {
+        runTest(Thread.currentThread().getContextClassLoader());
+    }
 
-  @Test
-  public void withClassLoaderFromClass() {
-    runTest(TestService.class.getClassLoader());
-  }
-  
-  private void runTest(ClassLoader clsLoader) {
-    ServiceLookup<TestService> serviceLookup = new ServiceLookup<TestService>();
+    @Test
+    public void withClassLoaderFromClass()
+    {
+        runTest(TestService.class.getClassLoader());
+    }
 
-    Iterator<TestService> services = clsLoader != null
-        ? serviceLookup.getServices(TestService.class, clsLoader)
-        : serviceLookup.getServices(TestService.class);
+    private void runTest(ClassLoader clsLoader)
+    {
+        ServiceLookup<TestService> serviceLookup = new ServiceLookup<TestService>();
 
-    assertTrue(services.hasNext());
-    assertEquals(TestServiceImpl.class, services.next().getClass());
-  }
+        Iterator<TestService> services = clsLoader != null
+                ? serviceLookup.getServices(TestService.class, clsLoader)
+                : serviceLookup.getServices(TestService.class);
+
+        assertTrue(services.hasNext());
+        assertEquals(TestServiceImpl.class, services.next().getClass());
+    }
 
 }

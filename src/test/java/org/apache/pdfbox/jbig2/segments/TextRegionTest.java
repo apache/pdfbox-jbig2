@@ -36,27 +36,30 @@ import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TextRegionTest {
+public class TextRegionTest
+{
 
-  // TESTS WITH TESTOUTPUT
-  // Ignore for in build process
+    // TESTS WITH TESTOUTPUT
+    // Ignore for in build process
 
-  @Ignore
-  @Test
-  public void textRegionWith() throws IOException, InvalidHeaderValueException, IntegerMaxValueException {
+    @Ignore
+    @Test
+    public void textRegionWith()
+            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    {
 
-    int pageNumber = 1;
+        int pageNumber = 1;
 
-    final File inputFile = new File("target/images/042_11.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/042_11.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    InputStream inputStream = new FileInputStream(inputFile);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    JBIG2ImageReader jb2 = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
-    jb2.setInput(iis);
-    BufferedImage b = jb2.read(pageNumber);
-    new TestImage(b);
-  }
+        InputStream inputStream = new FileInputStream(inputFile);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        JBIG2ImageReader jb2 = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
+        jb2.setInput(iis);
+        BufferedImage b = jb2.read(pageNumber);
+        new TestImage(b);
+    }
 }

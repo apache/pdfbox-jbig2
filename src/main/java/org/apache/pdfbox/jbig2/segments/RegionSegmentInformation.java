@@ -30,78 +30,92 @@ import org.apache.pdfbox.jbig2.util.CombinationOperator;
  * This class represents the "Region segment information" field, 7.4.1 (page 50). <br>
  * Every region segment data starts with this part.
  */
-public class RegionSegmentInformation implements SegmentData {
+public class RegionSegmentInformation implements SegmentData
+{
 
-  private SubInputStream subInputStream;
+    private SubInputStream subInputStream;
 
-  /** Region segment bitmap width, 7.4.1.1 */
-  private int bitmapWidth;
+    /** Region segment bitmap width, 7.4.1.1 */
+    private int bitmapWidth;
 
-  /** Region segment bitmap height, 7.4.1.2 */
-  private int bitmapHeight;
+    /** Region segment bitmap height, 7.4.1.2 */
+    private int bitmapHeight;
 
-  /** Region segment bitmap X location, 7.4.1.3 */
-  private int xLocation;
+    /** Region segment bitmap X location, 7.4.1.3 */
+    private int xLocation;
 
-  /** Region segment bitmap Y location, 7.4.1.4 */
-  private int yLocation;
+    /** Region segment bitmap Y location, 7.4.1.4 */
+    private int yLocation;
 
-  /** Region segment flags, 7.4.1.5 */
-  private CombinationOperator combinationOperator;
+    /** Region segment flags, 7.4.1.5 */
+    private CombinationOperator combinationOperator;
 
-  public RegionSegmentInformation(SubInputStream subInputStream) {
-    this.subInputStream = subInputStream;
-  }
+    public RegionSegmentInformation(SubInputStream subInputStream)
+    {
+        this.subInputStream = subInputStream;
+    }
 
-  public RegionSegmentInformation() {
-  }
+    public RegionSegmentInformation()
+    {
+    }
 
-  public void parseHeader() throws IOException {
-    this.bitmapWidth = ((int) (subInputStream.readBits(32) & 0xffffffff));
-    this.bitmapHeight = ((int) (subInputStream.readBits(32) & 0xffffffff));
-    this.xLocation = ((int) (subInputStream.readBits(32) & 0xffffffff));
-    this.yLocation = ((int) (subInputStream.readBits(32) & 0xffffffff));
+    public void parseHeader() throws IOException
+    {
+        this.bitmapWidth = ((int) (subInputStream.readBits(32) & 0xffffffff));
+        this.bitmapHeight = ((int) (subInputStream.readBits(32) & 0xffffffff));
+        this.xLocation = ((int) (subInputStream.readBits(32) & 0xffffffff));
+        this.yLocation = ((int) (subInputStream.readBits(32) & 0xffffffff));
 
-    /* Bit 3-7 */
-    subInputStream.readBits(5); // Dirty read... reserved bits are 0
+        /* Bit 3-7 */
+        subInputStream.readBits(5); // Dirty read... reserved bits are 0
 
-    /* Bit 0-2 */
-    readCombinationOperator();
-  }
+        /* Bit 0-2 */
+        readCombinationOperator();
+    }
 
-  private void readCombinationOperator() throws IOException {
-    this.combinationOperator = (CombinationOperator.translateOperatorCodeToEnum((short) (subInputStream.readBits(3) & 0xf)));
-  }
+    private void readCombinationOperator() throws IOException
+    {
+        this.combinationOperator = (CombinationOperator
+                .translateOperatorCodeToEnum((short) (subInputStream.readBits(3) & 0xf)));
+    }
 
-  public void init(SegmentHeader header, SubInputStream sis) throws InvalidHeaderValueException,
-      IntegerMaxValueException, IOException {
-  }
+    public void init(SegmentHeader header, SubInputStream sis)
+            throws InvalidHeaderValueException, IntegerMaxValueException, IOException
+    {
+    }
 
-  public void setBitmapWidth(final int bitmapWidth) {
-    this.bitmapWidth = bitmapWidth;
-  }
+    public void setBitmapWidth(final int bitmapWidth)
+    {
+        this.bitmapWidth = bitmapWidth;
+    }
 
-  public int getBitmapWidth() {
-    return bitmapWidth;
-  }
+    public int getBitmapWidth()
+    {
+        return bitmapWidth;
+    }
 
-  public void setBitmapHeight(final int bitmapHeight) {
-    this.bitmapHeight = bitmapHeight;
-  }
+    public void setBitmapHeight(final int bitmapHeight)
+    {
+        this.bitmapHeight = bitmapHeight;
+    }
 
-  public int getBitmapHeight() {
-    return bitmapHeight;
-  }
+    public int getBitmapHeight()
+    {
+        return bitmapHeight;
+    }
 
-  public int getXLocation() {
-    return xLocation;
-  }
+    public int getXLocation()
+    {
+        return xLocation;
+    }
 
-  public int getYLocation() {
-    return yLocation;
-  }
+    public int getYLocation()
+    {
+        return yLocation;
+    }
 
-  public CombinationOperator getCombinationOperator() {
-    return combinationOperator;
-  }
+    public CombinationOperator getCombinationOperator()
+    {
+        return combinationOperator;
+    }
 }

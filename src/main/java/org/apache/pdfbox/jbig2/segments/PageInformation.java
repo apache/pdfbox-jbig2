@@ -30,197 +30,232 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 /**
  * This class represents the segment type "Page information", 7.4.8 (page 73).
  */
-public class PageInformation implements SegmentData {
+public class PageInformation implements SegmentData
+{
 
-  private final Logger log = LoggerFactory.getLogger(PageInformation.class);
+    private final Logger log = LoggerFactory.getLogger(PageInformation.class);
 
-  private SubInputStream subInputStream;
+    private SubInputStream subInputStream;
 
-  /** Page bitmap width, four byte, 7.4.8.1 */
-  private int bitmapWidth;
+    /** Page bitmap width, four byte, 7.4.8.1 */
+    private int bitmapWidth;
 
-  /** Page bitmap height, four byte, 7.4.8.2 */
-  private int bitmapHeight;
+    /** Page bitmap height, four byte, 7.4.8.2 */
+    private int bitmapHeight;
 
-  /** Page X resolution, four byte, 7.4.8.3 */
-  private int resolutionX;
+    /** Page X resolution, four byte, 7.4.8.3 */
+    private int resolutionX;
 
-  /** Page Y resolution, four byte, 7.4.8.4 */
-  private int resolutionY;
+    /** Page Y resolution, four byte, 7.4.8.4 */
+    private int resolutionY;
 
-  /** Page segment flags, one byte, 7.4.8.5 */
-  private boolean combinationOperatorOverrideAllowed;
-  private CombinationOperator combinationOperator;
-  private boolean requiresAuxiliaryBuffer;
-  private short defaultPixelValue;
-  private boolean mightContainRefinements;
-  private boolean isLossless;
+    /** Page segment flags, one byte, 7.4.8.5 */
+    private boolean combinationOperatorOverrideAllowed;
+    private CombinationOperator combinationOperator;
+    private boolean requiresAuxiliaryBuffer;
+    private short defaultPixelValue;
+    private boolean mightContainRefinements;
+    private boolean isLossless;
 
-  /** Page striping information, two byte, 7.4.8.6 */
-  private boolean isStriped;
-  private short maxStripeSize;
+    /** Page striping information, two byte, 7.4.8.6 */
+    private boolean isStriped;
+    private short maxStripeSize;
 
-  private void parseHeader() throws IOException, InvalidHeaderValueException {
+    private void parseHeader() throws IOException, InvalidHeaderValueException
+    {
 
-    readWidthAndHeight();
-    readResolution();
+        readWidthAndHeight();
+        readResolution();
 
-    /* Bit 7 */
-    subInputStream.readBit(); // dirty read
+        /* Bit 7 */
+        subInputStream.readBit(); // dirty read
 
-    /* Bit 6 */
-    readCombinationOperatorOverrideAllowed();
+        /* Bit 6 */
+        readCombinationOperatorOverrideAllowed();
 
-    /* Bit 5 */
-    readRequiresAuxiliaryBuffer();
+        /* Bit 5 */
+        readRequiresAuxiliaryBuffer();
 
-    /* Bit 3-4 */
-    readCombinationOperator();
+        /* Bit 3-4 */
+        readCombinationOperator();
 
-    /* Bit 2 */
-    readDefaultPixelvalue();
+        /* Bit 2 */
+        readDefaultPixelvalue();
 
-    /* Bit 1 */
-    readContainsRefinement();
+        /* Bit 1 */
+        readContainsRefinement();
 
-    /* Bit 0 */
-    readIsLossless();
+        /* Bit 0 */
+        readIsLossless();
 
-    /* Bit 15 */
-    readIsStriped();
+        /* Bit 15 */
+        readIsStriped();
 
-    /* Bit 0-14 */
-    readMaxStripeSize();
+        /* Bit 0-14 */
+        readMaxStripeSize();
 
-    this.checkInput();
+        this.checkInput();
 
-  }
-
-  private void readResolution() throws IOException {
-    resolutionX = (int) subInputStream.readBits(32) & 0xffffffff;
-    resolutionY = (int) subInputStream.readBits(32) & 0xffffffff;
-  }
-
-  private void checkInput() throws InvalidHeaderValueException {
-    if (bitmapHeight == 0xffffffffL)
-      if (!isStriped)
-        log.info("isStriped should contaion the value true");
-  }
-
-  private void readCombinationOperatorOverrideAllowed() throws IOException {
-    /* Bit 6 */
-    if (subInputStream.readBit() == 1) {
-      combinationOperatorOverrideAllowed = true;
     }
-  }
 
-  private void readRequiresAuxiliaryBuffer() throws IOException {
-    /* Bit 5 */
-    if (subInputStream.readBit() == 1) {
-      requiresAuxiliaryBuffer = true;
+    private void readResolution() throws IOException
+    {
+        resolutionX = (int) subInputStream.readBits(32) & 0xffffffff;
+        resolutionY = (int) subInputStream.readBits(32) & 0xffffffff;
     }
-  }
 
-  private void readCombinationOperator() throws IOException {
-    /* Bit 3-4 */
-    combinationOperator = CombinationOperator.translateOperatorCodeToEnum((short) (subInputStream.readBits(2) & 0xf));
-  }
-
-  private void readDefaultPixelvalue() throws IOException {
-    /* Bit 2 */
-    defaultPixelValue = (short) subInputStream.readBit();
-  }
-
-  private void readContainsRefinement() throws IOException {
-    /* Bit 1 */
-    if (subInputStream.readBit() == 1) {
-      mightContainRefinements = true;
+    private void checkInput() throws InvalidHeaderValueException
+    {
+        if (bitmapHeight == 0xffffffffL)
+            if (!isStriped)
+                log.info("isStriped should contaion the value true");
     }
-  }
 
-  private void readIsLossless() throws IOException {
-    /* Bit 0 */
-    if (subInputStream.readBit() == 1) {
-      isLossless = true;
+    private void readCombinationOperatorOverrideAllowed() throws IOException
+    {
+        /* Bit 6 */
+        if (subInputStream.readBit() == 1)
+        {
+            combinationOperatorOverrideAllowed = true;
+        }
     }
-  }
 
-  private void readIsStriped() throws IOException {
-    /* Bit 15 */
-    if (subInputStream.readBit() == 1) {
-      isStriped = true;
+    private void readRequiresAuxiliaryBuffer() throws IOException
+    {
+        /* Bit 5 */
+        if (subInputStream.readBit() == 1)
+        {
+            requiresAuxiliaryBuffer = true;
+        }
     }
-  }
 
-  private void readMaxStripeSize() throws IOException {
-    /* Bit 0-14 */
-    maxStripeSize = (short) (subInputStream.readBits(15) & 0xffff);
-  }
+    private void readCombinationOperator() throws IOException
+    {
+        /* Bit 3-4 */
+        combinationOperator = CombinationOperator
+                .translateOperatorCodeToEnum((short) (subInputStream.readBits(2) & 0xf));
+    }
 
-  private void readWidthAndHeight() throws IOException {
-    bitmapWidth = (int) subInputStream.readBits(32); // & 0xffffffff;
-    bitmapHeight = (int) subInputStream.readBits(32); // & 0xffffffff;
-  }
+    private void readDefaultPixelvalue() throws IOException
+    {
+        /* Bit 2 */
+        defaultPixelValue = (short) subInputStream.readBit();
+    }
 
-  public void init(final SegmentHeader header, final SubInputStream sis) throws InvalidHeaderValueException, IOException {
-    subInputStream = sis;
+    private void readContainsRefinement() throws IOException
+    {
+        /* Bit 1 */
+        if (subInputStream.readBit() == 1)
+        {
+            mightContainRefinements = true;
+        }
+    }
 
-    parseHeader();
-  }
+    private void readIsLossless() throws IOException
+    {
+        /* Bit 0 */
+        if (subInputStream.readBit() == 1)
+        {
+            isLossless = true;
+        }
+    }
 
-  public int getWidth() {
-    return bitmapWidth;
-  }
+    private void readIsStriped() throws IOException
+    {
+        /* Bit 15 */
+        if (subInputStream.readBit() == 1)
+        {
+            isStriped = true;
+        }
+    }
 
-  public int getHeight() {
-    return bitmapHeight;
-  }
+    private void readMaxStripeSize() throws IOException
+    {
+        /* Bit 0-14 */
+        maxStripeSize = (short) (subInputStream.readBits(15) & 0xffff);
+    }
 
-  public int getResolutionX() {
-    return resolutionX;
-  }
+    private void readWidthAndHeight() throws IOException
+    {
+        bitmapWidth = (int) subInputStream.readBits(32); // & 0xffffffff;
+        bitmapHeight = (int) subInputStream.readBits(32); // & 0xffffffff;
+    }
 
-  public int getResolutionY() {
-    return resolutionY;
-  }
+    public void init(final SegmentHeader header, final SubInputStream sis)
+            throws InvalidHeaderValueException, IOException
+    {
+        subInputStream = sis;
 
-  public short getDefaultPixelValue() {
-    return defaultPixelValue;
-  }
+        parseHeader();
+    }
 
-  public boolean isCombinationOperatorOverrideAllowed() {
-    return combinationOperatorOverrideAllowed;
-  }
+    public int getWidth()
+    {
+        return bitmapWidth;
+    }
 
-  public CombinationOperator getCombinationOperator() {
-    return combinationOperator;
-  }
+    public int getHeight()
+    {
+        return bitmapHeight;
+    }
 
-  public boolean isStriped() {
-    return isStriped;
-  }
+    public int getResolutionX()
+    {
+        return resolutionX;
+    }
 
-  public short getMaxStripeSize() {
-    return maxStripeSize;
-  }
+    public int getResolutionY()
+    {
+        return resolutionY;
+    }
 
-  public boolean isAuxiliaryBufferRequired() {
-    return requiresAuxiliaryBuffer;
-  }
+    public short getDefaultPixelValue()
+    {
+        return defaultPixelValue;
+    }
 
-  public boolean mightContainRefinements() {
-    return mightContainRefinements;
-  }
+    public boolean isCombinationOperatorOverrideAllowed()
+    {
+        return combinationOperatorOverrideAllowed;
+    }
 
-  public boolean isLossless() {
-    return isLossless;
-  }
+    public CombinationOperator getCombinationOperator()
+    {
+        return combinationOperator;
+    }
 
-  protected int getBitmapWidth() {
-    return bitmapWidth;
-  }
+    public boolean isStriped()
+    {
+        return isStriped;
+    }
 
-  protected int getBitmapHeight() {
-    return bitmapHeight;
-  }
+    public short getMaxStripeSize()
+    {
+        return maxStripeSize;
+    }
+
+    public boolean isAuxiliaryBufferRequired()
+    {
+        return requiresAuxiliaryBuffer;
+    }
+
+    public boolean mightContainRefinements()
+    {
+        return mightContainRefinements;
+    }
+
+    public boolean isLossless()
+    {
+        return isLossless;
+    }
+
+    protected int getBitmapWidth()
+    {
+        return bitmapWidth;
+    }
+
+    protected int getBitmapHeight()
+    {
+        return bitmapHeight;
+    }
 }

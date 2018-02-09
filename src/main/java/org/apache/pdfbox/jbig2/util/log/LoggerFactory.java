@@ -24,32 +24,39 @@ import org.apache.pdfbox.jbig2.util.ServiceLookup;
 /**
  * Retrieves a {@link Logger} via registered {@link LoggerBridge} through META-INF/services lookup.
  */
-public class LoggerFactory {
+public class LoggerFactory
+{
 
-  private static LoggerBridge loggerBridge;
+    private static LoggerBridge loggerBridge;
 
-  private static ClassLoader clsLoader;
+    private static ClassLoader clsLoader;
 
-  public static Logger getLogger(Class<?> cls, ClassLoader clsLoader) {
-    if (null == loggerBridge) {
-      final ServiceLookup<LoggerBridge> serviceLookup = new ServiceLookup<LoggerBridge>();
-      final Iterator<LoggerBridge> loggerBridgeServices = serviceLookup.getServices(LoggerBridge.class, clsLoader);
+    public static Logger getLogger(Class<?> cls, ClassLoader clsLoader)
+    {
+        if (null == loggerBridge)
+        {
+            final ServiceLookup<LoggerBridge> serviceLookup = new ServiceLookup<LoggerBridge>();
+            final Iterator<LoggerBridge> loggerBridgeServices = serviceLookup
+                    .getServices(LoggerBridge.class, clsLoader);
 
-      if (!loggerBridgeServices.hasNext()) {
-        throw new IllegalStateException("No implementation of " + LoggerBridge.class
-            + " was avaliable using META-INF/services lookup");
-      }
-      loggerBridge = loggerBridgeServices.next();
+            if (!loggerBridgeServices.hasNext())
+            {
+                throw new IllegalStateException("No implementation of " + LoggerBridge.class
+                        + " was avaliable using META-INF/services lookup");
+            }
+            loggerBridge = loggerBridgeServices.next();
+        }
+        return loggerBridge.getLogger(cls);
     }
-    return loggerBridge.getLogger(cls);
-  }
 
-  public static Logger getLogger(Class<?> cls) {
-    return getLogger(cls, clsLoader != null ? clsLoader : LoggerBridge.class.getClassLoader());
-  }
+    public static Logger getLogger(Class<?> cls)
+    {
+        return getLogger(cls, clsLoader != null ? clsLoader : LoggerBridge.class.getClassLoader());
+    }
 
-  public static void setClassLoader(ClassLoader clsLoader) {
-    LoggerFactory.clsLoader = clsLoader;
-  }
+    public static void setClassLoader(ClassLoader clsLoader)
+    {
+        LoggerFactory.clsLoader = clsLoader;
+    }
 
 }

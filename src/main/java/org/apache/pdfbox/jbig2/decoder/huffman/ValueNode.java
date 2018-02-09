@@ -26,34 +26,41 @@ import org.apache.pdfbox.jbig2.decoder.huffman.HuffmanTable.Code;
 /**
  * Represents a value node in a huffman tree. It is a leaf of a tree.
  */
-class ValueNode extends Node {
-  private int rangeLen;
-  private int rangeLow;
-  private boolean isLowerRange;
+class ValueNode extends Node
+{
+    private int rangeLen;
+    private int rangeLow;
+    private boolean isLowerRange;
 
-  protected ValueNode(Code c) {
-    rangeLen = c.rangeLength;
-    rangeLow = c.rangeLow;
-    isLowerRange = c.isLowerRange;
-  }
-
-  @Override
-  protected long decode(ImageInputStream iis) throws IOException {
-
-    if (isLowerRange) {
-      /* B.4 4) */
-      return (rangeLow - iis.readBits(rangeLen));
-    } else {
-      /* B.4 5) */
-      return rangeLow + iis.readBits(rangeLen);
+    protected ValueNode(Code c)
+    {
+        rangeLen = c.rangeLength;
+        rangeLow = c.rangeLow;
+        isLowerRange = c.isLowerRange;
     }
-  }
 
-  static String bitPattern(int v, int len) {
-    char result[] = new char[len];
-    for (int i = 1; i <= len; i++)
-      result[i - 1] = (v >> (len - i) & 1) != 0 ? '1' : '0';
+    @Override
+    protected long decode(ImageInputStream iis) throws IOException
+    {
 
-    return new String(result);
-  }
+        if (isLowerRange)
+        {
+            /* B.4 4) */
+            return (rangeLow - iis.readBits(rangeLen));
+        }
+        else
+        {
+            /* B.4 5) */
+            return rangeLow + iis.readBits(rangeLen);
+        }
+    }
+
+    static String bitPattern(int v, int len)
+    {
+        char result[] = new char[len];
+        for (int i = 1; i <= len; i++)
+            result[i - 1] = (v >> (len - i) & 1) != 0 ? '1' : '0';
+
+        return new String(result);
+    }
 }

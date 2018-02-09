@@ -36,58 +36,61 @@ import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
 
-public class BitmapsBlitTest {
+public class BitmapsBlitTest
+{
 
-  @Test
-  public void testCompleteBitmapTransfer() throws IOException, JBIG2Exception {
+    @Test
+    public void testCompleteBitmapTransfer() throws IOException, JBIG2Exception
+    {
 
-    final File inputFile = new File("target/images/042_1.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/042_1.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
-  
-    final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    final ImageInputStream iis = disf.getInputStream(inputStream);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
+        final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        final ImageInputStream iis = disf.getInputStream(inputStream);
 
-    final Bitmap src = doc.getPageBitmap(1);
-    final Bitmap dst = new Bitmap(src.getWidth(), src.getHeight());
-    Bitmaps.blit(src, dst, 0, 0, CombinationOperator.REPLACE);
+        final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
 
-    final byte[] srcData = src.getByteArray();
-    final byte[] dstData = dst.getByteArray();
+        final Bitmap src = doc.getPageBitmap(1);
+        final Bitmap dst = new Bitmap(src.getWidth(), src.getHeight());
+        Bitmaps.blit(src, dst, 0, 0, CombinationOperator.REPLACE);
 
-    assertArrayEquals(srcData, dstData);
-  }
+        final byte[] srcData = src.getByteArray();
+        final byte[] dstData = dst.getByteArray();
 
-  @Test
-  public void test() throws IOException, JBIG2Exception {
+        assertArrayEquals(srcData, dstData);
+    }
 
-    final File inputFile = new File("target/images/042_1.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+    @Test
+    public void test() throws IOException, JBIG2Exception
+    {
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final File inputFile = new File("target/images/042_1.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    final ImageInputStream iis = disf.getInputStream(inputStream);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
+        final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        final ImageInputStream iis = disf.getInputStream(inputStream);
 
-    final Bitmap dst = doc.getPageBitmap(1);
+        final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
 
-    final Rectangle roi = new Rectangle(100, 100, 100, 100);
-    final Bitmap src = new Bitmap(roi.width, roi.height);
-    Bitmaps.blit(src, dst, roi.x, roi.y, CombinationOperator.REPLACE);
+        final Bitmap dst = doc.getPageBitmap(1);
 
-    final Bitmap dstRegionBitmap = Bitmaps.extract(roi, dst);
+        final Rectangle roi = new Rectangle(100, 100, 100, 100);
+        final Bitmap src = new Bitmap(roi.width, roi.height);
+        Bitmaps.blit(src, dst, roi.x, roi.y, CombinationOperator.REPLACE);
 
-    final byte[] srcData = src.getByteArray();
-    final byte[] dstRegionData = dstRegionBitmap.getByteArray();
+        final Bitmap dstRegionBitmap = Bitmaps.extract(roi, dst);
 
-    assertArrayEquals(srcData, dstRegionData);
-  }
+        final byte[] srcData = src.getByteArray();
+        final byte[] dstRegionData = dstRegionBitmap.getByteArray();
+
+        assertArrayEquals(srcData, dstRegionData);
+    }
 
 }

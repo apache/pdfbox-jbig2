@@ -34,74 +34,75 @@ import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class PageInformationTest {
+public class PageInformationTest
+{
 
-	@Test
-	public void parseHeaderCompleteTest() throws IOException,
-			InvalidHeaderValueException {
+    @Test
+    public void parseHeaderCompleteTest() throws IOException, InvalidHeaderValueException
+    {
 
-	    final File inputFile = new File("target/images/sampledata.jb2");
-	    // skip test if input stream isn't available
-	    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-	    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(inputStream);
-		// Second Segment (number 1)
-		SubInputStream sis = new SubInputStream(iis, 59, 19);
-		PageInformation pi = new PageInformation();
-		pi.init(null, sis);
-		Assert.assertEquals(64, pi.getBitmapWidth());
-		Assert.assertEquals(56, pi.getBitmapHeight());
-		Assert.assertEquals(0, pi.getResolutionX());
-		Assert.assertEquals(0, pi.getResolutionY());
-		Assert.assertEquals(true, pi.isLossless());
-		Assert.assertEquals(false, pi.mightContainRefinements());
-		Assert.assertEquals(0, pi.getDefaultPixelValue());
-		Assert.assertEquals(CombinationOperator.OR, pi.getCombinationOperator());
-		Assert.assertEquals(false, pi.isAuxiliaryBufferRequired());
-		Assert.assertEquals(false, pi.isCombinationOperatorOverrideAllowed());
-		Assert.assertEquals(false, pi.isStriped());
-		Assert.assertEquals(0, pi.getMaxStripeSize());
-	}
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Second Segment (number 1)
+        SubInputStream sis = new SubInputStream(iis, 59, 19);
+        PageInformation pi = new PageInformation();
+        pi.init(null, sis);
+        Assert.assertEquals(64, pi.getBitmapWidth());
+        Assert.assertEquals(56, pi.getBitmapHeight());
+        Assert.assertEquals(0, pi.getResolutionX());
+        Assert.assertEquals(0, pi.getResolutionY());
+        Assert.assertEquals(true, pi.isLossless());
+        Assert.assertEquals(false, pi.mightContainRefinements());
+        Assert.assertEquals(0, pi.getDefaultPixelValue());
+        Assert.assertEquals(CombinationOperator.OR, pi.getCombinationOperator());
+        Assert.assertEquals(false, pi.isAuxiliaryBufferRequired());
+        Assert.assertEquals(false, pi.isCombinationOperatorOverrideAllowed());
+        Assert.assertEquals(false, pi.isStriped());
+        Assert.assertEquals(0, pi.getMaxStripeSize());
+    }
 
-	@Ignore
-	@Test
-	public void parseHeaderXOROperatorTest() throws IOException,
-			InvalidHeaderValueException {
-		InputStream inputStream = getClass().getResourceAsStream(
-				"/sampledata_pageinformation_with_xor-opartor.jb2");
-	    // skip test if input stream isn't available
-	    assumeTrue(inputStream != null && inputStream.available() > 0);
+    @Ignore
+    @Test
+    public void parseHeaderXOROperatorTest() throws IOException, InvalidHeaderValueException
+    {
+        InputStream inputStream = getClass()
+                .getResourceAsStream("/sampledata_pageinformation_with_xor-opartor.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputStream != null && inputStream.available() > 0);
 
-	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(inputStream);
-		// Second Segment (number 1)
-		SubInputStream sis = new SubInputStream(iis, 59, 19);
-		PageInformation pi = new PageInformation();
-		pi.init(null, sis);
-		// XOR (2) als Operator erwartet
-		Assert.assertEquals(2, pi.getCombinationOperator());
-	}
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Second Segment (number 1)
+        SubInputStream sis = new SubInputStream(iis, 59, 19);
+        PageInformation pi = new PageInformation();
+        pi.init(null, sis);
+        // XOR (2) als Operator erwartet
+        Assert.assertEquals(2, pi.getCombinationOperator());
+    }
 
-	@Ignore
-	@Test
-	public void parseHeaderANDOperatorTest() throws IOException,
-			InvalidHeaderValueException {
-		InputStream inputStream = getClass().getResourceAsStream(
-				"/sampledata_pageinformation_with_and-opartor.jb2");
-	    // skip test if input stream isn't available
-	    assumeTrue(inputStream != null && inputStream.available() > 0);
+    @Ignore
+    @Test
+    public void parseHeaderANDOperatorTest() throws IOException, InvalidHeaderValueException
+    {
+        InputStream inputStream = getClass()
+                .getResourceAsStream("/sampledata_pageinformation_with_and-opartor.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputStream != null && inputStream.available() > 0);
 
-	    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-		ImageInputStream iis = disf.getInputStream(inputStream);
-		// Second Segment (number 1)
-		SubInputStream sis = new SubInputStream(iis, 59, 19);
-		PageInformation pi = new PageInformation();
-		pi.init(null, sis);
-		Assert.assertEquals(true, pi.isLossless());
-		// AND (1) als Operator erwartet
-		Assert.assertEquals(1, pi.getCombinationOperator());
-	}
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Second Segment (number 1)
+        SubInputStream sis = new SubInputStream(iis, 59, 19);
+        PageInformation pi = new PageInformation();
+        pi.init(null, sis);
+        Assert.assertEquals(true, pi.isLossless());
+        // AND (1) als Operator erwartet
+        Assert.assertEquals(1, pi.getCombinationOperator());
+    }
 }

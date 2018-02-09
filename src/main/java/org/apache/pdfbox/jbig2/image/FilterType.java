@@ -17,34 +17,22 @@
 
 package org.apache.pdfbox.jbig2.image;
 
-
 /**
  * A FilterType enum for defining certain downscale filters to apply.
  */
-public enum FilterType {
-  Bessel,
-  Blackman,
-  Box,
-  Catrom,
-  Cubic,
-  Gaussian,
-  Hamming,
-  Hanning,
-  Hermite,
-  Lanczos,
-  Mitchell,
-  Point,
-  Quadratic,
-  Sinc,
-  Triangle;
+public enum FilterType
+{
+    Bessel, Blackman, Box, Catrom, Cubic, Gaussian, Hamming, Hanning, Hermite, Lanczos, Mitchell, Point, Quadratic, Sinc, Triangle;
 
-  private static FilterType defaultFilter = Triangle;
+    private static FilterType defaultFilter = Triangle;
 
-  public static void setDefaultFilterType(FilterType defaultFilter) {
-    FilterType.defaultFilter = defaultFilter;
-  }
+    public static void setDefaultFilterType(FilterType defaultFilter)
+    {
+        FilterType.defaultFilter = defaultFilter;
+    }
 
-  public static FilterType getDefaultFilterType() {
-    return defaultFilter;
-  }
+    public static FilterType getDefaultFilterType()
+    {
+        return defaultFilter;
+    }
 }

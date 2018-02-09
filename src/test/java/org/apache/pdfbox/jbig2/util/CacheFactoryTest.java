@@ -23,19 +23,21 @@ import org.apache.pdfbox.jbig2.util.cache.CacheBridge;
 import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
 import org.junit.Test;
 
-public class CacheFactoryTest {
+public class CacheFactoryTest
+{
 
-  @Test
-  public void testWithDefaultClassLoader() {
-    CacheFactory.setClassLoader(CacheBridge.class.getClassLoader());
-    assertNotNull(CacheFactory.getCache());
-  }
+    @Test
+    public void testWithDefaultClassLoader()
+    {
+        CacheFactory.setClassLoader(CacheBridge.class.getClassLoader());
+        assertNotNull(CacheFactory.getCache());
+    }
 
-  @Test
-  public void testWithContextClassLoader() {
-    CacheFactory.setClassLoader(Thread.currentThread().getContextClassLoader());
-    assertNotNull(CacheFactory.getCache());
-  }
-
+    @Test
+    public void testWithContextClassLoader()
+    {
+        CacheFactory.setClassLoader(Thread.currentThread().getContextClassLoader());
+        assertNotNull(CacheFactory.getCache());
+    }
 
 }

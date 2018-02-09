@@ -28,19 +28,21 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticIntegerDecoder;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Test;
 
-public class ArithmeticIntegerDecoderTest {
+public class ArithmeticIntegerDecoderTest
+{
 
-  @Test
-  public void decodeTest() throws Throwable {
-    InputStream is = getClass().getResourceAsStream("/images/arith/encoded testsequence");
-    DefaultInputStreamFactory isFactory = new DefaultInputStreamFactory();
-    ImageInputStream iis = isFactory.getInputStream(is);
+    @Test
+    public void decodeTest() throws Throwable
+    {
+        InputStream is = getClass().getResourceAsStream("/images/arith/encoded testsequence");
+        DefaultInputStreamFactory isFactory = new DefaultInputStreamFactory();
+        ImageInputStream iis = isFactory.getInputStream(is);
 
-    ArithmeticDecoder ad = new ArithmeticDecoder(iis);
-    ArithmeticIntegerDecoder aid = new ArithmeticIntegerDecoder(ad);
+        ArithmeticDecoder ad = new ArithmeticDecoder(iis);
+        ArithmeticIntegerDecoder aid = new ArithmeticIntegerDecoder(ad);
 
-    long result = aid.decode(null);
+        long result = aid.decode(null);
 
-    Assert.assertEquals(1, result);
-  }
+        Assert.assertEquals(1, result);
+    }
 }

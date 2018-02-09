@@ -32,39 +32,44 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Collection of tests for <a href="https://github.com/levigo/jbig2-imageio/issues">Github
- * issues</a>.
+ * Collection of tests for <a href="https://github.com/levigo/jbig2-imageio/issues">Github issues</a>.
  */
-public class GithubIssuesTest {
+public class GithubIssuesTest
+{
 
-  /**
-   * <a href="https://github.com/levigo/jbig2-imageio/issues/21">Github issue 21s</a>
-   */
-  @Test
-  public void issue21() throws Exception {
-    final byte[] md5Expected = new byte[]{
-        83, 74, -69, -60, -122, -99, 21, 126, -115, 13, 9, 107, -31, -109, 77, -119
-    };
+    /**
+     * <a href="https://github.com/levigo/jbig2-imageio/issues/21">Github issue 21s</a>
+     */
+    @Test
+    public void issue21() throws Exception
+    {
+        final byte[] md5Expected = new byte[] { 83, 74, -69, -60, -122, -99, 21, 126, -115, 13, 9,
+                107, -31, -109, 77, -119 };
 
-    final InputStream imageStream = getClass().getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.jb2");
-    final InputStream globalsStream = getClass().getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.glob");
-    final ImageInputStream globalsIIS = ImageIO.createImageInputStream(globalsStream);
-    final ImageInputStream imageIIS = ImageIO.createImageInputStream(imageStream);
+        final InputStream imageStream = getClass()
+                .getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.jb2");
+        final InputStream globalsStream = getClass()
+                .getResourceAsStream("/org/apache/pdfbox/jbig2/github/21.glob");
+        final ImageInputStream globalsIIS = ImageIO.createImageInputStream(globalsStream);
+        final ImageInputStream imageIIS = ImageIO.createImageInputStream(imageStream);
 
-    byte[] md5Actual = null;
-    try {
-      final JBIG2Document doc = doc(imageIIS, globalsIIS);
-      final JBIG2Page page = doc.getPage(1);
-      final Bitmap bitmap = page.getBitmap();
-      md5Actual = md5(bitmap);
-    } finally {
-      Assert.assertArrayEquals(md5Expected, md5Actual);
+        byte[] md5Actual = null;
+        try
+        {
+            final JBIG2Document doc = doc(imageIIS, globalsIIS);
+            final JBIG2Page page = doc.getPage(1);
+            final Bitmap bitmap = page.getBitmap();
+            md5Actual = md5(bitmap);
+        }
+        finally
+        {
+            Assert.assertArrayEquals(md5Expected, md5Actual);
 
-      globalsIIS.close();
-      globalsStream.close();
-      imageIIS.close();
-      imageStream.close();
+            globalsIIS.close();
+            globalsStream.close();
+            imageIIS.close();
+            imageStream.close();
+        }
+
     }
-
-  }
 }

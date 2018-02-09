@@ -35,83 +35,87 @@ import org.apache.pdfbox.jbig2.io.*;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class PatternDictionaryTest {
-  @Test
-  public void parseHeaderTest() throws IOException, InvalidHeaderValueException {
+public class PatternDictionaryTest
+{
+    @Test
+    public void parseHeaderTest() throws IOException, InvalidHeaderValueException
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Sixth Segment (number 5)
-    SubInputStream sis = new SubInputStream(iis, 245, 45);
-    PatternDictionary pd = new PatternDictionary();
-    pd.init(null, sis);
-    Assert.assertEquals(true, pd.isMMREncoded());
-    Assert.assertEquals(0, pd.getHdTemplate());
-    Assert.assertEquals(4, pd.getHdpWidth());
-    Assert.assertEquals(4, pd.getHdpHeight());
-    Assert.assertEquals(15, pd.getGrayMax());
-  }
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Sixth Segment (number 5)
+        SubInputStream sis = new SubInputStream(iis, 245, 45);
+        PatternDictionary pd = new PatternDictionary();
+        pd.init(null, sis);
+        Assert.assertEquals(true, pd.isMMREncoded());
+        Assert.assertEquals(0, pd.getHdTemplate());
+        Assert.assertEquals(4, pd.getHdpWidth());
+        Assert.assertEquals(4, pd.getHdpHeight());
+        Assert.assertEquals(15, pd.getGrayMax());
+    }
 
-  // TESTS WITH TESTOUTPUT
-  // Ignore in build process
+    // TESTS WITH TESTOUTPUT
+    // Ignore in build process
 
-  @Ignore
-  @Test
-  public void decodeTestWithOutput() throws Throwable {
+    @Ignore
+    @Test
+    public void decodeTestWithOutput() throws Throwable
+    {
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    final InputStream inputStream = new FileInputStream(inputFile);
-      
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Sixth Segment (number 5)
-    SubInputStream sis = new SubInputStream(iis, 245, 45);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    PatternDictionary pd = new PatternDictionary();
-    pd.init(null, sis);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Sixth Segment (number 5)
+        SubInputStream sis = new SubInputStream(iis, 245, 45);
 
-    ArrayList<Bitmap> b = pd.getDictionary();
+        PatternDictionary pd = new PatternDictionary();
+        pd.init(null, sis);
 
-    int i = 5;
-    // for (int i = 0; i < 8; i++) {
-    new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(), (int) b.get(i).getHeight(),
-        b.get(i).getRowStride());
-    // }
-  }
+        ArrayList<Bitmap> b = pd.getDictionary();
 
-  @Ignore
-  @Test
-  public void decodeTestWithOutput2() throws Throwable {
+        int i = 5;
+        // for (int i = 0; i < 8; i++) {
+        new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(),
+                (int) b.get(i).getHeight(), b.get(i).getRowStride());
+        // }
+    }
 
-    final File inputFile = new File("target/images/sampledata.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+    @Ignore
+    @Test
+    public void decodeTestWithOutput2() throws Throwable
+    {
 
-    final InputStream inputStream = new FileInputStream(inputFile);
+        final File inputFile = new File("target/images/sampledata.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(inputStream);
-    // Twelfth Segment (number 12)
-    SubInputStream sis = new SubInputStream(iis, 569, 28);
+        final InputStream inputStream = new FileInputStream(inputFile);
 
-    PatternDictionary pd = new PatternDictionary();
-    pd.init(null, sis);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(inputStream);
+        // Twelfth Segment (number 12)
+        SubInputStream sis = new SubInputStream(iis, 569, 28);
 
-    ArrayList<Bitmap> b = pd.getDictionary();
+        PatternDictionary pd = new PatternDictionary();
+        pd.init(null, sis);
 
-    int i = 2;
-    // for (int i = 0; i < 8; i++) {
-    new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(), (int) b.get(i).getHeight(),
-        b.get(i).getRowStride());
-    // }
-  }
+        ArrayList<Bitmap> b = pd.getDictionary();
+
+        int i = 2;
+        // for (int i = 0; i < 8; i++) {
+        new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(),
+                (int) b.get(i).getHeight(), b.get(i).getRowStride());
+        // }
+    }
 }

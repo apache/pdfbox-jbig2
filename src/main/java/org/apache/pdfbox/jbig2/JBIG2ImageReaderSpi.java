@@ -29,96 +29,98 @@ import javax.imageio.stream.ImageInputStream;
  * 
  * @see ImageReaderSpi
  */
-public class JBIG2ImageReaderSpi extends ImageReaderSpi {
+public class JBIG2ImageReaderSpi extends ImageReaderSpi
+{
 
-  private static final String VENDOR = "Apache Software Foundation";
-  private static final String VERSION = "1.4.1";
-  private static final String READER_CLASS_NAME = "org.apache.pdfbox.jbig2.JBIG2ImageReader";
-  private static final String[] NAMES = {
-      "jbig2", "JBIG2"
-  };
-  private static final String[] SUFFIXES = {
-      "jb2", "jbig2", "JB2", "JBIG2"
-  };
-  private static final String[] MIME_TYPES = {
-      "image/x-jbig2", "image/x-jb2"
-  };
-  private static final Class<?>[] INPUT_TYPES = { ImageInputStream.class };
+    private static final String VENDOR = "Apache Software Foundation";
+    private static final String VERSION = "1.4.1";
+    private static final String READER_CLASS_NAME = "org.apache.pdfbox.jbig2.JBIG2ImageReader";
+    private static final String[] NAMES = { "jbig2", "JBIG2" };
+    private static final String[] SUFFIXES = { "jb2", "jbig2", "JB2", "JBIG2" };
+    private static final String[] MIME_TYPES = { "image/x-jbig2", "image/x-jb2" };
+    private static final Class<?>[] INPUT_TYPES = { ImageInputStream.class };
 
-  /**
-   * According to D.4.1:
-   * <p>
-   * This preamble contains the unique id string for jbig2 files and can be used to check if this
-   * reader plugin can decode the given stream. This can only work with native jbig2 data. If the
-   * stream is embedded in another file format this preamble might be missing.
-   */
-  private static final int[] FILEHEADER_PREAMBLE = {
-      0x97, 0x4A, 0x42, 0x32, 0x0D, 0x0A, 0x1A, 0x0A
-  };
+    /**
+     * According to D.4.1:
+     * <p>
+     * This preamble contains the unique id string for jbig2 files and can be used to check if this reader plugin can
+     * decode the given stream. This can only work with native jbig2 data. If the stream is embedded in another file
+     * format this preamble might be missing.
+     */
+    private static final int[] FILEHEADER_PREAMBLE = { 0x97, 0x4A, 0x42, 0x32, 0x0D, 0x0A, 0x1A,
+            0x0A };
 
-  /* MK: I suppose, there won't be a writer in near future :-) */
-  private static final String[] WRITER_SPI_NAMES = {};
+    /* MK: I suppose, there won't be a writer in near future :-) */
+    private static final String[] WRITER_SPI_NAMES = {};
 
-  static final boolean SUPPORTS_STANDARD_STREAM_METADATE_FORMAT = false;
-  static final String NATIVE_STREAM_METADATA_FORMAT_NAME = "JBIG2 Stream Metadata";
-  static final String NATIVE_STREAM_METADATA_FORMAT_CLASSNAME = "JBIG2Metadata";
-  static final String[] EXTRA_STREAM_METADATA_FORMAT_NAME = null;
-  static final String[] EXTRA_STREAM_METADATA_FORMAT_CLASSNAME = null;
+    static final boolean SUPPORTS_STANDARD_STREAM_METADATE_FORMAT = false;
+    static final String NATIVE_STREAM_METADATA_FORMAT_NAME = "JBIG2 Stream Metadata";
+    static final String NATIVE_STREAM_METADATA_FORMAT_CLASSNAME = "JBIG2Metadata";
+    static final String[] EXTRA_STREAM_METADATA_FORMAT_NAME = null;
+    static final String[] EXTRA_STREAM_METADATA_FORMAT_CLASSNAME = null;
 
-  static final boolean SUPPORTS_STANDARD_IMAGE_METADATA_FORMAT = false;
-  static final String NATIVE_IMAGE_METADATA_FORMAT_NAME = "JBIG2 File Metadata";
-  static final String NATIVE_IMAGE_METADATA_FORMAT_CLASSNAME = "JBIG2Metadata";
-  static final String[] EXTRA_IMAGE_METADATA_FORMAT_NAME = null;
-  static final String[] EXTRA_IMAGE_METADATA_FORMAT_CLASSNAME = null;
+    static final boolean SUPPORTS_STANDARD_IMAGE_METADATA_FORMAT = false;
+    static final String NATIVE_IMAGE_METADATA_FORMAT_NAME = "JBIG2 File Metadata";
+    static final String NATIVE_IMAGE_METADATA_FORMAT_CLASSNAME = "JBIG2Metadata";
+    static final String[] EXTRA_IMAGE_METADATA_FORMAT_NAME = null;
+    static final String[] EXTRA_IMAGE_METADATA_FORMAT_CLASSNAME = null;
 
-  public JBIG2ImageReaderSpi() {
-    super(VENDOR, VERSION, NAMES, SUFFIXES, MIME_TYPES, READER_CLASS_NAME, INPUT_TYPES, WRITER_SPI_NAMES,
-        SUPPORTS_STANDARD_STREAM_METADATE_FORMAT, NATIVE_STREAM_METADATA_FORMAT_NAME,
-        NATIVE_STREAM_METADATA_FORMAT_CLASSNAME, EXTRA_STREAM_METADATA_FORMAT_NAME,
-        EXTRA_STREAM_METADATA_FORMAT_CLASSNAME, SUPPORTS_STANDARD_IMAGE_METADATA_FORMAT,
-        NATIVE_IMAGE_METADATA_FORMAT_NAME, NATIVE_IMAGE_METADATA_FORMAT_CLASSNAME, EXTRA_IMAGE_METADATA_FORMAT_NAME,
-        EXTRA_IMAGE_METADATA_FORMAT_CLASSNAME);
-  }
-
-  /*
-   * Checks, if the file header begins with the preamble id string defined in D.4.1, page 100
-   * 
-   * (non-Javadoc)
-   * 
-   * @see javax.imageio.spi.ImageReaderSpi#canDecodeInput(java.lang.Object)
-   */
-  @Override
-  public boolean canDecodeInput(Object source) throws IOException {
-    if (source == null)
-      throw new IllegalArgumentException("source must not be null");
-
-    if (!(source instanceof ImageInputStream)) {
-      System.out.println("source is not an ImageInputStream");
-      return false;
+    public JBIG2ImageReaderSpi()
+    {
+        super(VENDOR, VERSION, NAMES, SUFFIXES, MIME_TYPES, READER_CLASS_NAME, INPUT_TYPES,
+                WRITER_SPI_NAMES, SUPPORTS_STANDARD_STREAM_METADATE_FORMAT,
+                NATIVE_STREAM_METADATA_FORMAT_NAME, NATIVE_STREAM_METADATA_FORMAT_CLASSNAME,
+                EXTRA_STREAM_METADATA_FORMAT_NAME, EXTRA_STREAM_METADATA_FORMAT_CLASSNAME,
+                SUPPORTS_STANDARD_IMAGE_METADATA_FORMAT, NATIVE_IMAGE_METADATA_FORMAT_NAME,
+                NATIVE_IMAGE_METADATA_FORMAT_CLASSNAME, EXTRA_IMAGE_METADATA_FORMAT_NAME,
+                EXTRA_IMAGE_METADATA_FORMAT_CLASSNAME);
     }
 
-    ImageInputStream iis = (ImageInputStream) source;
-    iis.mark();
+    /*
+     * Checks, if the file header begins with the preamble id string defined in D.4.1, page 100
+     * 
+     * (non-Javadoc)
+     * 
+     * @see javax.imageio.spi.ImageReaderSpi#canDecodeInput(java.lang.Object)
+     */
+    @Override
+    public boolean canDecodeInput(Object source) throws IOException
+    {
+        if (source == null)
+            throw new IllegalArgumentException("source must not be null");
 
-    for (int i = 0; i < FILEHEADER_PREAMBLE.length; i++) {
-      int read = (iis.read() & 0xFF);
-      if (read != FILEHEADER_PREAMBLE[i]) {
-        return false;
-      }
+        if (!(source instanceof ImageInputStream))
+        {
+            System.out.println("source is not an ImageInputStream");
+            return false;
+        }
+
+        ImageInputStream iis = (ImageInputStream) source;
+        iis.mark();
+
+        for (int i = 0; i < FILEHEADER_PREAMBLE.length; i++)
+        {
+            int read = (iis.read() & 0xFF);
+            if (read != FILEHEADER_PREAMBLE[i])
+            {
+                return false;
+            }
+        }
+
+        iis.reset();
+        return true;
     }
 
-    iis.reset();
-    return true;
-  }
+    @Override
+    public ImageReader createReaderInstance(Object extension) throws IOException
+    {
+        return new JBIG2ImageReader(this);
+    }
 
-  @Override
-  public ImageReader createReaderInstance(Object extension) throws IOException {
-    return new JBIG2ImageReader(this);
-  }
-
-  @Override
-  public String getDescription(Locale locale) {
-    return "JBIG2 Image Reader";
-  }
+    @Override
+    public String getDescription(Locale locale)
+    {
+        return "JBIG2 Image Reader";
+    }
 
 }

@@ -17,10 +17,12 @@
 
 package org.apache.pdfbox.jbig2.util.log;
 
-public class JDKLoggerBridge implements LoggerBridge {
+public class JDKLoggerBridge implements LoggerBridge
+{
 
-  public Logger getLogger(Class<?> classToBeLogged) {
-    return new JDKLogger(java.util.logging.Logger.getLogger(classToBeLogged.getName()));
-  }
+    public Logger getLogger(Class<?> classToBeLogged)
+    {
+        return new JDKLogger(java.util.logging.Logger.getLogger(classToBeLogged.getName()));
+    }
 
 }

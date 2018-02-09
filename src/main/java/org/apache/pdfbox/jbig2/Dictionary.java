@@ -26,16 +26,18 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 /**
  * Interface for all JBIG2 dictionaries segments.
  */
-public interface Dictionary extends SegmentData {
+public interface Dictionary extends SegmentData
+{
 
-  /**
-   * Decodes a dictionary segment and returns the result.
-   * 
-   * @return A list of {@link Bitmap}s as a result of the decoding process of dictionary segments.
-   * 
-   * @throws IOException if an underlying IO operation fails
-   * @throws InvalidHeaderValueException if the segment header value is invalid
-   * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
-   */
-  public ArrayList<Bitmap> getDictionary() throws IOException, InvalidHeaderValueException, IntegerMaxValueException;
+    /**
+     * Decodes a dictionary segment and returns the result.
+     * 
+     * @return A list of {@link Bitmap}s as a result of the decoding process of dictionary segments.
+     * 
+     * @throws IOException if an underlying IO operation fails
+     * @throws InvalidHeaderValueException if the segment header value is invalid
+     * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
+     */
+    public ArrayList<Bitmap> getDictionary()
+            throws IOException, InvalidHeaderValueException, IntegerMaxValueException;
 }

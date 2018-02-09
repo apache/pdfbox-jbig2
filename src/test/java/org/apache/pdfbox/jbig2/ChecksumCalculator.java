@@ -33,28 +33,32 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore
-public class ChecksumCalculator {
+public class ChecksumCalculator
+{
 
-  @Ignore
-  @Test
-  public void computeChecksum() throws NoSuchAlgorithmException, IOException, JBIG2Exception {
-    String filepath = "/images/sampledata_page3.jb2";
-    int pageNumber = 1;
+    @Ignore
+    @Test
+    public void computeChecksum() throws NoSuchAlgorithmException, IOException, JBIG2Exception
+    {
+        String filepath = "/images/sampledata_page3.jb2";
+        int pageNumber = 1;
 
-    InputStream is = getClass().getResourceAsStream(filepath);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
-    JBIG2Document doc = new JBIG2Document(iis);
-    Bitmap bitmap = doc.getPage(pageNumber).getBitmap();
+        InputStream is = getClass().getResourceAsStream(filepath);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(is);
+        JBIG2Document doc = new JBIG2Document(iis);
+        Bitmap bitmap = doc.getPage(pageNumber).getBitmap();
 
-    byte[] md5 = md5(bitmap);
-    for (byte b : md5) {
-      System.out.print(b);
+        byte[] md5 = md5(bitmap);
+        for (byte b : md5)
+        {
+            System.out.print(b);
+        }
+        System.out.println(Arrays.toString(md5));
     }
-    System.out.println(Arrays.toString(md5));
-  }
 
-  public static byte[] md5(Bitmap b) throws NoSuchAlgorithmException {
-    return MessageDigest.getInstance("MD5").digest(b.getByteArray());
-  }
+    public static byte[] md5(Bitmap b) throws NoSuchAlgorithmException
+    {
+        return MessageDigest.getInstance("MD5").digest(b.getByteArray());
+    }
 }

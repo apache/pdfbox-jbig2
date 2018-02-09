@@ -24,14 +24,19 @@ import javax.imageio.stream.FileCacheImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
-public class DefaultInputStreamFactory implements InputStreamFactory {
+public class DefaultInputStreamFactory implements InputStreamFactory
+{
 
-  public ImageInputStream getInputStream(InputStream is) {
-    try {
-      return new FileCacheImageInputStream(is, null);
-    } catch (IOException e) {
-      return new MemoryCacheImageInputStream(is);
+    public ImageInputStream getInputStream(InputStream is)
+    {
+        try
+        {
+            return new FileCacheImageInputStream(is, null);
+        }
+        catch (IOException e)
+        {
+            return new MemoryCacheImageInputStream(is);
+        }
     }
-  }
 
 }

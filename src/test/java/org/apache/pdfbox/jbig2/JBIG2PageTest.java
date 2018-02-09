@@ -39,91 +39,99 @@ import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class JBIG2PageTest {
+public class JBIG2PageTest
+{
 
-  // TESTS WITH TESTOUTPUT
-  // Ignore in build process
+    // TESTS WITH TESTOUTPUT
+    // Ignore in build process
 
-  @Ignore
-  @Test
-  public void composeDisplayTest() throws IOException, JBIG2Exception {
+    @Ignore
+    @Test
+    public void composeDisplayTest() throws IOException, JBIG2Exception
+    {
 
-    final File inputFile = new File("target/images/amb_1.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
+        final File inputFile = new File("target/images/amb_1.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
 
-    int pageNumber = 1;
+        int pageNumber = 1;
 
-    InputStream is = new FileInputStream(inputFile);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
-    JBIG2Document doc = new JBIG2Document(iis);
-
-    Bitmap pageBitmap = doc.getPage(pageNumber).getBitmap();
-    BufferedImage b = Bitmaps.asBufferedImage(pageBitmap, new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(166, 333, 555,
-        444), null), FilterType.Gaussian);
-    new TestImage(b);
-  }
-
-  @Ignore
-  @Test
-  public void composeTestWithDurationCalc() throws IOException, JBIG2Exception {
-    int runs = 40;
-    long avg = 0;
-
-    final File inputFile = new File("target/images/042_8.jb2");
-    // skip test if input stream isn't available
-    assumeTrue(inputFile.exists());
-
-    int pageNumber = 1;
-
-    InputStream is = new FileInputStream(inputFile);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
-
-    for (int i = 0; i < runs; i++) {
-
-      long time = System.currentTimeMillis();
-      JBIG2Document doc = new JBIG2Document(iis);
-      Bitmap pageBitmap = doc.getPage(pageNumber).getBitmap();
-      Bitmaps.asBufferedImage(pageBitmap);
-      long duration = System.currentTimeMillis() - time;
-
-      System.out.println((i + 1) + ": " + duration + " ms");
-      avg += duration;
-    }
-    System.out.println("Average: " + avg / runs);
-  }
-
-  @Ignore
-  @Test
-  public void composeTestWithDurationCalcAggregate() throws IOException, JBIG2Exception {
-    int runs = 40;
-    long avg = 0;
-    String path = "/images/002.jb2";
-    int pages = 17;
-
-    System.out.println("File: " + path);
-
-    InputStream is = getClass().getResourceAsStream(path);
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream iis = disf.getInputStream(is);
-
-    for (int j = 1; j <= pages; j++) {
-      avg = 0;
-
-      for (int i = 0; i < runs; i++) {
-        long time = System.currentTimeMillis();
+        InputStream is = new FileInputStream(inputFile);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(is);
         JBIG2Document doc = new JBIG2Document(iis);
-        Bitmap pageBitmap = doc.getPage(j).getBitmap();
-        Bitmaps.asBufferedImage(pageBitmap);
-        long duration = System.currentTimeMillis() - time;
-        System.out.print((i + 1) + ": " + duration + " ms ");
-        avg += duration;
-      }
-      System.out.println();
-      System.out.println("Page " + j + " Average: " + avg / runs);
+
+        Bitmap pageBitmap = doc.getPage(pageNumber).getBitmap();
+        BufferedImage b = Bitmaps.asBufferedImage(pageBitmap,
+                new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(166, 333, 555, 444), null),
+                FilterType.Gaussian);
+        new TestImage(b);
     }
-  }
+
+    @Ignore
+    @Test
+    public void composeTestWithDurationCalc() throws IOException, JBIG2Exception
+    {
+        int runs = 40;
+        long avg = 0;
+
+        final File inputFile = new File("target/images/042_8.jb2");
+        // skip test if input stream isn't available
+        assumeTrue(inputFile.exists());
+
+        int pageNumber = 1;
+
+        InputStream is = new FileInputStream(inputFile);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(is);
+
+        for (int i = 0; i < runs; i++)
+        {
+
+            long time = System.currentTimeMillis();
+            JBIG2Document doc = new JBIG2Document(iis);
+            Bitmap pageBitmap = doc.getPage(pageNumber).getBitmap();
+            Bitmaps.asBufferedImage(pageBitmap);
+            long duration = System.currentTimeMillis() - time;
+
+            System.out.println((i + 1) + ": " + duration + " ms");
+            avg += duration;
+        }
+        System.out.println("Average: " + avg / runs);
+    }
+
+    @Ignore
+    @Test
+    public void composeTestWithDurationCalcAggregate() throws IOException, JBIG2Exception
+    {
+        int runs = 40;
+        long avg = 0;
+        String path = "/images/002.jb2";
+        int pages = 17;
+
+        System.out.println("File: " + path);
+
+        InputStream is = getClass().getResourceAsStream(path);
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream iis = disf.getInputStream(is);
+
+        for (int j = 1; j <= pages; j++)
+        {
+            avg = 0;
+
+            for (int i = 0; i < runs; i++)
+            {
+                long time = System.currentTimeMillis();
+                JBIG2Document doc = new JBIG2Document(iis);
+                Bitmap pageBitmap = doc.getPage(j).getBitmap();
+                Bitmaps.asBufferedImage(pageBitmap);
+                long duration = System.currentTimeMillis() - time;
+                System.out.print((i + 1) + ": " + duration + " ms ");
+                avg += duration;
+            }
+            System.out.println();
+            System.out.println("Page " + j + " Average: " + avg / runs);
+        }
+    }
 
 }

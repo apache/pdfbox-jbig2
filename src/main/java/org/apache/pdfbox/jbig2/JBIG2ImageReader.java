@@ -43,275 +43,321 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 /**
  * @see ImageReader
  */
-public class JBIG2ImageReader extends ImageReader {
-  private static final Logger log = LoggerFactory.getLogger(JBIG2ImageReader.class);
+public class JBIG2ImageReader extends ImageReader
+{
+    private static final Logger log = LoggerFactory.getLogger(JBIG2ImageReader.class);
 
-  public static final boolean DEBUG = false;
-  public static final boolean PERFORMANCE_TEST = false;
+    public static final boolean DEBUG = false;
+    public static final boolean PERFORMANCE_TEST = false;
 
-  /** JBIG2 document to which we delegate current work. */
-  private JBIG2Document document;
+    /** JBIG2 document to which we delegate current work. */
+    private JBIG2Document document;
 
-  /** Globals are JBIG2 segments for PDF wide use. */
-  private JBIG2Globals globals;
+    /** Globals are JBIG2 segments for PDF wide use. */
+    private JBIG2Globals globals;
 
-  /**
-   * @see ImageReader#ImageReader(ImageReaderSpi)
-   * 
-   * @param originatingProvider - The {@code ImageReaderSpi} that is invoking this constructor, or
-   *          {@code null}.
-   * @throws IOException if something went wrong while reading the provided stream.
-   */
-  public JBIG2ImageReader(ImageReaderSpi originatingProvider) throws IOException {
-    super(originatingProvider);
-  }
-
-  /**
-   * @see ImageReader#getDefaultReadParam()
-   */
-  @Override
-  public JBIG2ReadParam getDefaultReadParam() {
-    return new JBIG2ReadParam();
-  }
-
-  /**
-   * Returns a default {@linkplain ImageReadParam} object for a specific page.
-   * 
-   * @param imageIndex - The page number.
-   * @return
-   */
-  private JBIG2ReadParam getDefaultReadParam(final int imageIndex) {
-    int width = 1;
-    int height = 1;
-
-    try {
-      final int index = (imageIndex < getDocument().getAmountOfPages()) ? imageIndex : 0;
-      width = getWidth(index);
-      height = getHeight(index);
-    } catch (IOException e) {
-      if (log.isInfoEnabled()) {
-        log.info("Dimensions could not be determined. Returning read params with size " + width + "x" + height);
-      }
+    /**
+     * @see ImageReader#ImageReader(ImageReaderSpi)
+     * 
+     * @param originatingProvider - The {@code ImageReaderSpi} that is invoking this constructor, or {@code null}.
+     * @throws IOException if something went wrong while reading the provided stream.
+     */
+    public JBIG2ImageReader(ImageReaderSpi originatingProvider) throws IOException
+    {
+        super(originatingProvider);
     }
 
-    return new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(0, 0, width, height), new Dimension(width, height));
-  }
-
-  /**
-   * Calculates the width of the specified page.
-   * 
-   * @param imageIndex - The image index. In this case it is the page number.
-   * 
-   * @return The width of the specified page.
-   * 
-   * @throws IOException if an error occurs reading the width information from the input source.
-   */
-  @Override
-  public int getWidth(int imageIndex) throws IOException {
-    return getDocument().getPage(imageIndex + 1).getWidth();
-  }
-
-  /**
-   * Calculates the height of the specified page.
-   * 
-   * @param imageIndex - The image index. In this case it is the page number.
-   * 
-   * @return The height of the specified page or {@code 0} if an error occurred.
-   * 
-   * @throws IOException if an error occurs reading the height information from the input source.
-   */
-  @Override
-  public int getHeight(int imageIndex) throws IOException {
-    try {
-      return getDocument().getPage(imageIndex + 1).getHeight();
-    } catch (JBIG2Exception e) {
-      throw new IOException(e.getMessage());
-    }
-  }
-
-  /**
-   * Simply returns the {@link JBIG2ImageMetadata}.
-   * 
-   * @return The associated {@link JBIG2ImageMetadata}.
-   * 
-   * @throws IOException if an error occurs reading the height information from the input source.
-   */
-  @Override
-  public IIOMetadata getImageMetadata(int imageIndex) throws IOException {
-    return new JBIG2ImageMetadata(getDocument().getPage(imageIndex + 1));
-  }
-
-
-  /**
-   * Returns the iterator for available image types.
-   * 
-   * @param imageIndex - The page number.
-   * 
-   * @return An {@link Iterator} for available image types.
-   * 
-   * @throws IOException if an error occurs reading the height information from the input source.
-   */
-  @Override
-  public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IOException {
-    List<ImageTypeSpecifier> l = new ArrayList<ImageTypeSpecifier>();
-
-    l.add(ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_BYTE_INDEXED));
-
-    return l.iterator();
-  }
-
-  /**
-   * @see ImageReader#getNumImages(boolean)
-   */
-  @Override
-  public int getNumImages(boolean allowSearch) throws IOException {
-    if (allowSearch) {
-      if (getDocument().isAmountOfPagesUnknown()) {
-        log.info("Amount of pages is unknown.");
-      } else {
-        return getDocument().getAmountOfPages();
-      }
-    } else {
-      log.info("Search is not allowed.");
-    }
-    return -1;
-  }
-
-  /**
-   * This ImageIO plugin doesn't record {@link IIOMetadata}.
-   * 
-   * @return {@code null} at every call.
-   */
-  @Override
-  public IIOMetadata getStreamMetadata() {
-    log.info("No metadata recorded");
-    return null;
-  }
-
-  /**
-   * Returns decoded segments that has been set as globals. Globals are jbig2 segments that are used
-   * in embedded case for file wide access. They are not assigned to a specific page.
-   * 
-   * @return Decoded global segments.
-   * 
-   * @throws IOException if an error occurs reading the height information from the input source.
-   */
-  public JBIG2Globals getGlobals() throws IOException {
-    return getDocument().getGlobalSegments();
-  }
-
-  /**
-   * Returns the decoded image of specified page considering the given {@link JBIG2ReadParam}s.
-   * 
-   * @see ImageReader#read(int, ImageReadParam)
-   */
-  @Override
-  public BufferedImage read(int imageIndex, ImageReadParam param) throws IOException {
-    if (param == null) {
-      log.info("JBIG2ReadParam not specified. Default will be used.");
-      param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+    /**
+     * @see ImageReader#getDefaultReadParam()
+     */
+    @Override
+    public JBIG2ReadParam getDefaultReadParam()
+    {
+        return new JBIG2ReadParam();
     }
 
-    JBIG2Page page = getPage(imageIndex);
+    /**
+     * Returns a default {@linkplain ImageReadParam} object for a specific page.
+     * 
+     * @param imageIndex - The page number.
+     * @return
+     */
+    private JBIG2ReadParam getDefaultReadParam(final int imageIndex)
+    {
+        int width = 1;
+        int height = 1;
 
-    Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
+        try
+        {
+            final int index = (imageIndex < getDocument().getAmountOfPages()) ? imageIndex : 0;
+            width = getWidth(index);
+            height = getHeight(index);
+        }
+        catch (IOException e)
+        {
+            if (log.isInfoEnabled())
+            {
+                log.info("Dimensions could not be determined. Returning read params with size "
+                        + width + "x" + height);
+            }
+        }
 
-    if (pageBitmap == null) {
-      try {
-        pageBitmap = page.getBitmap();
-        CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
-        page.clearPageData();
-      } catch (JBIG2Exception e) {
-        throw new IOException(e.getMessage());
-      }
+        return new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(0, 0, width, height),
+                new Dimension(width, height));
     }
 
-    return Bitmaps.asBufferedImage(pageBitmap, param, FilterType.Gaussian);
-  }
-
-  public boolean canReadRaster() {
-    return true;
-  }
-
-  @Override
-  public Raster readRaster(int imageIndex, ImageReadParam param) throws IOException {
-    if (param == null) {
-      log.info("JBIG2ReadParam not specified. Default will be used.");
-      param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+    /**
+     * Calculates the width of the specified page.
+     * 
+     * @param imageIndex - The image index. In this case it is the page number.
+     * 
+     * @return The width of the specified page.
+     * 
+     * @throws IOException if an error occurs reading the width information from the input source.
+     */
+    @Override
+    public int getWidth(int imageIndex) throws IOException
+    {
+        return getDocument().getPage(imageIndex + 1).getWidth();
     }
 
-    JBIG2Page page = getPage(imageIndex);
-
-    Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
-    if (pageBitmap == null) {
-      try {
-        pageBitmap = page.getBitmap();
-        CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
-        page.clearPageData();
-      } catch (JBIG2Exception e) {
-        throw new IOException(e.getMessage());
-      }
+    /**
+     * Calculates the height of the specified page.
+     * 
+     * @param imageIndex - The image index. In this case it is the page number.
+     * 
+     * @return The height of the specified page or {@code 0} if an error occurred.
+     * 
+     * @throws IOException if an error occurs reading the height information from the input source.
+     */
+    @Override
+    public int getHeight(int imageIndex) throws IOException
+    {
+        try
+        {
+            return getDocument().getPage(imageIndex + 1).getHeight();
+        }
+        catch (JBIG2Exception e)
+        {
+            throw new IOException(e.getMessage());
+        }
     }
 
-    return Bitmaps.asRaster(pageBitmap, param, FilterType.Gaussian);
-  }
-
-  /**
-   * Decodes and returns the global segments.
-   * 
-   * @param globalsInputStream - The input stream of globals data.
-   * 
-   * @return The decoded {@link JBIG2Globals}.
-   * 
-   * @throws IOException if an error occurs reading the height information from the input source.
-   */
-  public JBIG2Globals processGlobals(ImageInputStream globalsInputStream) throws IOException {
-    JBIG2Document doc = new JBIG2Document(globalsInputStream);
-    return doc.getGlobalSegments();
-  }
-
-  /**
-   * Simply sets the globals.
-   * 
-   * @param globals - The globals to set.
-   * @throws IOException if an error occurs
-   */
-  public void setGlobals(JBIG2Globals globals) throws IOException {
-      // TODO remove throws IOException as there isn't any chance to trigger it
-    this.globals = globals;
-    this.document = null;
-  }
-
-  /**
-   * @see ImageReader#setInput(Object, boolean, boolean)
-   */
-  @Override
-  public void setInput(Object input, boolean seekForwardOnly, boolean ignoreMetadata) {
-    super.setInput(input, seekForwardOnly, ignoreMetadata);
-    document = null;
-  }
-
-  private JBIG2Document getDocument() throws IOException {
-    if (this.document == null) {
-      if (this.input == null) {
-        throw new IOException("Input not set.");
-      }
-
-      if (this.globals == null) {
-        log.debug("Globals not set.");
-      }
-
-      this.document = new JBIG2Document((ImageInputStream) this.input, this.globals);
+    /**
+     * Simply returns the {@link JBIG2ImageMetadata}.
+     * 
+     * @return The associated {@link JBIG2ImageMetadata}.
+     * 
+     * @throws IOException if an error occurs reading the height information from the input source.
+     */
+    @Override
+    public IIOMetadata getImageMetadata(int imageIndex) throws IOException
+    {
+        return new JBIG2ImageMetadata(getDocument().getPage(imageIndex + 1));
     }
-    return this.document;
-  }
 
-  private JBIG2Page getPage(int imageIndex) throws IOException {
-    JBIG2Page page = getDocument().getPage(imageIndex + 1);
+    /**
+     * Returns the iterator for available image types.
+     * 
+     * @param imageIndex - The page number.
+     * 
+     * @return An {@link Iterator} for available image types.
+     * 
+     * @throws IOException if an error occurs reading the height information from the input source.
+     */
+    @Override
+    public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IOException
+    {
+        List<ImageTypeSpecifier> l = new ArrayList<ImageTypeSpecifier>();
 
-    if (page == null)
-      throw new IndexOutOfBoundsException("Requested page at index=" + imageIndex + " does not exist.");
+        l.add(ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_BYTE_INDEXED));
 
-    return page;
-  }
+        return l.iterator();
+    }
+
+    /**
+     * @see ImageReader#getNumImages(boolean)
+     */
+    @Override
+    public int getNumImages(boolean allowSearch) throws IOException
+    {
+        if (allowSearch)
+        {
+            if (getDocument().isAmountOfPagesUnknown())
+            {
+                log.info("Amount of pages is unknown.");
+            }
+            else
+            {
+                return getDocument().getAmountOfPages();
+            }
+        }
+        else
+        {
+            log.info("Search is not allowed.");
+        }
+        return -1;
+    }
+
+    /**
+     * This ImageIO plugin doesn't record {@link IIOMetadata}.
+     * 
+     * @return {@code null} at every call.
+     */
+    @Override
+    public IIOMetadata getStreamMetadata()
+    {
+        log.info("No metadata recorded");
+        return null;
+    }
+
+    /**
+     * Returns decoded segments that has been set as globals. Globals are jbig2 segments that are used in embedded case
+     * for file wide access. They are not assigned to a specific page.
+     * 
+     * @return Decoded global segments.
+     * 
+     * @throws IOException if an error occurs reading the height information from the input source.
+     */
+    public JBIG2Globals getGlobals() throws IOException
+    {
+        return getDocument().getGlobalSegments();
+    }
+
+    /**
+     * Returns the decoded image of specified page considering the given {@link JBIG2ReadParam}s.
+     * 
+     * @see ImageReader#read(int, ImageReadParam)
+     */
+    @Override
+    public BufferedImage read(int imageIndex, ImageReadParam param) throws IOException
+    {
+        if (param == null)
+        {
+            log.info("JBIG2ReadParam not specified. Default will be used.");
+            param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+        }
+
+        JBIG2Page page = getPage(imageIndex);
+
+        Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
+
+        if (pageBitmap == null)
+        {
+            try
+            {
+                pageBitmap = page.getBitmap();
+                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                page.clearPageData();
+            }
+            catch (JBIG2Exception e)
+            {
+                throw new IOException(e.getMessage());
+            }
+        }
+
+        return Bitmaps.asBufferedImage(pageBitmap, param, FilterType.Gaussian);
+    }
+
+    public boolean canReadRaster()
+    {
+        return true;
+    }
+
+    @Override
+    public Raster readRaster(int imageIndex, ImageReadParam param) throws IOException
+    {
+        if (param == null)
+        {
+            log.info("JBIG2ReadParam not specified. Default will be used.");
+            param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+        }
+
+        JBIG2Page page = getPage(imageIndex);
+
+        Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
+        if (pageBitmap == null)
+        {
+            try
+            {
+                pageBitmap = page.getBitmap();
+                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                page.clearPageData();
+            }
+            catch (JBIG2Exception e)
+            {
+                throw new IOException(e.getMessage());
+            }
+        }
+
+        return Bitmaps.asRaster(pageBitmap, param, FilterType.Gaussian);
+    }
+
+    /**
+     * Decodes and returns the global segments.
+     * 
+     * @param globalsInputStream - The input stream of globals data.
+     * 
+     * @return The decoded {@link JBIG2Globals}.
+     * 
+     * @throws IOException if an error occurs reading the height information from the input source.
+     */
+    public JBIG2Globals processGlobals(ImageInputStream globalsInputStream) throws IOException
+    {
+        JBIG2Document doc = new JBIG2Document(globalsInputStream);
+        return doc.getGlobalSegments();
+    }
+
+    /**
+     * Simply sets the globals.
+     * 
+     * @param globals - The globals to set.
+     * @throws IOException if an error occurs
+     */
+    public void setGlobals(JBIG2Globals globals) throws IOException
+    {
+        // TODO remove throws IOException as there isn't any chance to trigger it
+        this.globals = globals;
+        this.document = null;
+    }
+
+    /**
+     * @see ImageReader#setInput(Object, boolean, boolean)
+     */
+    @Override
+    public void setInput(Object input, boolean seekForwardOnly, boolean ignoreMetadata)
+    {
+        super.setInput(input, seekForwardOnly, ignoreMetadata);
+        document = null;
+    }
+
+    private JBIG2Document getDocument() throws IOException
+    {
+        if (this.document == null)
+        {
+            if (this.input == null)
+            {
+                throw new IOException("Input not set.");
+            }
+
+            if (this.globals == null)
+            {
+                log.debug("Globals not set.");
+            }
+
+            this.document = new JBIG2Document((ImageInputStream) this.input, this.globals);
+        }
+        return this.document;
+    }
+
+    private JBIG2Page getPage(int imageIndex) throws IOException
+    {
+        JBIG2Page page = getDocument().getPage(imageIndex + 1);
+
+        if (page == null)
+            throw new IndexOutOfBoundsException(
+                    "Requested page at index=" + imageIndex + " does not exist.");
+
+        return page;
+    }
 }

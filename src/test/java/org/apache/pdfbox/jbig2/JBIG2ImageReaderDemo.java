@@ -39,41 +39,46 @@ import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 
-public class JBIG2ImageReaderDemo {
+public class JBIG2ImageReaderDemo
+{
 
-  private String filepath;
-  private int imageIndex;
+    private String filepath;
+    private int imageIndex;
 
-  public JBIG2ImageReaderDemo(String filepath, int imageIndex) {
-    this.filepath = filepath;
-    this.imageIndex = imageIndex;
-  }
+    public JBIG2ImageReaderDemo(String filepath, int imageIndex)
+    {
+        this.filepath = filepath;
+        this.imageIndex = imageIndex;
+    }
 
-  public void show() throws IOException, JBIG2Exception {
-    InputStream inputStream = new FileInputStream(new File(filepath));
-    DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-    ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+    public void show() throws IOException, JBIG2Exception
+    {
+        InputStream inputStream = new FileInputStream(new File(filepath));
+        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
+        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
 
-    JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
+        JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
 
-    imageReader.setInput(imageInputStream);
-    ImageReadParam param = new PreconfiguredImageReadParam(new Rectangle(100, 100, 500, 500));
+        imageReader.setInput(imageInputStream);
+        ImageReadParam param = new PreconfiguredImageReadParam(new Rectangle(100, 100, 500, 500));
 
-    long timeStamp = System.currentTimeMillis();
+        long timeStamp = System.currentTimeMillis();
 
-    final JBIG2Document doc = new JBIG2Document(imageInputStream);
-    final Bitmap bitmap = doc.getPage(imageIndex).getBitmap();
-    final BufferedImage bufferedImage = Bitmaps.asBufferedImage(bitmap, param, FilterType.Lanczos);
-    long duration = System.currentTimeMillis() - timeStamp;
-    System.out.println(filepath + " decoding took " + duration + " ms");
+        final JBIG2Document doc = new JBIG2Document(imageInputStream);
+        final Bitmap bitmap = doc.getPage(imageIndex).getBitmap();
+        final BufferedImage bufferedImage = Bitmaps.asBufferedImage(bitmap, param,
+                FilterType.Lanczos);
+        long duration = System.currentTimeMillis() - timeStamp;
+        System.out.println(filepath + " decoding took " + duration + " ms");
 
-    new TestImage(bufferedImage);
-  }
+        new TestImage(bufferedImage);
+    }
 
-  public static void main(String[] args) throws InterruptedException, InvocationTargetException, IOException,
-      JBIG2Exception {
-    URL imageUrl = JBIG2ImageReaderDemo.class.getResource("/images/042_1.jb2");
-    new JBIG2ImageReaderDemo(imageUrl.getPath(), 1).show();
-  }
+    public static void main(String[] args)
+            throws InterruptedException, InvocationTargetException, IOException, JBIG2Exception
+    {
+        URL imageUrl = JBIG2ImageReaderDemo.class.getResource("/images/042_1.jb2");
+        new JBIG2ImageReaderDemo(imageUrl.getPath(), 1).show();
+    }
 
 }
