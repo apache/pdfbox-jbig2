@@ -17,6 +17,8 @@
 # Release notes
 
 ## Version 3.0.0 (pending)
+- [PDFBOX-4014](https://issues.apache.org/jira/browse/PDFBOX-4014): Malformed/pathological/malicious input can lead to infinite looping
+- [PDFBOX-4065](https://issues.apache.org/jira/browse/PDFBOX-4065): Set JBIG2 plugin to jdk6
 - [Issue #30](https://github.com/levigo/jbig2-imageio/issues/30): Transition project to Apache PDFBox.
 - [Issue #25](https://github.com/levigo/jbig2-imageio/issues/25): Build tests fail if project path has a space.
 - [Issue #26](https://github.com/levigo/jbig2-imageio/issues/26): Huffman user tables in text regions.
