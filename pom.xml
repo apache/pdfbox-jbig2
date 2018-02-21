@@ -24,12 +24,12 @@
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
         <version>18</version>
-        <relativePath/>
+        <relativePath />
     </parent>
     
     <groupId>org.apache.pdfbox</groupId>
     <artifactId>jbig2-imageio</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
 	
     <name>PDFBox JBIG2 ImageIO plugin</name>
 	
@@ -218,7 +218,8 @@
       <connection>scm:git:http://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</connection>
       <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</developerConnection>
       <url>https://git-wip-us.apache.org/repos/asf?p=pdfbox-jbig2.git</url>
-    </scm>
+      <tag>jbig2-imageio-3.0.0</tag>
+  </scm>
 	
     <dependencies>
 	<dependency>
