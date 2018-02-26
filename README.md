@@ -58,7 +58,6 @@ Using the JBIG2 plugin with an existing application that already supports Java I
 
 ### Use dependency management
 The JBIG2 ImageIO-Plugin is available from [Maven Central](http://search.maven.org/). 
-:warning: The plugin will be available once we released the first Apache based version.
 
 #### Maven
 To use the plugin within a Maven POM-based project, simply include a dependency to the following artifact in the appropriate ```pom.xml```:
@@ -66,7 +65,7 @@ To use the plugin within a Maven POM-based project, simply include a dependency 
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>jbig2-imageio</artifactId>
-      <version>3.0.0-SNAPSHOT</version>
+      <version>3.0.0</version>
     </dependency>
 
 ### How to deal with embedded JBIG2 data
