@@ -392,19 +392,13 @@
                         <include name="target/*-${project.version}.jar*" />
                       </fileset>
                     </copy>
-                    <checksum algorithm="MD5" fileext=".md5">
+                    <checksum algorithm="SHA-512" fileext=".sha512">
                       <fileset dir="${basedir}/target/${project.version}">
                         <include name="*.zip" />
                         <include name="*.jar" />
                       </fileset>
                     </checksum>
-                    <checksum algorithm="SHA1" fileext=".sha">
-                      <fileset dir="${basedir}/target/${project.version}">
-                        <include name="*.zip" />
-                        <include name="*.jar" />
-                      </fileset>
-                    </checksum>
-                    <checksum file="${basedir}/target/${project.version}/jbig2-imageio-${project.version}-src.zip" algorithm="SHA1" property="checksum" />
+                    <checksum file="${basedir}/target/${project.version}/jbig2-imageio-${project.version}-src.zip" algorithm="SHA-512" property="checksum" />
                     <echo file="${basedir}/target/vote.txt">
 From: ${username}@apache.org
 To: dev@pdfbox.apache.org
