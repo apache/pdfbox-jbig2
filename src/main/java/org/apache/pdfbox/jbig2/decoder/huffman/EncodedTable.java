@@ -70,7 +70,7 @@ public class EncodedTable extends HuffmanTable
          * Made some correction. Spec specifies an incorrect variable -> Replaced highPrefLen with lowPrefLen
          */
         rangeLen = 32;
-        rangeLow = table.getHtHigh() - 1;
+        rangeLow = table.getHtLow() - 1;
         codeTable.add(new Code(prefLen, rangeLen, rangeLow, true));
 
         /* Annex B.2 8) */
