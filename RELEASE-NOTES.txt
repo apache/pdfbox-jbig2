@@ -6,7 +6,8 @@ Introduction
 The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBIG2 
 image compression standard. This component is part of the Apache PDFBox® project.
 
-This is the first release of the plugin under the umbrella of the Apache PDFBox project.
+This is an incremental bugfix release based on the earlier 3.0.0 release. It contains
+a fix and a small improvement.
 
 For more details on all fixes and improvements included in this release, please refer
 to the following issues on the PDFBox issue tracker at 
@@ -14,19 +15,11 @@ https://issues.apache.org/jira/browse/PDFBOX.
 
 Bug
 
-[PDFBOX-4014] - Malformed/pathological/malicious input can lead to infinite looping
+[PDFBOX-4211] - Some text is missing in JBIG2 images
 
-Task
+Improvement
 
-[PDFBOX-4065] - Set JBIG2 plugin to jdk6
-
-Fixes which were solved before the sources where donated to the ASF:
-
-https://github.com/levigo/jbig2-imageio/issues/25: Build tests fail if project path has a space.
-https://github.com/levigo/jbig2-imageio/issues/26: Huffman user tables in text regions.
-https://github.com/levigo/jbig2-imageio/issues/27: Problems in standard Huffman tables.
-https://github.com/levigo/jbig2-imageio/issues/32: Newlines printed to stdout.
-
+[PDFBOX-4142] - Don't use md5 checksum due to changes to the release distribuition policy
 
 Release Contents
 ----------------

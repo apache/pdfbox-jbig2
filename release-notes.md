@@ -16,7 +16,11 @@
 --->
 # Release notes
 
-## Version 3.0.0 (pending)
+## Version 3.0.1 (pending)
+- [PDFBOX-4211](https://issues.apache.org/jira/browse/PDFBOX-4211): Some text is missing in JBIG2 images
+- [PDFBOX-4142](https://issues.apache.org/jira/browse/PDFBOX-4142): Don't use md5 checksum due to changes to the release distribuition policy
+
+## Version 3.0.0 (2018-02-27)
 - [PDFBOX-4014](https://issues.apache.org/jira/browse/PDFBOX-4014): Malformed/pathological/malicious input can lead to infinite looping
 - [PDFBOX-4065](https://issues.apache.org/jira/browse/PDFBOX-4065): Set JBIG2 plugin to jdk6
 - [Issue #30](https://github.com/levigo/jbig2-imageio/issues/30): Transition project to Apache PDFBox.
