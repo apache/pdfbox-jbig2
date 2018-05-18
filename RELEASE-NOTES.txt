@@ -1,4 +1,4 @@
-Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.0
+Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.1
 
 Introduction
 ------------
