@@ -220,14 +220,19 @@
       <url>https://git-wip-us.apache.org/repos/asf?p=pdfbox-jbig2.git</url>
       <tag>HEAD</tag>
   </scm>
-	
+
     <dependencies>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>4.10</version>
-		<scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>26.0-jre</version>
+        </dependency>
     </dependencies>
 
     <!-- enable the usage of external testfiles with -Dskip-external-testfiles=false  -->
