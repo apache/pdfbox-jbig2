@@ -17,40 +17,33 @@
 
 package org.apache.pdfbox.jbig2.util.cache;
 
-import java.lang.ref.SoftReference;
-import java.util.HashMap;
+import com.google.common.cache.CacheBuilder;
 
-public class SoftReferenceCache implements Cache
-{
+/**
+ * Uses '==' for key equality check, instead of 'equals'.
+ */
+public class SoftReferenceCache implements Cache {
+    private com.google.common.cache.Cache<Object, Object> cache = CacheBuilder.newBuilder().weakKeys().softValues().build();
 
-    private HashMap<Object, SoftReference<?>> cache = new HashMap<Object, SoftReference<?>>();
 
-    public Object put(Object key, Object value, int sizeEstimate)
-    {
-        SoftReference<Object> softReference = new SoftReference<Object>(value);
-        SoftReference<?> oldValue = cache.put(key, softReference);
-        return getValueNullSafe(oldValue);
+    public Object put(Object key, Object value, int sizeEstimate) {
+        Object previousValue = cache.getIfPresent(key);
+        cache.put(key, value);
+        return previousValue;
     }
 
-    public Object get(Object key)
-    {
-        SoftReference<?> softReference = cache.get(key);
-        return getValueNullSafe(softReference);
+    public Object get(Object key) {
+        return cache.getIfPresent(key);
     }
 
-    public void clear()
-    {
-        cache.clear();
+    public void clear() {
+        cache.invalidateAll();
     }
 
-    public Object remove(Object key)
-    {
-        SoftReference<?> removedObj = cache.remove(key);
-        return getValueNullSafe(removedObj);
-    }
-
-    private Object getValueNullSafe(SoftReference<?> softReference)
-    {
-        return softReference == null ? null : softReference.get();
+    public Object remove(Object key) {
+        Object value = cache.getIfPresent(key);
+        cache.invalidate(key);
+        return value;
     }
 }
+
