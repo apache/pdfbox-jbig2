@@ -18,13 +18,15 @@
 package org.apache.pdfbox.jbig2.util.cache;
 
 import java.lang.ref.SoftReference;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class SoftReferenceCache implements Cache
 {
 
-    private HashMap<Object, SoftReference<?>> cache = new HashMap<Object, SoftReference<?>>();
+    private final Map<Object, SoftReference<?>> cache = new WeakHashMap<Object, SoftReference<?>>();
 
+    @Override
     public Object put(Object key, Object value, int sizeEstimate)
     {
         SoftReference<Object> softReference = new SoftReference<Object>(value);
@@ -32,17 +34,20 @@ public class SoftReferenceCache implements Cache
         return getValueNullSafe(oldValue);
     }
 
+    @Override
     public Object get(Object key)
     {
         SoftReference<?> softReference = cache.get(key);
         return getValueNullSafe(softReference);
     }
 
+    @Override
     public void clear()
     {
         cache.clear();
     }
 
+    @Override
     public Object remove(Object key)
     {
         SoftReference<?> removedObj = cache.remove(key);
