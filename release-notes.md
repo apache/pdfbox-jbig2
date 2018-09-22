@@ -16,7 +16,10 @@
 --->
 # Release notes
 
-## Version 3.0.1 (pending)
+## Version 3.0.2 (pending)
+- [PDFBOX-4290](https://issues.apache.org/jira/browse/PDFBOX-4290): Memory Leak in SoftReferenceCache
+
+## Version 3.0.1 (2018-05-17)
 - [PDFBOX-4211](https://issues.apache.org/jira/browse/PDFBOX-4211): Some text is missing in JBIG2 images
 - [PDFBOX-4142](https://issues.apache.org/jira/browse/PDFBOX-4142): Don't use md5 checksum due to changes to the release distribuition policy
 
