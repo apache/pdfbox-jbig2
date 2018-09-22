@@ -1,4 +1,4 @@
-Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.1
+Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.2
 
 Introduction
 ------------
@@ -6,8 +6,7 @@ Introduction
 The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBIG2 
 image compression standard. This component is part of the Apache PDFBox® project.
 
-This is an incremental bugfix release based on the earlier 3.0.0 release. It contains
-a fix and a small improvement.
+This is an incremental bugfix release based on the earlier 3.0.1 release.
 
 For more details on all fixes and improvements included in this release, please refer
 to the following issues on the PDFBox issue tracker at 
@@ -15,11 +14,7 @@ https://issues.apache.org/jira/browse/PDFBOX.
 
 Bug
 
-[PDFBOX-4211] - Some text is missing in JBIG2 images
-
-Improvement
-
-[PDFBOX-4142] - Don't use md5 checksum due to changes to the release distribuition policy
+[PDFBOX-4290] - Memory Leak in SoftReferenceCache
 
 Release Contents
 ----------------
