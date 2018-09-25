@@ -65,7 +65,7 @@ To use the plugin within a Maven POM-based project, simply include a dependency 
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>jbig2-imageio</artifactId>
-      <version>3.0.1</version>
+      <version>3.0.2</version>
     </dependency>
 
 ### How to deal with embedded JBIG2 data

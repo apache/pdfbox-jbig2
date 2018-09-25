@@ -16,7 +16,7 @@
 --->
 # Release notes
 
-## Version 3.0.2 (pending)
+## Version 3.0.2 (2018-09-25)
 - [PDFBOX-4290](https://issues.apache.org/jira/browse/PDFBOX-4290): Memory Leak in SoftReferenceCache
 
 ## Version 3.0.1 (2018-05-17)
