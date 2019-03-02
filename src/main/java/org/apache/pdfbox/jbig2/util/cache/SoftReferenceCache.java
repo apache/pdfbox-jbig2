@@ -18,13 +18,14 @@
 package org.apache.pdfbox.jbig2.util.cache;
 
 import java.lang.ref.SoftReference;
+import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 
 public class SoftReferenceCache implements Cache
 {
-
-    private final Map<Object, SoftReference<?>> cache = new WeakHashMap<Object, SoftReference<?>>();
+    private final Map<Object, SoftReference<?>> cache =
+            Collections.synchronizedMap(new WeakHashMap<Object, SoftReference<?>>());
 
     @Override
     public Object put(Object key, Object value, int sizeEstimate)
