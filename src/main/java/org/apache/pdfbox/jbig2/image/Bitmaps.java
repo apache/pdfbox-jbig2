@@ -174,11 +174,13 @@ public class Bitmaps
                 (int) Math.round(bitmap.getWidth() * scaleX), //
                 (int) Math.round(bitmap.getHeight() * scaleY));
 
-        final WritableRaster dst = WritableRaster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                dstBounds.width, dstBounds.height, 1, new Point());
+        WritableRaster dst;
 
         if (scaleX != 1 || scaleY != 1)
         {
+            dst = WritableRaster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                    dstBounds.width, dstBounds.height, 1, new Point());
+
             // scaling required
             final Resizer resizer = new Resizer(scaleX, scaleY);
             final Filter filter = Filter.byType(filterType);
@@ -187,6 +189,9 @@ public class Bitmaps
         }
         else
         {
+            dst = WritableRaster.createPackedRaster(DataBuffer.TYPE_BYTE,
+                    dstBounds.width, dstBounds.height, 1, 1, new Point());
+
             // scaling not required, paste bitmap into raster pixel per pixel
             int byteIndex = 0;
             for (int y = 0; y < bitmap.getHeight(); y++)
@@ -287,8 +292,7 @@ public class Bitmaps
         }
         else
         {
-
-            cm = new IndexColorModel(8, 2, //
+            cm = new IndexColorModel(1, 2, //
                     new byte[] { 0x00, (byte) 0xff }, new byte[] { 0x00, (byte) 0xff },
                     new byte[] { 0x00, (byte) 0xff });
         }
