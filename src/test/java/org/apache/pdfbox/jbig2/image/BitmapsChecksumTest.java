@@ -40,8 +40,6 @@ import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.JBIG2DocumentFacade;
 import org.apache.pdfbox.jbig2.PreconfiguredImageReadParam;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
-import org.apache.pdfbox.jbig2.image.Bitmaps;
-import org.apache.pdfbox.jbig2.image.FilterType;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.InputStreamFactory;
 import org.junit.Test;
@@ -76,17 +74,17 @@ public class BitmapsChecksumTest
                         new PreconfiguredImageReadParam(new Dimension(600, 300)), FilterType.Bessel,
                         "-69-11478-721003586-100-72-85-1559101-118-24-94" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(2, 2, 0, 0),
-                        FilterType.Bessel, "-4979-94-68-125645751-2111712617-59-295" },
+                        FilterType.Bessel, "42-7327-48-10105-703710-571171181079448-70" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(2, 2, 0, 0),
-                        FilterType.Lanczos, "-4979-94-68-125645751-2111712617-59-295" },
+                        FilterType.Lanczos, "42-7327-48-10105-703710-571171181079448-70" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(3, 3, 1, 1),
-                        FilterType.Lanczos, "84-1069410599-9575-7934-1279-80-85127-18-128" },
+                        FilterType.Lanczos, "-68082-6815-41-95-124101-60-69-106-114-68-81-65" },
                 { "target/images/042_1.jb2", 1,
                         new PreconfiguredImageReadParam(new Rectangle(100, 100, 500, 500)),
-                        FilterType.Lanczos, "1245-23-127954634-1232173-109-5739-303-48" },
+                        FilterType.Lanczos, "15-92-12415-6-46-89-78-2070-59-4250-305893" },
                 { "target/images/042_1.jb2", 1,
                         new PreconfiguredImageReadParam(new Rectangle(500, 500, 2000, 2000)),
-                        FilterType.Lanczos, "-60-45-117-90-6596-11556-47-30-112-741138412082" },
+                        FilterType.Lanczos, "101-49-39-823-579062-4063-84914-9-75-4" },
                 { "target/images/042_1.jb2", 1,
                         new PreconfiguredImageReadParam(new Rectangle(500, 500, 2000, 2000),
                                 new Dimension(678, 931)),
