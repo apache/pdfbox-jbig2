@@ -37,8 +37,8 @@ import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
 import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @see ImageReader
@@ -58,7 +58,7 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * @see ImageReader#ImageReader(ImageReaderSpi)
-     * 
+     *
      * @param originatingProvider - The {@code ImageReaderSpi} that is invoking this constructor, or {@code null}.
      * @throws IOException if something went wrong while reading the provided stream.
      */
@@ -78,7 +78,7 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Returns a default {@linkplain ImageReadParam} object for a specific page.
-     * 
+     *
      * @param imageIndex - The page number.
      * @return
      */
@@ -108,11 +108,11 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Calculates the width of the specified page.
-     * 
+     *
      * @param imageIndex - The image index. In this case it is the page number.
-     * 
+     *
      * @return The width of the specified page.
-     * 
+     *
      * @throws IOException if an error occurs reading the width information from the input source.
      */
     @Override
@@ -123,11 +123,11 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Calculates the height of the specified page.
-     * 
+     *
      * @param imageIndex - The image index. In this case it is the page number.
-     * 
+     *
      * @return The height of the specified page or {@code 0} if an error occurred.
-     * 
+     *
      * @throws IOException if an error occurs reading the height information from the input source.
      */
     @Override
@@ -145,9 +145,9 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Simply returns the {@link JBIG2ImageMetadata}.
-     * 
+     *
      * @return The associated {@link JBIG2ImageMetadata}.
-     * 
+     *
      * @throws IOException if an error occurs reading the height information from the input source.
      */
     @Override
@@ -158,11 +158,11 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Returns the iterator for available image types.
-     * 
+     *
      * @param imageIndex - The page number.
-     * 
+     *
      * @return An {@link Iterator} for available image types.
-     * 
+     *
      * @throws IOException if an error occurs reading the height information from the input source.
      */
     @Override
@@ -201,7 +201,7 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * This ImageIO plugin doesn't record {@link IIOMetadata}.
-     * 
+     *
      * @return {@code null} at every call.
      */
     @Override
@@ -214,9 +214,9 @@ public class JBIG2ImageReader extends ImageReader
     /**
      * Returns decoded segments that has been set as globals. Globals are jbig2 segments that are used in embedded case
      * for file wide access. They are not assigned to a specific page.
-     * 
+     *
      * @return Decoded global segments.
-     * 
+     *
      * @throws IOException if an error occurs reading the height information from the input source.
      */
     public JBIG2Globals getGlobals() throws IOException
@@ -226,7 +226,7 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Returns the decoded image of specified page considering the given {@link JBIG2ReadParam}s.
-     * 
+     *
      * @see ImageReader#read(int, ImageReadParam)
      */
     @Override
@@ -259,6 +259,7 @@ public class JBIG2ImageReader extends ImageReader
         return Bitmaps.asBufferedImage(pageBitmap, param, FilterType.Gaussian);
     }
 
+    @Override
     public boolean canReadRaster()
     {
         return true;
@@ -295,11 +296,11 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Decodes and returns the global segments.
-     * 
+     *
      * @param globalsInputStream - The input stream of globals data.
-     * 
+     *
      * @return The decoded {@link JBIG2Globals}.
-     * 
+     *
      * @throws IOException if an error occurs reading the height information from the input source.
      */
     public JBIG2Globals processGlobals(ImageInputStream globalsInputStream) throws IOException
@@ -310,7 +311,7 @@ public class JBIG2ImageReader extends ImageReader
 
     /**
      * Simply sets the globals.
-     * 
+     *
      * @param globals - The globals to set.
      * @throws IOException if an error occurs
      */

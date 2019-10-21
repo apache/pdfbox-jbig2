@@ -27,8 +27,8 @@ import java.util.TreeMap;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the document structure with its pages and global segments.
@@ -119,7 +119,7 @@ class JBIG2Document
 
     /**
      * Retrieves the segment with the given segment number considering only segments that aren't associated with a page.
-     * 
+     *
      * @param segmentNr - The number of the wanted segment.
      * @return The requested {@link SegmentHeader}.
      */
@@ -140,9 +140,9 @@ class JBIG2Document
 
     /**
      * Retrieves a {@link JBIG2Page} specified by the given page number.
-     * 
+     *
      * @param pageNumber - The page number of the wanted {@link JBIG2Page}.
-     * 
+     *
      * @return The requested {@link JBIG2Page}.
      */
     protected JBIG2Page getPage(int pageNumber)
@@ -153,7 +153,7 @@ class JBIG2Document
     /**
      * Retrieves the amount of pages in this JBIG2 document. If the pages are striped, the document will be completely
      * parsed and the amount of pages will be gathered.
-     * 
+     *
      * @return The amount of pages in this JBIG2 document.
      * @throws IOException
      */
@@ -271,7 +271,7 @@ class JBIG2Document
 
     /**
      * Determines the start of the data parts and sets the offset.
-     * 
+     *
      * @param segments
      * @param offset
      */
@@ -289,7 +289,7 @@ class JBIG2Document
 
     /**
      * This method reads the stream and sets variables for information about organization type and length etc.
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -337,7 +337,7 @@ class JBIG2Document
 
     /**
      * This method checks, if the stream is at its end to avoid {@link EOFException}s and reads 32 bits.
-     * 
+     *
      * @param offset
      * @return
      * <li>{@code true} if end of stream reached

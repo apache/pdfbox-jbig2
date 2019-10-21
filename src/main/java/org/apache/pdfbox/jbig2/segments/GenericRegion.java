@@ -27,8 +27,8 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.decoder.mmr.MMRDecompressor;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a generic region segment.<br>
@@ -171,9 +171,10 @@ public class GenericRegion implements Region
 
     /**
      * The procedure is described in 6.2.5.7, page 17.
-     * 
+     *
      * @return The decoded {@link Bitmap} of this region.
      */
+    @Override
     public Bitmap getRegionBitmap() throws IOException
     {
         if (null == regionBitmap)
@@ -324,7 +325,7 @@ public class GenericRegion implements Region
     /**
      * Each pixel gets the value from the corresponding pixel of the row above. Line 0 cannot get copied values (source
      * will be -1, doesn't exist).
-     * 
+     *
      * @param lineNumber - Coordinate of the row that should be set.
      */
     private void copyLineAbove(final int lineNumber)
@@ -950,7 +951,7 @@ public class GenericRegion implements Region
 
     /**
      * Used by {@link SymbolDictionary}.
-     * 
+     *
      * @param isMMREncoded the data is MMR encoded
      * @param dataOffset the offset
      * @param dataLength the length of the data
@@ -981,7 +982,7 @@ public class GenericRegion implements Region
      * @param hcHeight bitmap height
      * @param cx context for the arithmetic decoder
      * @param arithmeticDecoder the arithmetic decode to be used
-     * 
+     *
      * Used by {@link SymbolDictionary}.
      */
     protected void setParameters(final boolean isMMREncoded, final byte sdTemplate,
@@ -1007,7 +1008,7 @@ public class GenericRegion implements Region
 
     /**
      * Used by {@link PatternDictionary} and {@link HalftoneRegion}.
-     * 
+     *
      * @param isMMREncoded the data is MMR encoded
      * @param dataOffset the offset
      * @param dataLength the length of the data
@@ -1018,7 +1019,7 @@ public class GenericRegion implements Region
      * @param useSkip use skip
      * @param gbAtX x values of gbA pixels
      * @param gbAtY y values of gbA pixels
-     * 
+     *
      */
     protected void setParameters(final boolean isMMREncoded, final long dataOffset,
             final long dataLength, final int gbh, final int gbw, final byte gbTemplate,
@@ -1046,6 +1047,7 @@ public class GenericRegion implements Region
         this.regionBitmap = null;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {
@@ -1054,6 +1056,7 @@ public class GenericRegion implements Region
         parseHeader();
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;

@@ -39,8 +39,8 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represented the segment type "Text region", 7.4.3, page 56.
@@ -335,6 +335,7 @@ public class TextRegion implements Region
         }
     }
 
+    @Override
     public Bitmap getRegionBitmap()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -490,7 +491,7 @@ public class TextRegion implements Region
                     /*
                      * If result is OOB, then all the symbol instances in this strip have been decoded; proceed to step
                      * 3 d) respectively 3 b). Also exit, if the expected number of instances have been decoded.
-                     * 
+                     *
                      * The latter exit condition guards against pathological cases where a strip's S never contains OOB
                      * and thus never terminates as illustrated in
                      * https://bugs.chromium.org/p/chromium/issues/detail?id=450971 case pdfium-loop2.pdf.
@@ -1119,6 +1120,7 @@ public class TextRegion implements Region
 
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws InvalidHeaderValueException, IntegerMaxValueException, IOException
     {
@@ -1193,6 +1195,7 @@ public class TextRegion implements Region
         this.symbolCodeLength = sbSymCodeLen;
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;

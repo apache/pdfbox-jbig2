@@ -36,8 +36,8 @@ import org.apache.pdfbox.jbig2.segments.Profiles;
 import org.apache.pdfbox.jbig2.segments.SymbolDictionary;
 import org.apache.pdfbox.jbig2.segments.Table;
 import org.apache.pdfbox.jbig2.segments.TextRegion;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The basic class for all JBIG2 segments.
@@ -88,8 +88,8 @@ public class SegmentHeader
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param document
      * @param subInputStream
      * @param organisationType
@@ -131,7 +131,7 @@ public class SegmentHeader
 
     /**
      * 7.2.2 Segment number
-     * 
+     *
      * @param subInputStream
      * @throws IOException
      */
@@ -143,7 +143,7 @@ public class SegmentHeader
 
     /**
      * 7.2.3 Segment header flags
-     * 
+     *
      * @param subInputStream
      * @throws IOException
      */
@@ -164,7 +164,7 @@ public class SegmentHeader
 
     /**
      * 7.2.4 Amount of referred-to segments
-     * 
+     *
      * @param subInputStream
      * @return The amount of referred-to segments.
      * @throws IOException
@@ -211,12 +211,12 @@ public class SegmentHeader
      * <p>
      * Gathers all segment numbers of referred-to segments. The segments itself are stored in the {@link #rtSegments}
      * array.
-     * 
+     *
      * @param subInputStream - Wrapped source data input stream.
      * @param countOfRTS - The amount of referred-to segments.
-     * 
+     *
      * @return An array with the segment number of all referred-to segments.
-     * 
+     *
      * @throws IOException
      */
     private int[] readReferredToSegmentsNumbers(ImageInputStream subInputStream, int countOfRTS)
@@ -251,7 +251,7 @@ public class SegmentHeader
 
     /**
      * 7.2.6 Segment page association
-     * 
+     *
      * @param document
      * @param subInputStream
      * @param countOfRTS
@@ -287,7 +287,7 @@ public class SegmentHeader
      * 7.2.7 Segment data length
      * <p>
      * Contains the length of the data part in bytes.
-     * 
+     *
      * @param subInputStream
      * @throws IOException
      */
@@ -300,7 +300,7 @@ public class SegmentHeader
     /**
      * Sets the offset only if organization type is SEQUENTIAL. If random, data starts after segment headers and can be
      * determined when all segment headers are parsed and allocated.
-     * 
+     *
      * @param subInputStream
      * @param organisationType
      * @throws IOException
@@ -375,7 +375,7 @@ public class SegmentHeader
     /**
      * Creates and returns a new {@link SubInputStream} that provides the data part of this segment. It is a clipped
      * view of the source input stream.
-     * 
+     *
      * @return The {@link SubInputStream} that represents the data part of the segment.
      */
     public SubInputStream getDataInputStream()
@@ -385,7 +385,7 @@ public class SegmentHeader
 
     /**
      * Retrieves the segments' data part.
-     * 
+     *
      * @return Retrieved {@link SegmentData} instance.
      */
     public SegmentData getSegmentData()
@@ -432,6 +432,7 @@ public class SegmentHeader
         }
     }
 
+    @Override
     public String toString()
     {
         StringBuilder stringBuilder = new StringBuilder();

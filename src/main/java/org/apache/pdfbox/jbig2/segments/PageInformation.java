@@ -24,8 +24,8 @@ import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the segment type "Page information", 7.4.8 (page 73).
@@ -181,6 +181,7 @@ public class PageInformation implements SegmentData
         bitmapHeight = (int) subInputStream.readBits(32); // & 0xffffffff;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {

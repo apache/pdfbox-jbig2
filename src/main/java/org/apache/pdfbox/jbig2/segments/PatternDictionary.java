@@ -27,8 +27,8 @@ import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the segment type "Pattern dictionary", 7.4.4.
@@ -64,7 +64,7 @@ public class PatternDictionary implements Dictionary
 
     /**
      * Largest gray-scale value, 7.4.4.1.4
-     * 
+     *
      * Value: one less than the number of patterns defined in this pattern dictionary
      */
     private int grayMax;
@@ -143,9 +143,10 @@ public class PatternDictionary implements Dictionary
      * This method decodes a pattern dictionary segment and returns an array of {@link Bitmap} s. Each of this
      * {@link Bitmap}s is a pattern.<br>
      * The procedure is described in 6.7.5 (page 43).
-     * 
+     *
      * @return An array of {@link Bitmap}s as result of the decoding procedure.
      */
+    @Override
     public ArrayList<Bitmap> getDictionary() throws IOException, InvalidHeaderValueException
     {
         if (null == patterns)
@@ -214,6 +215,7 @@ public class PatternDictionary implements Dictionary
         }
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {

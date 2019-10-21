@@ -20,14 +20,14 @@ package org.apache.pdfbox.jbig2;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class stores segments, that aren't associated to a page.
- * 
+ *
  * If the data is embedded in another format, for example PDF, this segments might be stored separately in the file.
- * 
+ *
  * This segments will be decoded on demand and all results are stored in the document object and can be retrieved from
  * there.
  */

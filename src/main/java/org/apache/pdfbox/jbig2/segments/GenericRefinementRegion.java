@@ -27,8 +27,8 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents a generic refinement region and implements the procedure described in JBIG2 ISO standard, 6.3
@@ -141,7 +141,7 @@ public class GenericRefinementRegion implements Region
      * <li>7.4.7.2 Generic refinement region segment flags</li>
      * <li>7.4.7.3 Generic refinement refion segment AT flags</li>
      * </ul>
-     * 
+     *
      * @throws IOException
      */
     private void parseHeader() throws IOException
@@ -189,11 +189,12 @@ public class GenericRefinementRegion implements Region
 
     /**
      * Decode using a template and arithmetic coding, as described in 6.3.5.6
-     * 
+     *
      * @throws IOException if an underlying IO operation fails
      * @throws InvalidHeaderValueException if a segment header value is invalid
      * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
      */
+    @Override
     public Bitmap getRegionBitmap()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -866,6 +867,7 @@ public class GenericRefinementRegion implements Region
         return b.getPixel(x, y);
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis) throws IOException
     {
         this.segmentHeader = header;
@@ -907,6 +909,7 @@ public class GenericRefinementRegion implements Region
         this.regionBitmap = null;
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;

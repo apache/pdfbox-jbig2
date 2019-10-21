@@ -36,8 +36,8 @@ import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the data of segment type "Symbol dictionary". Parsing is described in 7.4.2.1.1 - 7.4.1.1.5 and
@@ -369,9 +369,10 @@ public class SymbolDictionary implements Dictionary
 
     /**
      * 6.5.5 Decoding the symbol dictionary
-     * 
+     *
      * @return List of decoded symbol bitmaps as an <code>ArrayList</code>
      */
+    @Override
     public ArrayList<Bitmap> getDictionary()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -424,7 +425,7 @@ public class SymbolDictionary implements Dictionary
                     /*
                      * If result is OOB, then all the symbols in this height class has been decoded; proceed to step 4
                      * d). Also exit, if the expected number of symbols have been decoded.
-                     * 
+                     *
                      * The latter exit condition guards against pathological cases where a symbol's DW never contains
                      * OOB and thus never terminates.
                      */
@@ -810,7 +811,7 @@ public class SymbolDictionary implements Dictionary
 
     /**
      * 6.5.6 if isHuffmanEncoded
-     * 
+     *
      * @return long - Result of decoding HCDH
      * @throws IOException
      * @throws InvalidHeaderValueException
@@ -940,7 +941,7 @@ public class SymbolDictionary implements Dictionary
 
     /**
      * 6.5.8.2.3 - Setting SBSYMCODES and SBSYMCODELEN
-     * 
+     *
      * @return Result of computing SBSYMCODELEN
      * @throws IOException
      */
@@ -962,7 +963,7 @@ public class SymbolDictionary implements Dictionary
 
     /**
      * 6.5.8.2.4 - Setting SBSYMS
-     * 
+     *
      * @throws IOException
      * @throws InvalidHeaderValueException
      * @throws IntegerMaxValueException
@@ -984,7 +985,7 @@ public class SymbolDictionary implements Dictionary
 
     /**
      * Concatenates symbols from all referred-to segments.
-     * 
+     *
      * @throws IOException
      * @throws InvalidHeaderValueException
      * @throws IntegerMaxValueException
@@ -1028,6 +1029,7 @@ public class SymbolDictionary implements Dictionary
         return null;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IntegerMaxValueException, IOException
     {

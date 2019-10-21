@@ -28,8 +28,8 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the data of segment type "Halftone region". Parsing is described in 7.4.5, page 67. Decoding
@@ -164,12 +164,13 @@ public class HalftoneRegion implements Region
 
     /**
      * The procedure is described in JBIG2 ISO standard, 6.6.5.
-     * 
+     *
      * @return The decoded {@link Bitmap} of this region.
-     * 
+     *
      * @throws IOException if an underlying IO operation fails
      * @throws InvalidHeaderValueException if a segment header value is invalid
      */
+    @Override
     public Bitmap getRegionBitmap() throws IOException, InvalidHeaderValueException
     {
         if (null == halftoneRegionBitmap)
@@ -244,7 +245,7 @@ public class HalftoneRegion implements Region
     /**
      * @throws IOException
      * @throws InvalidHeaderValueException
-     * 
+     *
      */
     private ArrayList<Bitmap> getPatterns() throws InvalidHeaderValueException, IOException
     {
@@ -391,6 +392,7 @@ public class HalftoneRegion implements Region
         return value;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {
@@ -405,6 +407,7 @@ public class HalftoneRegion implements Region
         return hCombinationOperator;
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;
