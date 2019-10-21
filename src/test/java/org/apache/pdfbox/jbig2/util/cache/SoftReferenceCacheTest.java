@@ -31,7 +31,7 @@ public class SoftReferenceCacheTest
     @Test
     public void putDoesNotLeakMemory()
     {
-        Cache cache = CacheFactory.getCache();
+        Cache cache = new SoftReferenceCache();
         cache.clear();
         long maxHeapBytes = Runtime.getRuntime().maxMemory();
         int halfEntrySizeEstimate = 8 * MB;
@@ -45,7 +45,7 @@ public class SoftReferenceCacheTest
     @Test
     public void putAndGet()
     {
-        Cache cache = CacheFactory.getCache();
+        Cache cache = new SoftReferenceCache();
         cache.clear();
         Object key = new Object();
         Object value = new Object();

@@ -36,7 +36,8 @@ import javax.imageio.stream.ImageInputStream;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
-import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
+import org.apache.pdfbox.jbig2.util.cache.Cache;
+import org.apache.pdfbox.jbig2.util.cache.SoftReferenceCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,8 @@ public class JBIG2ImageReader extends ImageReader
     /** Globals are JBIG2 segments for PDF wide use. */
     private JBIG2Globals globals;
 
+    private Cache cache;
+
     /**
      * @see ImageReader#ImageReader(ImageReaderSpi)
      *
@@ -65,6 +68,7 @@ public class JBIG2ImageReader extends ImageReader
     public JBIG2ImageReader(ImageReaderSpi originatingProvider) throws IOException
     {
         super(originatingProvider);
+        this.cache = new SoftReferenceCache();
     }
 
     /**
@@ -240,14 +244,14 @@ public class JBIG2ImageReader extends ImageReader
 
         JBIG2Page page = getPage(imageIndex);
 
-        Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
+        Bitmap pageBitmap = (Bitmap)this.cache.get(page);
 
         if (pageBitmap == null)
         {
             try
             {
                 pageBitmap = page.getBitmap();
-                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                this.cache.put(page, pageBitmap, pageBitmap.getMemorySize());
                 page.clearPageData();
             }
             catch (JBIG2Exception e)
@@ -276,13 +280,13 @@ public class JBIG2ImageReader extends ImageReader
 
         JBIG2Page page = getPage(imageIndex);
 
-        Bitmap pageBitmap = (Bitmap) CacheFactory.getCache().get(page);
+        Bitmap pageBitmap = (Bitmap)this.cache.get(page);
         if (pageBitmap == null)
         {
             try
             {
                 pageBitmap = page.getBitmap();
-                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                this.cache.put(page, pageBitmap, pageBitmap.getMemorySize());
                 page.clearPageData();
             }
             catch (JBIG2Exception e)
