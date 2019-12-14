@@ -28,8 +28,6 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents the data of segment type "Halftone region". Parsing is described in 7.4.5, page 67. Decoding
@@ -37,8 +35,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
  */
 public class HalftoneRegion implements Region
 {
-
-    private final Logger log = LoggerFactory.getLogger(HalftoneRegion.class);
 
     private SubInputStream subInputStream;
     private SegmentHeader segmentHeader;
@@ -135,8 +131,6 @@ public class HalftoneRegion implements Region
 
         /* Segment data structure */
         computeSegmentDataStructure();
-
-        this.checkInput();
     }
 
     private void computeSegmentDataStructure() throws IOException
@@ -144,22 +138,6 @@ public class HalftoneRegion implements Region
         dataOffset = subInputStream.getStreamPosition();
         dataHeaderLength = dataOffset - dataHeaderOffset;
         dataLength = subInputStream.length() - dataHeaderLength;
-    }
-
-    private void checkInput() throws InvalidHeaderValueException
-    {
-        if (isMMREncoded)
-        {
-            if (hTemplate != 0)
-            {
-                log.info("hTemplate = " + hTemplate + " (should contain the value 0)");
-            }
-
-            if (hSkipEnabled)
-            {
-                log.info("hSkipEnabled 0 " + hSkipEnabled + " (should contain the value false)");
-            }
-        }
     }
 
     /**

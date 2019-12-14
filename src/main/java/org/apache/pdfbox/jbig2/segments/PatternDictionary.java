@@ -27,16 +27,12 @@ import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents the segment type "Pattern dictionary", 7.4.4.
  */
 public class PatternDictionary implements Dictionary
 {
-
-    private final Logger log = LoggerFactory.getLogger(PatternDictionary.class);
 
     private SubInputStream subInputStream;
 
@@ -128,14 +124,6 @@ public class PatternDictionary implements Dictionary
         if (hdpHeight < 1 || hdpWidth < 1)
         {
             throw new InvalidHeaderValueException("Width/Heigth must be greater than zero.");
-        }
-
-        if (isMMREncoded)
-        {
-            if (hdTemplate != 0)
-            {
-                log.info("hdTemplate should contain the value 0");
-            }
         }
     }
 

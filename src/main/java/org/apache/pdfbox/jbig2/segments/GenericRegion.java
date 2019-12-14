@@ -27,8 +27,6 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.decoder.mmr.MMRDecompressor;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents a generic region segment.<br>
@@ -37,9 +35,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
  */
 public class GenericRegion implements Region
 {
-
-    private final Logger log = LoggerFactory.getLogger(GenericRegion.class);
-
     private SubInputStream subInputStream;
     private long dataHeaderOffset;
     private long dataHeaderLength;
@@ -135,8 +130,6 @@ public class GenericRegion implements Region
 
         /* Segment data structure */
         computeSegmentDataStructure();
-
-        this.checkInput();
     }
 
     private void readGbAtPixels(final int amountOfGbAt) throws IOException
@@ -156,17 +149,6 @@ public class GenericRegion implements Region
         dataOffset = subInputStream.getStreamPosition();
         dataHeaderLength = dataOffset - dataHeaderOffset;
         dataLength = subInputStream.length() - dataHeaderLength;
-    }
-
-    private void checkInput() throws InvalidHeaderValueException
-    {
-        if (isMMREncoded)
-        {
-            if (gbTemplate != 0)
-            {
-                log.info("gbTemplate should contain the value 0");
-            }
-        }
     }
 
     /**

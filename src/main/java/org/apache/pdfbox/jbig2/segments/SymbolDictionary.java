@@ -292,37 +292,21 @@ public class SymbolDictionary implements Dictionary
 
     private void checkInput() throws InvalidHeaderValueException
     {
-        if (sdHuffDecodeHeightSelection == 2)
-        {
-            log.info("sdHuffDecodeHeightSelection = " + sdHuffDecodeHeightSelection
-                    + " (value not permitted)");
-        }
-
-        if (sdHuffDecodeWidthSelection == 2)
-        {
-            log.info("sdHuffDecodeWidthSelection = " + sdHuffDecodeWidthSelection
-                    + " (value not permitted)");
-        }
-
         if (isHuffmanEncoded)
         {
             if (sdTemplate != 0)
             {
-                log.info("sdTemplate = " + sdTemplate + " (should be 0)");
                 sdTemplate = 0;
             }
             if (!useRefinementAggregation)
             {
                 if (isCodingContextRetained)
                 {
-                    log.info("isCodingContextRetained = " + isCodingContextRetained
-                            + " (should be 0)");
                     isCodingContextRetained = false;
                 }
 
                 if (isCodingContextUsed)
                 {
-                    log.info("isCodingContextUsed = " + isCodingContextUsed + " (should be 0)");
                     isCodingContextUsed = false;
                 }
             }
@@ -332,17 +316,14 @@ public class SymbolDictionary implements Dictionary
         {
             if (sdHuffBMSizeSelection != 0)
             {
-                log.info("sdHuffBMSizeSelection should be 0");
                 sdHuffBMSizeSelection = 0;
             }
             if (sdHuffDecodeWidthSelection != 0)
             {
-                log.info("sdHuffDecodeWidthSelection should be 0");
                 sdHuffDecodeWidthSelection = 0;
             }
             if (sdHuffDecodeHeightSelection != 0)
             {
-                log.info("sdHuffDecodeHeightSelection should be 0");
                 sdHuffDecodeHeightSelection = 0;
             }
         }
@@ -351,7 +332,6 @@ public class SymbolDictionary implements Dictionary
         {
             if (sdrTemplate != 0)
             {
-                log.info("sdrTemplate = " + sdrTemplate + " (should be 0)");
                 sdrTemplate = 0;
             }
         }
@@ -360,8 +340,6 @@ public class SymbolDictionary implements Dictionary
         {
             if (sdHuffAggInstanceSelection != 0)
             {
-                log.info("sdHuffAggInstanceSelection = " + sdHuffAggInstanceSelection
-                        + " (should be 0)");
                 sdHuffAggInstanceSelection = 0;
             }
         }

@@ -292,7 +292,6 @@ public class TextRegion implements Region
         {
             if (sbrTemplate != 0)
             {
-                log.info("sbrTemplate should be 0");
                 sbrTemplate = 0;
             }
         }
@@ -308,27 +307,22 @@ public class TextRegion implements Region
         {
             if (sbHuffRSize != 0)
             {
-                log.info("sbHuffRSize should be 0");
                 sbHuffRSize = 0;
             }
             if (sbHuffRDY != 0)
             {
-                log.info("sbHuffRDY should be 0");
                 sbHuffRDY = 0;
             }
             if (sbHuffRDX != 0)
             {
-                log.info("sbHuffRDX should be 0");
                 sbHuffRDX = 0;
             }
             if (sbHuffRDWidth != 0)
             {
-                log.info("sbHuffRDWidth should be 0");
                 sbHuffRDWidth = 0;
             }
             if (sbHuffRDHeight != 0)
             {
-                log.info("sbHuffRDHeight should be 0");
                 sbHuffRDHeight = 0;
             }
         }
