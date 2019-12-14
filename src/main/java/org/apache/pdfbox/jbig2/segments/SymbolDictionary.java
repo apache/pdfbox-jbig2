@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.Dictionary;
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 import org.apache.pdfbox.jbig2.Region;
 import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
@@ -36,8 +35,6 @@ import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents the data of segment type "Symbol dictionary". Parsing is described in 7.4.2.1.1 - 7.4.1.1.5 and
@@ -45,8 +42,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
  */
 public class SymbolDictionary implements Dictionary
 {
-
-    private final Logger log = LoggerFactory.getLogger(SymbolDictionary.class);
 
     private SubInputStream subInputStream;
 
@@ -353,7 +348,6 @@ public class SymbolDictionary implements Dictionary
     public ArrayList<Bitmap> getDictionary()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
-        long timestamp = System.currentTimeMillis();
         if (null == exportSymbols)
         {
 
@@ -470,11 +464,6 @@ public class SymbolDictionary implements Dictionary
             /* 6.5.10 6) - 8) */
             setExportedSymbols(exFlags);
         }
-
-        if (JBIG2ImageReader.PERFORMANCE_TEST)
-            log.info("SYMBOL DECODING: " + (System.currentTimeMillis() - timestamp) + " ms");
-
-        // DictionaryViewer.viewSymbols(sdExSyms);
 
         return exportSymbols;
     }

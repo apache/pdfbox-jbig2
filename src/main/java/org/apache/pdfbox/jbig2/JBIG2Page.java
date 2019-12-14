@@ -32,16 +32,12 @@ import org.apache.pdfbox.jbig2.segments.EndOfStripe;
 import org.apache.pdfbox.jbig2.segments.PageInformation;
 import org.apache.pdfbox.jbig2.segments.RegionSegmentInformation;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents a JBIG2 page.
  */
 class JBIG2Page
 {
-
-    private static final Logger log = LoggerFactory.getLogger(JBIG2Page.class);
 
     /**
      * This list contains all segments of this page, sorted by segment number in ascending order.
@@ -117,23 +113,10 @@ class JBIG2Page
      */
     protected Bitmap getBitmap() throws JBIG2Exception, IOException
     {
-        long timestamp;
-
-        if (JBIG2ImageReader.PERFORMANCE_TEST)
-        {
-            timestamp = System.currentTimeMillis();
-        }
-
         if (null == pageBitmap)
         {
             composePageBitmap();
         }
-
-        if (JBIG2ImageReader.PERFORMANCE_TEST)
-        {
-            log.info("PAGE DECODING: " + (System.currentTimeMillis() - timestamp) + " ms");
-        }
-
         return pageBitmap;
     }
 
