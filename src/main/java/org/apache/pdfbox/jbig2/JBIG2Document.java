@@ -27,16 +27,12 @@ import java.util.TreeMap;
 import javax.imageio.stream.ImageInputStream;
 
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents the document structure with its pages and global segments.
  */
 class JBIG2Document
 {
-    private static final Logger log = LoggerFactory.getLogger(JBIG2Document.class);
-
     /** ID string in file header, see ISO/IEC 14492:2001, D.4.1 */
     private int[] FILE_HEADER_ID = { 0x97, 0x4A, 0x42, 0x32, 0x0D, 0x0A, 0x1A, 0x0A };
 
@@ -129,12 +125,6 @@ class JBIG2Document
         {
             return globalSegments.getSegment(segmentNr);
         }
-
-        if (log.isErrorEnabled())
-        {
-            log.error("Segment not found. Returning null.");
-        }
-
         return null;
     }
 

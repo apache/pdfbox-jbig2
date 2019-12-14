@@ -20,9 +20,6 @@ package org.apache.pdfbox.jbig2;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
-
 /**
  * This class stores segments, that aren't associated to a page.
  * 
@@ -33,8 +30,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
  */
 public class JBIG2Globals
 {
-    private static final Logger log = LoggerFactory.getLogger(JBIG2Globals.class);
-
     /**
      * This map contains all segments, that are not associated with a page. The key is the segment number.
      */
@@ -42,14 +37,6 @@ public class JBIG2Globals
 
     protected SegmentHeader getSegment(int segmentNr)
     {
-        if (globalSegments.size() == 0)
-        {
-            if (log.isErrorEnabled())
-            {
-                log.error("No global segment added so far. Use JBIG2ImageReader.setGlobals().");
-            }
-        }
-
         return globalSegments.get(segmentNr);
     }
 
