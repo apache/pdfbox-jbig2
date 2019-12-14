@@ -24,16 +24,12 @@ import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents the segment type "Page information", 7.4.8 (page 73).
  */
 public class PageInformation implements SegmentData
 {
-
-    private final Logger log = LoggerFactory.getLogger(PageInformation.class);
 
     private SubInputStream subInputStream;
 
@@ -93,22 +89,12 @@ public class PageInformation implements SegmentData
 
         /* Bit 0-14 */
         readMaxStripeSize();
-
-        this.checkInput();
-
     }
 
     private void readResolution() throws IOException
     {
         resolutionX = (int) subInputStream.readBits(32) & 0xffffffff;
         resolutionY = (int) subInputStream.readBits(32) & 0xffffffff;
-    }
-
-    private void checkInput() throws InvalidHeaderValueException
-    {
-        if (bitmapHeight == 0xffffffffL)
-            if (!isStriped)
-                log.info("isStriped should contaion the value true");
     }
 
     private void readCombinationOperatorOverrideAllowed() throws IOException
