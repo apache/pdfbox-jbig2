@@ -16,6 +16,11 @@
 --->
 # Release notes
 
+## Version 3.0.3 (pending)
+- [PDFBOX-4472](https://issues.apache.org/jira/browse/PDFBOX-4472): Thread stuck in SoftReferenceCache.get
+- [PDFBOX-4598](https://issues.apache.org/jira/browse/PDFBOX-4598): oversized jbig2 decoded result that causing unnecessary operation
+
+
 ## Version 3.0.2 (2018-09-25)
 - [PDFBOX-4290](https://issues.apache.org/jira/browse/PDFBOX-4290): Memory Leak in SoftReferenceCache
 
