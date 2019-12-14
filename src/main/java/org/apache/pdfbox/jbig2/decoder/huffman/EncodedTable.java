@@ -20,7 +20,6 @@ package org.apache.pdfbox.jbig2.decoder.huffman;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.segments.Table;
@@ -86,11 +85,6 @@ public class EncodedTable extends HuffmanTable
         {
             prefLen = (int) sis.readBits(table.getHtPS());
             codeTable.add(new Code(prefLen, -1, -1, false));
-        }
-
-        if (JBIG2ImageReader.DEBUG)
-        {
-            System.out.println(codeTableToString(codeTable));
         }
 
         initTree(codeTable);

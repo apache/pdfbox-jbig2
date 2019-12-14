@@ -20,8 +20,6 @@ package org.apache.pdfbox.jbig2.decoder.huffman;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.pdfbox.jbig2.*;
-
 public class StandardTables
 {
     static class StandardTable extends HuffmanTable
@@ -41,9 +39,6 @@ public class StandardTables
                     isLowerRange = true;
                 codeTable.add(new Code(prefixLength, rangeLength, rangeLow, isLowerRange));
             }
-
-            if (JBIG2ImageReader.DEBUG)
-                System.out.println(HuffmanTable.codeTableToString(codeTable));
 
             initTree(codeTable);
         }

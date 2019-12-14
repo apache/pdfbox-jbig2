@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 import org.apache.pdfbox.jbig2.Region;
 import org.apache.pdfbox.jbig2.SegmentHeader;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
@@ -1054,9 +1053,6 @@ public class TextRegion implements Region
                 runCodeTable.add(new Code(prefLen, 0, i, false));
             }
         }
-
-        if (JBIG2ImageReader.DEBUG)
-            log.debug(HuffmanTable.codeTableToString(runCodeTable));
 
         HuffmanTable ht = new FixedSizeTable(runCodeTable);
 

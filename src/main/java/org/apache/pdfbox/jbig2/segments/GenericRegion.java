@@ -670,14 +670,11 @@ public class GenericRegion implements Region
     {
         if (gbAtX == null || gbAtY == null)
         {
-            log.info("AT pixels not set");
             return;
         }
 
         if (gbAtX.length != gbAtY.length)
         {
-            log.info("AT pixel inconsistent, amount of x pixels: " + gbAtX.length
-                    + ", amount of y pixels:" + gbAtY.length);
             return;
         }
 

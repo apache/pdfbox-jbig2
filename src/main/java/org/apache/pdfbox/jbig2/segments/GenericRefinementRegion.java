@@ -27,8 +27,6 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * This class represents a generic refinement region and implements the procedure described in JBIG2 ISO standard, 6.3
@@ -36,8 +34,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
  */
 public class GenericRefinementRegion implements Region
 {
-    private static final Logger log = LoggerFactory.getLogger(GenericRefinementRegion.class);
-
     public static abstract class Template
     {
         protected abstract short form(short c1, short c2, short c3, short c4, short c5);
@@ -487,13 +483,11 @@ public class GenericRefinementRegion implements Region
     {
         if (grAtX == null || grAtY == null)
         {
-            log.info("AT pixels not set");
             return;
         }
 
         if (grAtX.length != grAtY.length)
         {
-            log.info("AT pixel inconsistent");
             return;
         }
 

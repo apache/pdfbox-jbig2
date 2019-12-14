@@ -22,8 +22,6 @@ import java.util.List;
 
 import javax.imageio.stream.ImageInputStream;
 
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
-
 /**
  * This abstract class is the base class for all types of huffman tables.
  */
@@ -126,8 +124,5 @@ public abstract class HuffmanTable
                 }
             }
         }
-
-        if (JBIG2ImageReader.DEBUG)
-            System.out.println(codeTableToString(codeTable));
     }
 }

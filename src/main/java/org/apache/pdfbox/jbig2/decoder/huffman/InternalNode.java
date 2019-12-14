@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import javax.imageio.stream.ImageInputStream;
 
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 import org.apache.pdfbox.jbig2.decoder.huffman.HuffmanTable.Code;
 
 /**
@@ -46,9 +45,6 @@ class InternalNode extends Node
 
     protected void append(Code c)
     {
-        if (JBIG2ImageReader.DEBUG)
-            System.out.println("I'm working on " + c.toString());
-
         // ignore unused codes
         if (c.prefixLength == 0)
             return;

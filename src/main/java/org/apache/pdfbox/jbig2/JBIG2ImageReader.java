@@ -37,16 +37,12 @@ import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
 import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * @see ImageReader
  */
 public class JBIG2ImageReader extends ImageReader
 {
-    private static final Logger log = LoggerFactory.getLogger(JBIG2ImageReader.class);
-
     public static final boolean DEBUG = false;
     public static final boolean PERFORMANCE_TEST = false;
 
@@ -95,11 +91,7 @@ public class JBIG2ImageReader extends ImageReader
         }
         catch (IOException e)
         {
-            if (log.isInfoEnabled())
-            {
-                log.info("Dimensions could not be determined. Returning read params with size "
-                        + width + "x" + height);
-            }
+            // Dimensions could not be determined. Returning read params
         }
 
         return new JBIG2ReadParam(1, 1, 0, 0, new Rectangle(0, 0, width, height),
@@ -181,22 +173,7 @@ public class JBIG2ImageReader extends ImageReader
     @Override
     public int getNumImages(boolean allowSearch) throws IOException
     {
-        if (allowSearch)
-        {
-            if (getDocument().isAmountOfPagesUnknown())
-            {
-                log.info("Amount of pages is unknown.");
-            }
-            else
-            {
-                return getDocument().getAmountOfPages();
-            }
-        }
-        else
-        {
-            log.info("Search is not allowed.");
-        }
-        return -1;
+        return allowSearch ? getDocument().getAmountOfPages() : -1;
     }
 
     /**
@@ -207,7 +184,6 @@ public class JBIG2ImageReader extends ImageReader
     @Override
     public IIOMetadata getStreamMetadata()
     {
-        log.info("No metadata recorded");
         return null;
     }
 
@@ -234,8 +210,7 @@ public class JBIG2ImageReader extends ImageReader
     {
         if (param == null)
         {
-            log.info("JBIG2ReadParam not specified. Default will be used.");
-            param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+            param = getDefaultReadParam(imageIndex);
         }
 
         JBIG2Page page = getPage(imageIndex);
@@ -259,6 +234,7 @@ public class JBIG2ImageReader extends ImageReader
         return Bitmaps.asBufferedImage(pageBitmap, param, FilterType.Gaussian);
     }
 
+    @Override
     public boolean canReadRaster()
     {
         return true;
@@ -269,8 +245,7 @@ public class JBIG2ImageReader extends ImageReader
     {
         if (param == null)
         {
-            log.info("JBIG2ReadParam not specified. Default will be used.");
-            param = (JBIG2ReadParam) getDefaultReadParam(imageIndex);
+            param = getDefaultReadParam(imageIndex);
         }
 
         JBIG2Page page = getPage(imageIndex);
@@ -338,11 +313,6 @@ public class JBIG2ImageReader extends ImageReader
             if (this.input == null)
             {
                 throw new IOException("Input not set.");
-            }
-
-            if (this.globals == null)
-            {
-                log.debug("Globals not set.");
             }
 
             this.document = new JBIG2Document((ImageInputStream) this.input, this.globals);

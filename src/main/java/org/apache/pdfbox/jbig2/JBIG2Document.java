@@ -228,14 +228,6 @@ class JBIG2Document
             }
             segments.add(segment);
 
-            if (JBIG2ImageReader.DEBUG)
-            {
-                if (log.isDebugEnabled())
-                {
-                    log.debug(segment.toString());
-                }
-            }
-
             offset = subInputStream.getStreamPosition();
 
             // Sequential organization skips data part and sets the offset

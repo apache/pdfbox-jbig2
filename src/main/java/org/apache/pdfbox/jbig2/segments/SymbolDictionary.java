@@ -583,8 +583,6 @@ public class SymbolDictionary implements Dictionary
         final long amountOfRefinementAggregationInstances;
         if (isHuffmanEncoded)
         {
-            log.info(
-                    "Refinement or aggregate-coded symbols may couse problems with huffman decoding!");
             amountOfRefinementAggregationInstances = huffDecodeRefAggNInst();
         }
         else

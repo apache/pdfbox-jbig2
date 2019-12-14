@@ -36,8 +36,6 @@ import org.apache.pdfbox.jbig2.segments.Profiles;
 import org.apache.pdfbox.jbig2.segments.SymbolDictionary;
 import org.apache.pdfbox.jbig2.segments.Table;
 import org.apache.pdfbox.jbig2.segments.TextRegion;
-import org.apache.pdfbox.jbig2.util.log.Logger;
-import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 
 /**
  * The basic class for all JBIG2 segments.
@@ -45,8 +43,6 @@ import org.apache.pdfbox.jbig2.util.log.LoggerFactory;
 @SuppressWarnings("unchecked")
 public class SegmentHeader
 {
-    private static final Logger log = LoggerFactory.getLogger(SegmentHeader.class);
-
     private static final Map<Integer, Class<? extends SegmentData>> SEGMENT_TYPE_MAP = new HashMap<Integer, Class<? extends SegmentData>>();
 
     static
@@ -99,12 +95,7 @@ public class SegmentHeader
     private void parse(JBIG2Document document, ImageInputStream subInputStream, long offset,
             int organisationType) throws IOException
     {
-
-        printDebugMessage("\n########################");
-        printDebugMessage("Segment parsing started.");
-
         subInputStream.seek(offset);
-        printDebugMessage("|-Seeked to offset: " + offset);
 
         /* 7.2.2 Segment number */
         readSegmentNumber(subInputStream);
@@ -126,7 +117,6 @@ public class SegmentHeader
 
         readDataStartOffset(subInputStream, organisationType);
         readSegmentHeaderLength(subInputStream, offset);
-        printDebugMessage("########################\n");
     }
 
     /**
@@ -138,7 +128,6 @@ public class SegmentHeader
     private void readSegmentNumber(ImageInputStream subInputStream) throws IOException
     {
         segmentNr = (int) (subInputStream.readBits(32) & 0xffffffff);
-        printDebugMessage("|-Segment Nr: " + segmentNr);
     }
 
     /**
@@ -151,15 +140,12 @@ public class SegmentHeader
     {
         // Bit 7: Retain Flag, if 1, this segment is flagged as retained;
         retainFlag = (byte) subInputStream.readBit();
-        printDebugMessage("|-Retain flag: " + retainFlag);
 
         // Bit 6: Size of the page association field. One byte if 0, four bytes if 1;
         pageAssociationFieldSize = (byte) subInputStream.readBit();
-        printDebugMessage("|-Page association field size=" + pageAssociationFieldSize);
 
         // Bit 5-0: Contains the values (between 0 and 62 with gaps) for segment types, specified in 7.3
         segmentType = (int) (subInputStream.readBits(6) & 0xff);
-        printDebugMessage("|-Segment type=" + segmentType);
     }
 
     /**
@@ -172,11 +158,8 @@ public class SegmentHeader
     private int readAmountOfReferredToSegments(ImageInputStream subInputStream) throws IOException
     {
         int countOfRTS = (int) (subInputStream.readBits(3) & 0xf);
-        printDebugMessage("|-RTS count: " + countOfRTS);
 
         byte[] retainBit;
-
-        printDebugMessage("  |-Stream position before RTS: " + subInputStream.getStreamPosition());
 
         if (countOfRTS <= 4)
         {
@@ -200,9 +183,6 @@ public class SegmentHeader
                 retainBit[i] = (byte) subInputStream.readBit();
             }
         }
-
-        printDebugMessage("  |-Stream position after RTS: " + subInputStream.getStreamPosition());
-
         return countOfRTS;
     }
 
@@ -237,8 +217,6 @@ public class SegmentHeader
             }
 
             rtSegments = new SegmentHeader[countOfRTS];
-
-            printDebugMessage("|-Length of RT segments list: " + rtSegments.length);
 
             for (int i = 0; i < countOfRTS; i++)
             {
@@ -294,7 +272,6 @@ public class SegmentHeader
     private void readSegmentDataLength(ImageInputStream subInputStream) throws IOException
     {
         segmentDataLength = (subInputStream.readBits(32) & 0xffffffff);
-        printDebugMessage("|-Data length: " + segmentDataLength);
     }
 
     /**
@@ -310,7 +287,6 @@ public class SegmentHeader
     {
         if (organisationType == JBIG2Document.SEQUENTIAL)
         {
-            printDebugMessage("|-Organization is sequential.");
             segmentDataStartOffset = subInputStream.getStreamPosition();
         }
     }
@@ -319,12 +295,6 @@ public class SegmentHeader
             throws IOException
     {
         segmentHeaderLength = subInputStream.getStreamPosition() - offset;
-        printDebugMessage("|-Segment header length: " + segmentHeaderLength);
-    }
-
-    private void printDebugMessage(String message)
-    {
-        log.debug(message);
     }
 
     public int getSegmentNr()

@@ -87,8 +87,6 @@ class JBIG2Page
         {
             return document.getGlobalSegment(number);
         }
-
-        log.info("Segment not found, returning null.");
         return null;
     }
 
@@ -106,8 +104,6 @@ class JBIG2Page
                 return s;
             }
         }
-
-        log.info("Page information segment not found.");
         return null;
     }
 
