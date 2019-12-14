@@ -43,8 +43,6 @@ import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
  */
 public class JBIG2ImageReader extends ImageReader
 {
-    public static final boolean DEBUG = false;
-
     /** JBIG2 document to which we delegate current work. */
     private JBIG2Document document;
 
