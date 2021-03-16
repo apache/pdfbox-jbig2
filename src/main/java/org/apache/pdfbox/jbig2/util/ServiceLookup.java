@@ -30,18 +30,19 @@ public class ServiceLookup<B>
 
     public Iterator<B> getServices(Class<B> cls, ClassLoader clsLoader)
     {
-        Iterator<B> services = ServiceLoader.load(cls).iterator();
-
-        if (!services.hasNext())
-        {
-            services = ServiceLoader.load(cls, cls.getClass().getClassLoader()).iterator();
-        }
-
-        if (!services.hasNext() && clsLoader != null)
+        Iterator<B> services = null;
+        if (clsLoader != null)
         {
             services = ServiceLoader.load(cls, clsLoader).iterator();
         }
-
+        if (services == null || !services.hasNext())
+        {
+            services = ServiceLoader.load(cls, cls.getClass().getClassLoader()).iterator();
+        }
+        if (services == null || !services.hasNext())
+        {
+            services = ServiceLoader.load(cls).iterator();
+        }
         return services;
     }
 
