@@ -23,8 +23,11 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
 import java.awt.image.IndexColorModel;
+import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
+import java.util.Arrays;
 
 import javax.imageio.ImageReadParam;
 
@@ -170,18 +173,19 @@ public class Bitmaps
     private static WritableRaster buildRaster(final Bitmap bitmap, final FilterType filterType,
             final double scaleX, final double scaleY)
     {
-        final Rectangle dstBounds = new Rectangle(0, 0, //
-                (int) Math.round(bitmap.getWidth() * scaleX), //
-                (int) Math.round(bitmap.getHeight() * scaleY));
-
-        WritableRaster dst;
-
+        final int height = bitmap.getHeight(), width = bitmap.getWidth();
+        
+        final WritableRaster dst;
         if (scaleX != 1 || scaleY != 1)
         {
-            dst = WritableRaster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                    dstBounds.width, dstBounds.height, 1, new Point());
-
             // scaling required
+            final Rectangle dstBounds = new Rectangle(0, 0, //
+                    (int) Math.round(width * scaleX), //
+                    (int) Math.round(height * scaleY));
+
+            dst = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                    dstBounds.width, dstBounds.height, 1, new Point());
+            
             final Resizer resizer = new Resizer(scaleX, scaleY);
             final Filter filter = Filter.byType(filterType);
             resizer.resize(bitmap, bitmap.getBounds() /* sourceRegion */, dst, dstBounds, filter,
@@ -189,25 +193,10 @@ public class Bitmaps
         }
         else
         {
-            dst = WritableRaster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                    dstBounds.width, dstBounds.height, 1, 1, new Point());
-
-            // scaling not required, paste bitmap into raster pixel per pixel
-            int byteIndex = 0;
-            for (int y = 0; y < bitmap.getHeight(); y++)
-            {
-                for (int x = 0; x < bitmap.getWidth(); byteIndex++)
-                {
-                    final int pixels = (~bitmap.getByte(byteIndex)) & 0xFF;
-                    final int relevantPixels = bitmap.getWidth() - x > 8 ? 8
-                            : bitmap.getWidth() - x;
-                    final int endIdx = 7 - relevantPixels;
-                    for (int bytePosition = 7; bytePosition > endIdx; bytePosition--, x++)
-                    {
-                        dst.setSample(x, y, 0, (pixels >> bytePosition) & 0x1);
-                    }
-                }
-            }
+            // scaling not required: clone and invert bitmap into packed raster
+            final byte[] bytes = Arrays.copyOf(bitmap.getByteArray(), height * bitmap.getRowStride());
+            for ( int i = 0, c = bytes.length; c-->0; ) bytes[i++] ^= -1;
+            dst = Raster.createPackedRaster(new DataBufferByte(bytes, bytes.length), width, height, 1, new Point());
         }
 
         return dst;
