@@ -594,19 +594,23 @@ public class Bitmaps
     private static void blitUnshifted(Bitmap src, Bitmap dst, int startLine, int lastLine,
             int dstStartIdx, int srcStartIdx, int srcEndIdx, CombinationOperator op)
     {
-
-        for (int dstLine = startLine; dstLine < lastLine; dstLine++, dstStartIdx += dst
-                .getRowStride(), srcStartIdx += src.getRowStride(), srcEndIdx += src.getRowStride())
-        {
-            int dstIdx = dstStartIdx;
-
+        final int length = srcEndIdx - srcStartIdx + 1; // srcEndIdx is inclusive 
+        final byte[] srcBytes = src.getByteArray(), dstBytes = dst.getByteArray();
+        for ( int lines = lastLine - startLine; lines>0; lines-- ) {
+            int srcIdx = srcStartIdx, dstIdx = dstStartIdx, count = length;
             // Go through the bytes in a line of the Symbol
-            for (int srcIdx = srcStartIdx; srcIdx <= srcEndIdx; srcIdx++)
-            {
-                byte oldByte = dst.getByte(dstIdx);
-                byte newByte = src.getByte(srcIdx);
-                dst.setByte(dstIdx++, Bitmaps.combineBytes(oldByte, newByte, op));
+            switch (op) {
+                case OR:   while ( count-->0 ) dstBytes[dstIdx++] |= srcBytes[srcIdx++]; break;
+                case AND:  while ( count-->0 ) dstBytes[dstIdx++] &= srcBytes[srcIdx++]; break;
+                case XOR:  while ( count-->0 ) dstBytes[dstIdx++] ^= srcBytes[srcIdx++]; break;
+                case XNOR: while ( count-->0 ) dstBytes[dstIdx] = (byte)~(dstBytes[dstIdx++] ^ srcBytes[srcIdx++]); break;
+                case REPLACE:
+                default:
+                    if ( count>8 ) System.arraycopy(srcBytes, srcIdx, dstBytes, dstIdx, count);
+                    else while ( count-->0 ) dstBytes[dstIdx++] = srcBytes[srcIdx++];
             }
+            srcStartIdx += src.getRowStride();
+            dstStartIdx += dst.getRowStride();
         }
     }
 
