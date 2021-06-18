@@ -175,31 +175,36 @@ public class Bitmaps
     {
         final int height = bitmap.getHeight(), width = bitmap.getWidth();
         
-        final WritableRaster dst;
+        final WritableRaster raster;
         if (scaleX != 1 || scaleY != 1)
         {
             // scaling required
-            final Rectangle dstBounds = new Rectangle(0, 0, //
+            final Rectangle bounds = new Rectangle(0, 0, //
                     (int) Math.round(width * scaleX), //
                     (int) Math.round(height * scaleY));
 
-            dst = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                    dstBounds.width, dstBounds.height, 1, new Point());
+            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                    bounds.width, bounds.height, 1, new Point());
             
             final Resizer resizer = new Resizer(scaleX, scaleY);
             final Filter filter = Filter.byType(filterType);
-            resizer.resize(bitmap, bitmap.getBounds() /* sourceRegion */, dst, dstBounds, filter,
+            resizer.resize(bitmap, bitmap.getBounds() /* sourceRegion */, raster, bounds, filter,
                     filter);
         }
         else
         {
             // scaling not required: clone and invert bitmap into packed raster
-            final byte[] bytes = Arrays.copyOf(bitmap.getByteArray(), height * bitmap.getRowStride());
-            for ( int i = 0, c = bytes.length; c-->0; ) bytes[i++] ^= -1;
-            dst = Raster.createPackedRaster(new DataBufferByte(bytes, bytes.length), width, height, 1, new Point());
+            // extra care is taken to ensure padding bits are set to zero
+            final int bytes = width / 8, bits = (~0xff >> (width & 7)) & 0xff;
+            final byte[] src = bitmap.getByteArray(), dst = new byte[height * bitmap.getRowStride()];
+            for ( int idx = 0, row = height; row>0; row-- ) {
+                for ( int count = bytes; count>0; count-- ) dst[idx] = (byte)~src[idx++];
+                if ( bits!=0 ) dst[idx] = (byte)(~src[idx++] & bits);
+            }
+            raster = Raster.createPackedRaster(new DataBufferByte(dst, dst.length), width, height, 1, new Point());
         }
 
-        return dst;
+        return raster;
     }
 
     /**
