@@ -27,11 +27,12 @@ import java.util.ArrayList;
 
 import javax.imageio.stream.ImageInputStream;
 
-import junit.framework.Assert;
-
-import org.apache.pdfbox.jbig2.*;
+import org.apache.pdfbox.jbig2.Bitmap;
+import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.*;
+import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
+import org.apache.pdfbox.jbig2.io.SubInputStream;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 

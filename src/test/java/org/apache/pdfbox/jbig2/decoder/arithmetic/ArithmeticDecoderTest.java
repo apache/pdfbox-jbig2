@@ -20,10 +20,9 @@ package org.apache.pdfbox.jbig2.decoder.arithmetic;
 import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
 
-import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
-import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ArithmeticDecoderTest
 {

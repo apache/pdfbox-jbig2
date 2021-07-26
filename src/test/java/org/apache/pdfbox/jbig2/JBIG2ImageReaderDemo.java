@@ -29,11 +29,6 @@ import java.net.URL;
 import javax.imageio.ImageReadParam;
 import javax.imageio.stream.ImageInputStream;
 
-import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.JBIG2Document;
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
-import org.apache.pdfbox.jbig2.JBIG2ImageReaderSpi;
-import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;

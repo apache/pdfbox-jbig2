@@ -20,11 +20,6 @@ package org.apache.pdfbox.jbig2;
 import java.io.IOException;
 
 import javax.imageio.stream.ImageInputStream;
-
-import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.JBIG2Document;
-import org.apache.pdfbox.jbig2.JBIG2Globals;
-import org.apache.pdfbox.jbig2.JBIG2Page;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 
 public class JBIG2DocumentFacade extends JBIG2Document

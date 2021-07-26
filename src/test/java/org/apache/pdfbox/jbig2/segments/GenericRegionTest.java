@@ -26,15 +26,13 @@ import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
 
-import junit.framework.Assert;
-
 import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
-import org.apache.pdfbox.jbig2.segments.GenericRegion;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 

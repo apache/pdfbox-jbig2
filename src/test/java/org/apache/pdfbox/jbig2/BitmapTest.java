@@ -17,11 +17,8 @@
 
 package org.apache.pdfbox.jbig2;
 
-import static org.junit.Assert.*;
 
-import org.apache.pdfbox.jbig2.Bitmap;
-
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -76,8 +73,8 @@ public class BitmapTest
         bitmap.setByte(0, byteValue);
         bitmap.setByte(31, byteValue);
 
-        Assert.assertEquals(integerValue, bitmap.getByteAsInteger(0));
-        Assert.assertEquals(integerValue, bitmap.getByteAsInteger(31));
+        assertEquals(integerValue, bitmap.getByteAsInteger(0));
+        assertEquals(integerValue, bitmap.getByteAsInteger(31));
 
     }
 
@@ -93,7 +90,7 @@ public class BitmapTest
     {
         int height = 16;
         Bitmap bitmap = new Bitmap(1, height);
-        Assert.assertEquals(height, bitmap.getHeight());
+        assertEquals(height, bitmap.getHeight());
     }
 
     @Test
@@ -101,7 +98,7 @@ public class BitmapTest
     {
         int width = 16;
         Bitmap bitmap = new Bitmap(width, 1);
-        Assert.assertEquals(width, bitmap.getWidth());
+        assertEquals(width, bitmap.getWidth());
     }
 
 }

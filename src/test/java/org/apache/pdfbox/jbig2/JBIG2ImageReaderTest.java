@@ -30,13 +30,10 @@ import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 
-import junit.framework.Assert;
-
-import org.apache.pdfbox.jbig2.JBIG2ImageReader;
-import org.apache.pdfbox.jbig2.JBIG2ImageReaderSpi;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class JBIG2ImageReaderTest

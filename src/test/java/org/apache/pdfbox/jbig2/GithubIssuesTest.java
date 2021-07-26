@@ -17,17 +17,14 @@
 
 package org.apache.pdfbox.jbig2;
 
-import static org.apache.pdfbox.jbig2.ChecksumCalculator.*;
-import static org.apache.pdfbox.jbig2.JBIG2DocumentFacade.*;
+import static org.apache.pdfbox.jbig2.ChecksumCalculator.md5;
+import static org.apache.pdfbox.jbig2.JBIG2DocumentFacade.doc;
 
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 
-import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.JBIG2Document;
-import org.apache.pdfbox.jbig2.JBIG2Page;
 import org.junit.Assert;
 import org.junit.Test;
 

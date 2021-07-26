@@ -21,11 +21,8 @@ import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
 
-import junit.framework.Assert;
-
-import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
-import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticIntegerDecoder;
 import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class ArithmeticIntegerDecoderTest

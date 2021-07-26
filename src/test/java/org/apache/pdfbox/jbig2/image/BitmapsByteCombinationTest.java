@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
