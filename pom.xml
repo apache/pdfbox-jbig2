@@ -237,6 +237,23 @@
 
 	<build>
 		<plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules combine.children="append">
+                                        <requireMavenVersion>
+                                            <version>3.2.0</version>
+                                        </requireMavenVersion>
+                                    </rules>    
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -297,7 +314,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.3.0</version>
+                <version>1.6.0</version>
                 <executions>
                     <execution>
                         <id>Testfiles</id>
@@ -329,23 +346,6 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-                            <plugin>
-                                <artifactId>maven-enforcer-plugin</artifactId>
-                                <executions>
-                                    <execution>
-                                        <goals>
-                                            <goal>enforce</goal>
-                                        </goals>
-                                        <configuration>
-                                            <rules combine.children="append">
-                                                <requireMavenVersion>
-                                                    <version>3.1</version>
-                                                </requireMavenVersion>
-                                            </rules>    
-                                        </configuration>
-                                    </execution>
-                                </executions>
-                            </plugin>
 				<plugin>
 					<groupId>org.apache.rat</groupId>
 					<artifactId>apache-rat-plugin</artifactId>
@@ -382,7 +382,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>6.2.2</version>
+                        <version>6.5.1</version>
                         <configuration>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
