@@ -365,7 +365,7 @@ public class Bitmaps
         for (int x = firstSourceByteOfLine; x < lastSourceByteOfLine; x++)
         {
 
-            if (sourceOffset + 1 < src.getByteArray().length)
+            if (sourceOffset + 1 < src.getLength())
             {
                 final boolean isLastByte = x + 1 == lastSourceByteOfLine;
                 byte value = (byte) (src.getByte(sourceOffset++) << sourceUpShift

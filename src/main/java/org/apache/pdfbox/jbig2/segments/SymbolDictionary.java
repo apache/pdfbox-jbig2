@@ -807,7 +807,7 @@ public class SymbolDictionary implements Dictionary
         {
             final Bitmap heightClassCollectiveBitmap = new Bitmap(totalWidth, heightClassHeight);
 
-            for (int i = 0; i < heightClassCollectiveBitmap.getByteArray().length; i++)
+            for (int i = 0; i < heightClassCollectiveBitmap.getLength(); i++)
             {
                 heightClassCollectiveBitmap.setByte(i, subInputStream.readByte());
             }

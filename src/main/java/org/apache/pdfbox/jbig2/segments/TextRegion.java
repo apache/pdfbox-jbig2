@@ -387,7 +387,7 @@ public class TextRegion implements Region
         /* 1) */
         if (defaultPixel != 0)
         {
-            Arrays.fill(regionBitmap.getByteArray(), (byte) 0xff);
+            regionBitmap.fillBitmap((byte) 0xff);
         }
     }
 

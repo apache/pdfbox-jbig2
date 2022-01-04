@@ -165,7 +165,7 @@ public class HalftoneRegion implements Region
 
             if (hDefaultPixel == 1)
             {
-                Arrays.fill(halftoneRegionBitmap.getByteArray(), (byte) 0xff);
+                halftoneRegionBitmap.fillBitmap((byte) 0xff);
             }
 
             /* 2) */

@@ -18,6 +18,7 @@
 package org.apache.pdfbox.jbig2;
 
 import java.awt.Rectangle;
+import java.util.Arrays;
 
 /**
  * This class represents a bi-level image that is organized like a bitmap.
@@ -104,6 +105,8 @@ public class Bitmap
      * Simply returns the byte array of this bitmap.
      * 
      * @return The byte array of this bitmap.
+     * 
+     * @deprecated don't expose the underlying byte array, will be removed in a future release.
      */
     public byte[] getByteArray()
     {
@@ -202,8 +205,47 @@ public class Bitmap
         return new Rectangle(0, 0, width, height);
     }
 
+    /**
+     * Returns the length of the underlying byte array.
+     * 
+     * @return byte array length
+     * 
+     * @deprecated renamed, will be removed in a future release. Use {@link Bitmap#getLength()} instead.
+     */
     public int getMemorySize()
     {
+        return getLength();
+    }
+
+    /**
+     * Returns the length of the underlying byte array.
+     * 
+     * @return byte array length
+     */
+    public int getLength()
+    {
         return bitmap.length;
+    }
+
+    /**
+     * Fill the underlying bitmap with the given byte value.
+     * 
+     * @param fillByte the value to be stored in all elements of the bitmap
+     */
+    public void fillBitmap(byte fillByte)
+    {
+        Arrays.fill(bitmap, fillByte);
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        // most likely used for tests
+        if (!(obj instanceof Bitmap))
+        {
+            return false;
+        }
+        Bitmap other = (Bitmap)obj;
+        return Arrays.equals(bitmap, other.bitmap);
     }
 }

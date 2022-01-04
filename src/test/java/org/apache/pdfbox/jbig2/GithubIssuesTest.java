@@ -17,10 +17,11 @@
 
 package org.apache.pdfbox.jbig2;
 
-import static org.apache.pdfbox.jbig2.ChecksumCalculator.md5;
 import static org.apache.pdfbox.jbig2.JBIG2DocumentFacade.doc;
 
 import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
@@ -69,4 +70,10 @@ public class GithubIssuesTest
         }
 
     }
+    
+    private static byte[] md5(Bitmap b) throws NoSuchAlgorithmException
+    {
+        return MessageDigest.getInstance("MD5").digest(b.getByteArray());
+    }
+
 }

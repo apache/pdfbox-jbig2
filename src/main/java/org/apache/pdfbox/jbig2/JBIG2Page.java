@@ -162,7 +162,7 @@ class JBIG2Page
         // If default pixel value is not 0, byte will be filled with 0xff
         if (pageInformation.getDefaultPixelValue() != 0)
         {
-            Arrays.fill(pageBitmap.getByteArray(), (byte) 0xff);
+            pageBitmap.fillBitmap((byte) 0xff);
         }
 
         for (SegmentHeader s : segments.values())
