@@ -23,7 +23,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
 import java.awt.image.IndexColorModel;
+import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
 import javax.imageio.ImageReadParam;
@@ -170,47 +172,45 @@ public class Bitmaps
     private static WritableRaster buildRaster(final Bitmap bitmap, final FilterType filterType,
             final double scaleX, final double scaleY)
     {
-        final Rectangle dstBounds = new Rectangle(0, 0, //
-                (int) Math.round(bitmap.getWidth() * scaleX), //
-                (int) Math.round(bitmap.getHeight() * scaleY));
-
-        WritableRaster dst;
-
+        final int height = bitmap.getHeight();
+        final int width = bitmap.getWidth();
+        final WritableRaster raster;
+        
         if (scaleX != 1 || scaleY != 1)
         {
-            dst = WritableRaster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
-                    dstBounds.width, dstBounds.height, 1, new Point());
+            final Rectangle bounds = new Rectangle(0, 0, //
+                    (int) Math.round(width * scaleX), //
+                    (int) Math.round(height * scaleY));
 
-            // scaling required
+            raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE,
+                    bounds.width, bounds.height, 1, new Point());
+
             final Resizer resizer = new Resizer(scaleX, scaleY);
             final Filter filter = Filter.byType(filterType);
-            resizer.resize(bitmap, bitmap.getBounds() /* sourceRegion */, dst, dstBounds, filter,
+            resizer.resize(bitmap, bitmap.getBounds() /* sourceRegion */, raster, bounds, filter,
                     filter);
         }
         else
         {
-            dst = WritableRaster.createPackedRaster(DataBuffer.TYPE_BYTE,
-                    dstBounds.width, dstBounds.height, 1, 1, new Point());
-
-            // scaling not required, paste bitmap into raster pixel per pixel
-            int byteIndex = 0;
-            for (int y = 0; y < bitmap.getHeight(); y++)
+            // scaling not required: clone and invert bitmap into packed raster
+            // extra care is taken to ensure padding bits are set to zero
+            final int bytes = width / 8;
+            final int bits = (~0xff >> (width & 7)) & 0xff;
+            final byte[] dst = new byte[height * bitmap.getRowStride()];
+            for ( int idx = 0, row = height; row>0; row-- ) 
             {
-                for (int x = 0; x < bitmap.getWidth(); byteIndex++)
+                for ( int count = bytes; count>0; count-- ) 
                 {
-                    final int pixels = (~bitmap.getByte(byteIndex)) & 0xFF;
-                    final int relevantPixels = bitmap.getWidth() - x > 8 ? 8
-                            : bitmap.getWidth() - x;
-                    final int endIdx = 7 - relevantPixels;
-                    for (int bytePosition = 7; bytePosition > endIdx; bytePosition--, x++)
-                    {
-                        dst.setSample(x, y, 0, (pixels >> bytePosition) & 0x1);
-                    }
+                    dst[idx] = (byte)~bitmap.getByte(idx++);
+                }
+                if ( bits!=0 )
+                {
+                    dst[idx] = (byte)(~bitmap.getByte(idx++) & bits);
                 }
             }
+            raster = Raster.createPackedRaster(new DataBufferByte(dst, dst.length), width, height, 1, new Point());
         }
-
-        return dst;
+        return raster;
     }
 
     /**
@@ -594,19 +594,34 @@ public class Bitmaps
     private static void blitUnshifted(Bitmap src, Bitmap dst, int startLine, int lastLine,
             int dstStartIdx, int srcStartIdx, int srcEndIdx, CombinationOperator op)
     {
-
-        for (int dstLine = startLine; dstLine < lastLine; dstLine++, dstStartIdx += dst
-                .getRowStride(), srcStartIdx += src.getRowStride(), srcEndIdx += src.getRowStride())
+        final int length = srcEndIdx - srcStartIdx + 1; // srcEndIdx is inclusive 
+        int srcStartOffset = srcStartIdx;
+        int dstStartOffset = dstStartIdx;
+        for ( int lines = lastLine - startLine; lines > 0; lines-- ) 
         {
-            int dstIdx = dstStartIdx;
-
+            int srcIdx = srcStartOffset;
+            int dstIdx = dstStartOffset;
+            int count = length;
             // Go through the bytes in a line of the Symbol
-            for (int srcIdx = srcStartIdx; srcIdx <= srcEndIdx; srcIdx++)
+            switch (op) 
             {
-                byte oldByte = dst.getByte(dstIdx);
-                byte newByte = src.getByte(srcIdx);
-                dst.setByte(dstIdx++, Bitmaps.combineBytes(oldByte, newByte, op));
+                case OR:   
+                case AND:  
+                case XOR:  
+                case XNOR: 
+                    while ( count-- > 0 ) 
+                    {
+                        dst.setByte(dstIdx, combineBytes(src.getByte(srcIdx++), dst.getByte(dstIdx++), op));
+                    }
+                    break;
+                case REPLACE:
+                    Bitmap.arraycopy(src, srcIdx, dst, dstIdx, count);
+                    break;
+                default:
+                    break;
             }
+            srcStartOffset += src.getRowStride();
+            dstStartOffset += dst.getRowStride();
         }
     }
 

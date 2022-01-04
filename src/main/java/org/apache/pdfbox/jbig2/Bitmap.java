@@ -248,4 +248,18 @@ public class Bitmap
         Bitmap other = (Bitmap)obj;
         return Arrays.equals(bitmap, other.bitmap);
     }
+    
+    /**
+     * Copy parts of the underlying array of a Bitmap to another Bitmap.
+     *  
+     * @param src the source Bitmap
+     * @param srcPos start position within the source Bitmap
+     * @param dest the destination Bitmap
+     * @param destPos start position within the destination Bitmap
+     * @param length the number of bytes to be copied
+     */
+    public static void arraycopy(Bitmap src, int srcPos, Bitmap dest, int destPos,  int length)
+    {
+        System.arraycopy(src.bitmap, srcPos, dest.bitmap, destPos, length);
+    }
 }
