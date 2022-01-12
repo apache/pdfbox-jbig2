@@ -219,7 +219,7 @@ public class JBIG2ImageReader extends ImageReader
             try
             {
                 pageBitmap = page.getBitmap();
-                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getLength());
                 page.clearPageData();
             }
             catch (JBIG2Exception e)
@@ -253,7 +253,7 @@ public class JBIG2ImageReader extends ImageReader
             try
             {
                 pageBitmap = page.getBitmap();
-                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getMemorySize());
+                CacheFactory.getCache().put(page, pageBitmap, pageBitmap.getLength());
                 page.clearPageData();
             }
             catch (JBIG2Exception e)
