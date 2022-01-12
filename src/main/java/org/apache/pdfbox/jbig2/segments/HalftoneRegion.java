@@ -19,7 +19,6 @@ package org.apache.pdfbox.jbig2.segments;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.Region;
