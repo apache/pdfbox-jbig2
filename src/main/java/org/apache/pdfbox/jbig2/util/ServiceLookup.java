@@ -33,15 +33,23 @@ public class ServiceLookup<B>
         Iterator<B> services = null;
         if (clsLoader != null)
         {
+            // use the provided class loader
             services = ServiceLoader.load(cls, clsLoader).iterator();
         }
         if (services == null || !services.hasNext())
         {
+            // use the context class loader of the current thread
+            services = ServiceLoader.load(cls, Thread.currentThread().getContextClassLoader()).iterator();
+        }
+        if (services == null || !services.hasNext())
+        {
+            // use the class loader which was used to load the provided class
             services = ServiceLoader.load(cls, cls.getClass().getClassLoader()).iterator();
         }
         if (services == null || !services.hasNext())
         {
-            services = ServiceLoader.load(cls).iterator();
+            // use the system class loader
+            services = ServiceLoader.load(cls, ClassLoader.getSystemClassLoader()).iterator();
         }
         return services;
     }
