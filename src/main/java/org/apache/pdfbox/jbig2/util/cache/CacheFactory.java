@@ -39,12 +39,15 @@ public class CacheFactory
             final Iterator<CacheBridge> cacheBridgeServices = serviceLookup
                     .getServices(CacheBridge.class, clsLoader);
 
-            if (!cacheBridgeServices.hasNext())
+            if (cacheBridgeServices.hasNext())
             {
-                throw new IllegalStateException("No implementation of " + CacheBridge.class
-                        + " was avaliable using META-INF/services lookup");
+                cacheBridge = cacheBridgeServices.next();
             }
-            cacheBridge = cacheBridgeServices.next();
+            else
+            {
+                // use the default implementation
+                cacheBridge = new SoftReferenceCacheBridge(); 
+            }
         }
         return cacheBridge.getCache();
     }

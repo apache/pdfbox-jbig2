@@ -17,27 +17,19 @@
 
 package org.apache.pdfbox.jbig2.util;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import org.apache.pdfbox.jbig2.util.cache.CacheBridge;
 import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
+import org.apache.pdfbox.jbig2.util.cache.SoftReferenceCache;
 import org.junit.Test;
 
 public class CacheFactoryTest
 {
 
     @Test
-    public void testWithDefaultClassLoader()
+    public void testWithDefaultImplementation()
     {
-        CacheFactory.setClassLoader(CacheBridge.class.getClassLoader());
-        assertNotNull(CacheFactory.getCache());
-    }
-
-    @Test
-    public void testWithContextClassLoader()
-    {
-        CacheFactory.setClassLoader(Thread.currentThread().getContextClassLoader());
-        assertNotNull(CacheFactory.getCache());
+        assertTrue(CacheFactory.getCache() instanceof SoftReferenceCache);
     }
 
 }
