@@ -16,10 +16,14 @@
 --->
 # Release notes
 
-## Version 3.0.3 (pending)
+## Version 3.0.4 (pending)
+- [PDFBOX-4671](https://issues.apache.org/jira/browse/PDFBOX-4671): NoClassDefFoundError: Could not initialize class org.apache.pdfbox.jbig2.JBIG2ImageReader
+- [PDFBOX-5220](https://issues.apache.org/jira/browse/PDFBOX-5220): Optimizations for Bitmaps
+- [PDFBOX-5242](https://issues.apache.org/jira/browse/PDFBOX-5242): LoggerBridge loading under the wrong class loader
+
+## Version 3.0.3 (2019-12-18)
 - [PDFBOX-4472](https://issues.apache.org/jira/browse/PDFBOX-4472): Thread stuck in SoftReferenceCache.get
 - [PDFBOX-4598](https://issues.apache.org/jira/browse/PDFBOX-4598): oversized jbig2 decoded result that causing unnecessary operation
-
 
 ## Version 3.0.2 (2018-09-25)
 - [PDFBOX-4290](https://issues.apache.org/jira/browse/PDFBOX-4290): Memory Leak in SoftReferenceCache

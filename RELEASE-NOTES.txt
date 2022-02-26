@@ -1,4 +1,4 @@
-Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.3
+Release Notes -- Apache JBIG2 ImageIO -- Version 3.0.4
 
 Introduction
 ------------
@@ -6,7 +6,7 @@ Introduction
 The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBIG2 
 image compression standard. This component is part of the Apache PDFBox® project.
 
-This is an incremental bugfix release based on the earlier 3.0.2 release.
+This is an incremental bugfix release based on the earlier 3.0.3 release.
 
 For more details on all fixes and improvements included in this release, please refer
 to the following issues on the PDFBox issue tracker at 
@@ -14,8 +14,12 @@ https://issues.apache.org/jira/browse/PDFBOX.
 
 Bug
 
-[PDFBOX-4472] Thread stuck in SoftReferenceCache.get
-[PDFBOX-4598] oversized jbig2 decoded result that causing unnecessary operation
+[PDFBOX-4671] - NoClassDefFoundError: Could not initialize class org.apache.pdfbox.jbig2.JBIG2ImageReader
+[PDFBOX-5242] - LoggerBridge loading under the wrong class loader
+
+Improvement
+
+[PDFBOX-5220] - Optimizations for Bitmaps
 
 Release Contents
 ----------------
@@ -38,7 +42,7 @@ documents and the ability to extract content from documents. Apache PDFBox
 also includes several command line utilities. Apache PDFBox is published
 under the Apache License, Version 2.0.
 
-For more information, visit http://pdfbox.apache.org/
+For more information, visit https://pdfbox.apache.org/
 
 About The Apache Software Foundation
 ------------------------------------
@@ -50,4 +54,4 @@ enables individual and commercial users to easily deploy Apache software;
 the Foundation's intellectual property framework limits the legal exposure
 of its 2,500+ contributors.
 
-For more information, visit http://www.apache.org/
+For more information, visit https://www.apache.org/
