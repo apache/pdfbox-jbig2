@@ -16,7 +16,7 @@
 --->
 # Release notes
 
-## Version 3.0.4 (pending)
+## Version 3.0.4 (2022-03-01)
 - [PDFBOX-4671](https://issues.apache.org/jira/browse/PDFBOX-4671): NoClassDefFoundError: Could not initialize class org.apache.pdfbox.jbig2.JBIG2ImageReader
 - [PDFBOX-5220](https://issues.apache.org/jira/browse/PDFBOX-5220): Optimizations for Bitmaps
 - [PDFBOX-5242](https://issues.apache.org/jira/browse/PDFBOX-5242): LoggerBridge loading under the wrong class loader
