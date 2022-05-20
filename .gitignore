@@ -6,3 +6,4 @@ atlassian-ide-plugin.xml
 levigo-jbig2-imageio.iml
 target/
 *.iml
+nbactions.xml
