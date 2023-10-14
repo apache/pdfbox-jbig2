@@ -319,7 +319,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.7.0</version>
+                <version>1.6.8</version>
                 <executions>
                     <execution>
                         <id>Testfiles</id>
@@ -359,6 +359,7 @@
 						<excludes>
 							<exclude>src/test/resources/images/*</exclude>
 							<exclude>nbactions.xml</exclude>
+                                                        <exclude>nb-configuration.xml</exclude>
 							<exclude>src/test/resources/images/arith/*</exclude>
 							<exclude>src/test/resources/org/apache/pdfbox/jbig2/github/*</exclude>
 						</excludes>
@@ -388,7 +389,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>8.2.1</version>
+                        <version>8.4.0</version>
                         <configuration>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
