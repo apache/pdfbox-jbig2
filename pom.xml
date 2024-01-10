@@ -354,7 +354,7 @@
 				<plugin>
 					<groupId>org.apache.rat</groupId>
 					<artifactId>apache-rat-plugin</artifactId>
-					<version>0.15</version>
+					<version>0.16</version>
 					<configuration>
 						<excludes>
 							<exclude>src/test/resources/images/*</exclude>
@@ -389,7 +389,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>9.0.7</version>
+                        <version>9.0.8</version>
                         <configuration>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
