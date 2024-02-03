@@ -319,7 +319,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.6.8</version>
+                <version>1.8.0</version>
                 <executions>
                     <execution>
                         <id>Testfiles</id>
@@ -354,7 +354,7 @@
 				<plugin>
 					<groupId>org.apache.rat</groupId>
 					<artifactId>apache-rat-plugin</artifactId>
-					<version>0.16</version>
+					<version>0.16.1</version>
 					<configuration>
 						<excludes>
 							<exclude>src/test/resources/images/*</exclude>
@@ -389,7 +389,7 @@
                     <plugin>
                         <groupId>org.owasp</groupId>
                         <artifactId>dependency-check-maven</artifactId>
-                        <version>9.0.8</version>
+                        <version>9.0.9</version>
                         <configuration>
                             <failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
                         </configuration>
