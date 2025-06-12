@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.apache</groupId>
         <artifactId>apache</artifactId>
-        <version>18</version>
+        <version>34</version>
         <relativePath />
     </parent>
     
@@ -247,7 +247,7 @@
                                 <configuration>
                                     <rules combine.children="append">
                                         <requireMavenVersion>
-                                            <version>3.3.0</version>
+                                            <version>3.7.0</version>
                                         </requireMavenVersion>
                                     </rules>    
                                 </configuration>
@@ -319,7 +319,7 @@
             <plugin>
                 <groupId>com.googlecode.maven-download-plugin</groupId>
                 <artifactId>download-maven-plugin</artifactId>
-                <version>1.9.0</version>
+                <version>1.13.0</version>
                 <executions>
                     <execution>
                         <id>Testfiles</id>
