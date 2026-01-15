@@ -188,8 +188,6 @@ class JBIG2Document
             globalSegments = new JBIG2Globals();
         }
 
-        JBIG2Page page = null;
-
         /*
          * If organisation type is random-access: walk through the segment headers until EOF segment appears (specified
          * with segment number 51)
@@ -204,7 +202,7 @@ class JBIG2Document
 
             if (associatedPage != 0)
             {
-                page = getPage(associatedPage);
+                JBIG2Page page = getPage(associatedPage);
                 if (page == null)
                 {
                     page = new JBIG2Page(this, associatedPage);
@@ -225,6 +223,13 @@ class JBIG2Document
             {
                 offset += segment.getSegmentDataLength();
             }
+        }
+
+        // PDFBOX-6147: abort if first page isn't 1, however
+        // a purely empty document is valid when calling "new JBIG2Document(globals)"
+        if (!pages.isEmpty() && pages.get(1) == null)
+        {
+            throw new IOException("Page 1 missing");
         }
 
         /*
