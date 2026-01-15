@@ -39,7 +39,7 @@ import org.apache.pdfbox.jbig2.image.FilterType;
 import org.apache.pdfbox.jbig2.util.cache.CacheFactory;
 
 /**
- * @see ImageReader
+ * {@inheritDoc}
  */
 public class JBIG2ImageReader extends ImageReader
 {
@@ -50,9 +50,8 @@ public class JBIG2ImageReader extends ImageReader
     private JBIG2Globals globals;
 
     /**
-     * @see ImageReader#ImageReader(ImageReaderSpi)
+     * {@inheritDoc}
      * 
-     * @param originatingProvider - The {@code ImageReaderSpi} that is invoking this constructor, or {@code null}.
      * @throws IOException if something went wrong while reading the provided stream.
      */
     public JBIG2ImageReader(ImageReaderSpi originatingProvider) throws IOException
@@ -60,9 +59,6 @@ public class JBIG2ImageReader extends ImageReader
         super(originatingProvider);
     }
 
-    /**
-     * @see ImageReader#getDefaultReadParam()
-     */
     @Override
     public JBIG2ReadParam getDefaultReadParam()
     {
@@ -95,36 +91,18 @@ public class JBIG2ImageReader extends ImageReader
                 new Dimension(width, height));
     }
 
-    /**
-     * Calculates the width of the specified page.
-     * 
-     * @param imageIndex - The image index. In this case it is the page number.
-     * 
-     * @return The width of the specified page.
-     * 
-     * @throws IOException if an error occurs reading the width information from the input source.
-     */
     @Override
     public int getWidth(int imageIndex) throws IOException
     {
-        return getDocument().getPage(imageIndex + 1).getWidth();
+        return getPage(imageIndex).getWidth();
     }
 
-    /**
-     * Calculates the height of the specified page.
-     * 
-     * @param imageIndex - The image index. In this case it is the page number.
-     * 
-     * @return The height of the specified page or {@code 0} if an error occurred.
-     * 
-     * @throws IOException if an error occurs reading the height information from the input source.
-     */
     @Override
     public int getHeight(int imageIndex) throws IOException
     {
         try
         {
-            return getDocument().getPage(imageIndex + 1).getHeight();
+            return getPage(imageIndex).getHeight();
         }
         catch (JBIG2Exception e)
         {
@@ -132,28 +110,12 @@ public class JBIG2ImageReader extends ImageReader
         }
     }
 
-    /**
-     * Simply returns the {@link JBIG2ImageMetadata}.
-     * 
-     * @return The associated {@link JBIG2ImageMetadata}.
-     * 
-     * @throws IOException if an error occurs reading the height information from the input source.
-     */
     @Override
     public IIOMetadata getImageMetadata(int imageIndex) throws IOException
     {
-        return new JBIG2ImageMetadata(getDocument().getPage(imageIndex + 1));
+        return new JBIG2ImageMetadata(getPage(imageIndex));
     }
 
-    /**
-     * Returns the iterator for available image types.
-     * 
-     * @param imageIndex - The page number.
-     * 
-     * @return An {@link Iterator} for available image types.
-     * 
-     * @throws IOException if an error occurs reading the height information from the input source.
-     */
     @Override
     public Iterator<ImageTypeSpecifier> getImageTypes(int imageIndex) throws IOException
     {
@@ -164,9 +126,6 @@ public class JBIG2ImageReader extends ImageReader
         return l.iterator();
     }
 
-    /**
-     * @see ImageReader#getNumImages(boolean)
-     */
     @Override
     public int getNumImages(boolean allowSearch) throws IOException
     {
@@ -197,11 +156,6 @@ public class JBIG2ImageReader extends ImageReader
         return getDocument().getGlobalSegments();
     }
 
-    /**
-     * Returns the decoded image of specified page considering the given {@link JBIG2ReadParam}s.
-     * 
-     * @see ImageReader#read(int, ImageReadParam)
-     */
     @Override
     public BufferedImage read(int imageIndex, ImageReadParam param) throws IOException
     {
@@ -293,9 +247,6 @@ public class JBIG2ImageReader extends ImageReader
         this.document = null;
     }
 
-    /**
-     * @see ImageReader#setInput(Object, boolean, boolean)
-     */
     @Override
     public void setInput(Object input, boolean seekForwardOnly, boolean ignoreMetadata)
     {
@@ -317,6 +268,14 @@ public class JBIG2ImageReader extends ImageReader
         return this.document;
     }
 
+    /**
+     * Return the page.
+     *
+     * @param imageIndex 0 based page index.
+     * @return The page.
+     * @throws IOException if the input wasn't set.
+     * @throws IndexOutOfBoundsException if the page doesn't exist at that index.
+     */
     private JBIG2Page getPage(int imageIndex) throws IOException
     {
         JBIG2Page page = getDocument().getPage(imageIndex + 1);
