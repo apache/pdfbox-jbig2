@@ -103,8 +103,8 @@ public class PatternDictionary implements Dictionary
 
     private void readPatternWidthAndHeight() throws IOException
     {
-        hdpWidth = subInputStream.readByte();
-        hdpHeight = subInputStream.readByte();
+        hdpWidth = (short) (subInputStream.readByte() & 0xFF);
+        hdpHeight = (short) (subInputStream.readByte() & 0xFF);
     }
 
     private void readGrayMax() throws IOException
