@@ -74,7 +74,7 @@ public class HalftoneRegion implements Region
     /**
      * Previously decoded data from other regions or dictionaries, stored to use as patterns in this region.
      */
-    private ArrayList<Bitmap> patterns;
+    private ArrayList<Bitmap> patterns; // HPATS
 
     public HalftoneRegion()
     {
@@ -97,36 +97,40 @@ public class HalftoneRegion implements Region
     {
         regionInfo.parseHeader();
 
-        /* Bit 7 */
+        // 7.4.5.1.1 Halftone region segment flags
+
+        /* Bit 7: HDEFPIXEL */
         hDefaultPixel = (byte) subInputStream.readBit();
 
-        /* Bit 4-6 */
+        /* Bit 4-6: HCOMBOP */
         hCombinationOperator = CombinationOperator
                 .translateOperatorCodeToEnum((short) (subInputStream.readBits(3) & 0xf));
 
-        /* Bit 3 */
+        /* Bit 3: HENABLESKIP */
         if (subInputStream.readBit() == 1)
         {
             hSkipEnabled = true;
         }
 
-        /* Bit 1-2 */
+        /* Bit 1-2: HTEMPLATE */
         hTemplate = (byte) (subInputStream.readBits(2) & 0xf);
 
-        /* Bit 0 */
+        /* Bit 0: HMMR */
         if (subInputStream.readBit() == 1)
         {
             isMMREncoded = true;
         }
 
-        hGridWidth = (int) (subInputStream.readBits(32) & 0xffffffff);
-        hGridHeight = (int) (subInputStream.readBits(32) & 0xffffffff);
+        // 7.4.5.1.2 Halftone grid position and size
+        hGridWidth = (int) (subInputStream.readBits(32) & 0xffffffff); // HGW
+        hGridHeight = (int) (subInputStream.readBits(32) & 0xffffffff); // HGH
 
-        hGridX = (int) subInputStream.readBits(32);
-        hGridY = (int) subInputStream.readBits(32);
+        hGridX = (int) subInputStream.readBits(32); // HGX
+        hGridY = (int) subInputStream.readBits(32); // HGY
 
-        hRegionX = (int) subInputStream.readBits(16) & 0xffff;
-        hRegionY = (int) subInputStream.readBits(16) & 0xffff;
+        // 7.4.5.1.3 Halftone grid vector
+        hRegionX = (int) subInputStream.readBits(16) & 0xffff; // HRX
+        hRegionY = (int) subInputStream.readBits(16) & 0xffff; // HRY
 
         /* Segment data structure */
         computeSegmentDataStructure();
@@ -179,6 +183,22 @@ public class HalftoneRegion implements Region
             // pattern segments. The method is called like this:
             // hSkip = computeHSkip(hPatternHeight, hPatternWidth);
             // }
+
+            // leaving the above comments untouched for now.
+            Bitmap hSkip;
+            if (hSkipEnabled)
+            {
+                // test files from Serenity:
+                // bitmap-halftone-skip-grid.jbig2
+                // bitmap-halftone-skip-grid-template1.jbig2
+                // bitmap-halftone-skip-grid-template2.jbig2
+                // bitmap-halftone-skip-grid-template3.jbig2
+                int hPatternHeight = (int) patterns.get(0).getHeight(); // HPW
+                int hPatternWidth = (int) patterns.get(0).getWidth(); // HPH
+                hSkip = computeHSkip(hPatternWidth, hPatternHeight);
+                //TODO: what to do with the result bitmap?
+                throw new IOException("HSKIP not implemented");
+            }
 
             /* 3) */
             final int bitsPerValue = (int) Math.ceil(Math.log(patterns.size()) / Math.log(2));
@@ -435,5 +455,30 @@ public class HalftoneRegion implements Region
     protected byte getHDefaultPixel()
     {
         return hDefaultPixel;
+    }
+
+    // 6.6.5.1 Computing HSKIP
+    private Bitmap computeHSkip(int hPatternWidth, int hPatternHeight) throws IOException
+    {
+        Bitmap bitmap = new Bitmap(hGridWidth, hGridHeight); // HSKIP is HGW by HGH pixels
+        for (int m = 0; m < hGridHeight; ++m)
+        {
+            for (int n = 0; n < hGridWidth; ++n)
+            {
+                int x = (hGridX + m * hRegionY + n * hRegionX) >> 8;
+                int y = (hGridY + m * hRegionX - n * hRegionY) >> 8;
+                // HBW = halftoneRegionBitmap.getWidth()
+                // HBH = halftoneRegionBitmap.getHeight()
+                if (x + hPatternWidth <= 0 || x >= halftoneRegionBitmap.getWidth() || y + hPatternHeight <= 0 || y >= halftoneRegionBitmap.getHeight())
+                {
+                    bitmap.setPixel(n, m, (byte) 1);
+                }
+                else
+                {
+                    bitmap.setPixel(n, m, (byte) 0);
+                }
+            }
+        }
+        return bitmap;
     }
 }
