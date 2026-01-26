@@ -68,6 +68,8 @@ public class GenericRegion implements Region
 
     private MMRDecompressor mmrDecompressor;
 
+    private boolean useSkip;
+
     public GenericRegion()
     {
     }
@@ -981,6 +983,7 @@ public class GenericRegion implements Region
             this.arithDecoder = arithmeticDecoder;
 
         this.mmrDecompressor = null;
+        this.useSkip = useSkip;
         resetBitmap();
     }
 
@@ -1015,6 +1018,7 @@ public class GenericRegion implements Region
         this.isTPGDon = isTPGDon;
         this.gbAtX = gbAtX;
         this.gbAtY = gbAtY;
+        this.useSkip = useSkip;
     }
 
     /**
