@@ -276,7 +276,7 @@ public class Bitmaps
             scaleX = scaleY = 1d;
         }
 
-        ColorModel cm = null;
+        ColorModel cm;
         final boolean isScaled = scaleX != 1 || scaleY != 1;
         if (isScaled)
         {
@@ -493,29 +493,29 @@ public class Bitmaps
      * <b>Hint:</b> Please take a look at ISO/IEC 14492:2001 (E) for detailed definition and description of the
      * operators.
      * 
-     * @param value1 - The value that should be combined with value2.
-     * @param value2 - The value that should be combined with value1.
+     * @param oldByte - The old value that should be combined with newByte.
+     * @param newByte - The new value that should be combined with oldByte.
      * @param op - The specified combination operator.
      * 
-     * @return The combination result.
+     * @return The combination result. In the case of {@link CombinationOperator#REPLACE}, newValue is returned.
      */
-    public static byte combineBytes(byte value1, byte value2, CombinationOperator op)
+    public static byte combineBytes(byte oldByte, byte newByte, CombinationOperator op)
     {
 
         switch (op)
         {
         case OR:
-            return (byte) (value2 | value1);
+            return (byte) (newByte | oldByte);
         case AND:
-            return (byte) (value2 & value1);
-        case XOR:
-            return (byte) (value2 ^ value1);
-        case XNOR:
-            return (byte) ~(value1 ^ value2);
+            return (byte) (newByte & oldByte);
+        case XOR: // 0 if equal, 1 if diff
+            return (byte) (newByte ^ oldByte);
+        case XNOR: // 0 if diff, 1 if equal
+            return (byte) ~(oldByte ^ newByte);
         case REPLACE:
         default:
             // Old value is replaced by new value.
-            return value2;
+            return newByte;
         }
     }
 
