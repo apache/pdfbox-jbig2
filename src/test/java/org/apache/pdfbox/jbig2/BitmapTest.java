@@ -34,6 +34,10 @@ public class BitmapTest
         bitmap.setPixel(3, 19, (byte) 1);
 
         assertEquals(1, bitmap.getPixel(3, 19));
+        
+        bitmap.setPixel(3, 19, (byte) 0);
+
+        assertEquals(0, bitmap.getPixel(3, 19));
     }
 
     @Test

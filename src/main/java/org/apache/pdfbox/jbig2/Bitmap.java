@@ -75,6 +75,16 @@ public class Bitmap
         return (byte) ((this.getByte(byteIndex) >> toShift) & 0x01);
     }
 
+    /**
+     * Sets the value of a pixel specified by the given coordinates.
+     * <p>
+     * By default, the value is {@code 0} for a white pixel and {@code 1} for a black pixel. The
+     * value is taken from the rightmost bit in the byte.
+     *
+     * @param x - The x coordinate of the pixel.
+     * @param y - The y coordinate of the pixel.
+     * @param pixelValue The value of a pixel.
+     */
     public void setPixel(int x, int y, byte pixelValue)
     {
         final int byteIndex = getByteIndex(x, y);
@@ -83,8 +93,14 @@ public class Bitmap
         final int shift = 7 - bitOffset;
 
         final byte src = bitmap[byteIndex];
-        final byte result = (byte) (src | (pixelValue << shift));
-        bitmap[byteIndex] = result;
+        if ((pixelValue & 1) == 1)
+        {
+            bitmap[byteIndex] = (byte) (src | (1 << shift));
+        }
+        else
+        {
+            bitmap[byteIndex] = (byte) (src & ~(1 << shift));
+        }
     }
 
     /**
