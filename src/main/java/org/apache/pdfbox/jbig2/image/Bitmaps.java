@@ -537,6 +537,7 @@ public class Bitmaps
         int startLine = 0;
         int srcStartIdx = 0;
         int srcEndIdx = (src.getRowStride() - 1);
+        int x1 = x, y1 = y;
 
         // Ignore those parts of the source bitmap which would be placed outside the target bitmap.
         if (x < 0)
@@ -566,6 +567,17 @@ public class Bitmaps
 
         final int padding = src.getWidth() & 0x07;
         final int toShift = shiftVal2 - padding;
+
+        if ((shiftVal1 != 0 || padding != 0) && 
+            !(x1 == 0 && src.getWidth() == dst.getWidth()))
+        {
+            // PDFBOX-6156: do it the hard way until the other methods are fixed
+            // Test your fix with "bitmap-composite-and-xnor.jbig2" of the serenity project
+            // not needed if both have the same size and start at 0
+            // but needed if start or end not at byte boundary
+            blitByPixel(src, dst, x1, y1, combinationOperator);
+            return;
+        }
 
         final boolean useShift = (shiftVal2 & 0x07) != 0;
         final boolean specialCase = src.getWidth() <= ((srcEndIdx - srcStartIdx) << 3) + shiftVal2;
@@ -688,6 +700,27 @@ public class Bitmaps
                     oldByte = dst.getByte(dstIdx);
                     dst.setByte(dstIdx, Bitmaps.combineBytes(oldByte, newByte, op));
                 }
+            }
+        }
+    }
+
+    private static void blitByPixel(Bitmap src, Bitmap dst, int xDstOffset, int yDstOffset,
+            CombinationOperator combinationOperator)
+    {
+        for (int y = 0; y < src.getHeight() && yDstOffset + y < dst.getHeight(); ++y)
+        {
+            if (yDstOffset + y < 0)
+            {
+                continue;
+            }
+            for (int x = 0; x < src.getWidth() && xDstOffset + x < dst.getWidth(); ++x)
+            {
+                if (xDstOffset + x < 0)
+                {
+                    continue;
+                }            
+                byte resultBit = combineBytes(dst.getPixel(xDstOffset + x, yDstOffset + y), src.getPixel(x, y), combinationOperator);
+                dst.setPixel(xDstOffset + x, yDstOffset + y, resultBit);
             }
         }
     }
