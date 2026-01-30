@@ -232,7 +232,7 @@ public class HalftoneRegion implements Region
 
                 // ii)
                 final Bitmap patternBitmap = patterns.get(grayScaleValues[m][n]);
-                Bitmaps.blit(patternBitmap, halftoneRegionBitmap, (x + hGridX), (y + hGridY),
+                Bitmaps.blit(patternBitmap, halftoneRegionBitmap, x, y,
                         hCombinationOperator);
             }
         }
