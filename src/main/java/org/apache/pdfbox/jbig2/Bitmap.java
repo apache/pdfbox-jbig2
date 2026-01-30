@@ -40,8 +40,10 @@ public class Bitmap
 
     /**
      * Creates an instance of a blank image.<br>
-     * The image data is stored in a byte array. Each pixels is stored as one bit, so that each byte contains 8 pixel. A
-     * pixel has by default the value {@code 0} for white and {@code 1} for black. <br>
+     * The image data is stored in a byte array. Each pixels is stored as one bit, so that each byte
+     * contains 8 pixel. <b>A pixel has by default the value {@code 0} for white and {@code 1} for
+     * black.</b>
+     * <p>
      * Row stride means the amount of bytes per line. It is computed automatically and fills the pad bits with 0.<br>
      * 
      * @param height - The real height of the bitmap in pixels.
@@ -61,6 +63,8 @@ public class Bitmap
      * <p>
      * By default, the value is {@code 0} for a white pixel and {@code 1} for a black pixel. The value is placed in the
      * rightmost bit in the byte.
+     * <p>
+     * There is no check whether the pixel coordinate is within the bitmap.
      * 
      * @param x - The x coordinate of the pixel.
      * @param y - The y coordinate of the pixel.
@@ -78,8 +82,10 @@ public class Bitmap
     /**
      * Sets the value of a pixel specified by the given coordinates.
      * <p>
-     * By default, the value is {@code 0} for a white pixel and {@code 1} for a black pixel. The
+     * By default, the value is <b>{@code 0} for a white pixel and {@code 1} for a black pixel</b>. The
      * value is taken from the rightmost bit in the byte.
+     * <p>
+     * There is no check whether the pixel coordinate is within the bitmap.
      *
      * @param x - The x coordinate of the pixel.
      * @param y - The y coordinate of the pixel.
