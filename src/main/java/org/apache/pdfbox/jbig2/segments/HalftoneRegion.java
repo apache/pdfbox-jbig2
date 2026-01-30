@@ -341,32 +341,12 @@ public class HalftoneRegion implements Region
 
     private int computeX(final int m, final int n)
     {
-        return shiftAndFill((hGridX + m * hRegionY + n * hRegionX));
+        return (hGridX + m * hRegionY + n * hRegionX) >> 8;
     }
 
     private int computeY(final int m, final int n)
     {
-        return shiftAndFill((hGridY + m * hRegionX - n * hRegionY));
-    }
-
-    private int shiftAndFill(int value)
-    {
-        // shift value by 8 and let the leftmost 8 bits be 0
-        value >>= 8;
-
-        if (value < 0)
-        {
-            // fill the leftmost 8 bits with 1
-            final int bitPosition = (int) (Math.log(Integer.highestOneBit(value)) / Math.log(2));
-
-            for (int i = 1; i < 31 - bitPosition; i++)
-            {
-                // bit flip
-                value |= 1 << (31 - i);
-            }
-        }
-
-        return value;
+        return (hGridY + m * hRegionX - n * hRegionY) >> 8;
     }
 
     public void init(final SegmentHeader header, final SubInputStream sis)
@@ -446,18 +426,15 @@ public class HalftoneRegion implements Region
         {
             for (int n = 0; n < hGridWidth; ++n)
             {
-                int x = (hGridX + m * hRegionY + n * hRegionX) >> 8;
-                int y = (hGridY + m * hRegionX - n * hRegionY) >> 8;
+                int x = computeX(m, n);
+                int y = computeY(m, n);
                 // HBW = halftoneRegionBitmap.getWidth()
                 // HBH = halftoneRegionBitmap.getHeight()
                 if (x + hPatternWidth <= 0 || x >= halftoneRegionBitmap.getWidth() || y + hPatternHeight <= 0 || y >= halftoneRegionBitmap.getHeight())
                 {
                     bitmap.setPixel(n, m, (byte) 1);
                 }
-                else
-                {
-                    bitmap.setPixel(n, m, (byte) 0);
-                }
+                // else no need to set 0 pixels
             }
         }
         return bitmap;
