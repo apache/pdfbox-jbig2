@@ -171,40 +171,21 @@ public class HalftoneRegion implements Region
                 halftoneRegionBitmap.fillBitmap((byte) 0xff);
             }
 
-            /* 2) */
-            /*
-             * 6.6.5.1 Computing hSkip - At the moment SKIP is not used... we are not able to test it.
-             */
-            // Bitmap hSkip;
-            // if (hSkipEnabled) {
-            // int hPatternHeight = (int) hPats.get(0).getHeight();
-            // int hPatternWidth = (int) hPats.get(0).getWidth();
-            // TODO: Set or get pattern width and height from referred
-            // pattern segments. The method is called like this:
-            // hSkip = computeHSkip(hPatternHeight, hPatternWidth);
-            // }
+            /* 2) 6.6.5.1 Computing HSKIP */
 
-            // leaving the above comments untouched for now.
-            Bitmap hSkip;
+            Bitmap hSkip = null;
             if (hSkipEnabled)
             {
-                // test files from Serenity:
-                // bitmap-halftone-skip-grid.jbig2
-                // bitmap-halftone-skip-grid-template1.jbig2
-                // bitmap-halftone-skip-grid-template2.jbig2
-                // bitmap-halftone-skip-grid-template3.jbig2
                 int hPatternHeight = (int) patterns.get(0).getHeight(); // HPW
                 int hPatternWidth = (int) patterns.get(0).getWidth(); // HPH
                 hSkip = computeHSkip(hPatternWidth, hPatternHeight);
-                //TODO: what to do with the result bitmap?
-                throw new IOException("HSKIP not implemented");
             }
 
             /* 3) */
             final int bitsPerValue = (int) Math.ceil(Math.log(patterns.size()) / Math.log(2));
 
             /* 4) */
-            final int[][] grayScaleValues = grayScaleDecoding(bitsPerValue);
+            final int[][] grayScaleValues = grayScaleDecoding(bitsPerValue, hSkip);
 
             /* 5), rendering the pattern, described in 6.6.5.2 */
             renderPattern(grayScaleValues);
@@ -260,7 +241,7 @@ public class HalftoneRegion implements Region
      * Gray-scale image decoding procedure is special for halftone region decoding and is described in Annex C.5 on page
      * 98.
      */
-    private int[][] grayScaleDecoding(final int bitsPerValue) throws IOException
+    private int[][] grayScaleDecoding(final int bitsPerValue, final Bitmap hSkip) throws IOException
     {
 
         short[] gbAtX = null;
@@ -290,7 +271,7 @@ public class HalftoneRegion implements Region
         // 1)
         GenericRegion genericRegion = new GenericRegion(subInputStream);
         genericRegion.setParameters(isMMREncoded, dataOffset, dataLength, hGridHeight, hGridWidth,
-                hTemplate, false, hSkipEnabled, gbAtX, gbAtY);
+                hTemplate, false, hSkipEnabled, hSkip, gbAtX, gbAtY);
 
         // 2)
         int j = bitsPerValue - 1;

@@ -147,7 +147,7 @@ public class PatternDictionary implements Dictionary
             // 2)
             final GenericRegion genericRegion = new GenericRegion(subInputStream);
             genericRegion.setParameters(isMMREncoded, dataOffset, dataLength, hdpHeight,
-                    (grayMax + 1) * hdpWidth, hdTemplate, false, false, gbAtX, gbAtY);
+                    (grayMax + 1) * hdpWidth, hdTemplate, false, false, null, gbAtX, gbAtY);
 
             final Bitmap collectiveBitmap = genericRegion.getRegionBitmap();
 

@@ -68,7 +68,8 @@ public class GenericRegion implements Region
 
     private MMRDecompressor mmrDecompressor;
 
-    private boolean useSkip;
+    private boolean useSkip = false;
+    private Bitmap hSkip = null;
 
     public GenericRegion()
     {
@@ -158,6 +159,7 @@ public class GenericRegion implements Region
      * 
      * @return The decoded {@link Bitmap} of this region.
      */
+    @Override
     public Bitmap getRegionBitmap() throws IOException
     {
         if (null == regionBitmap)
@@ -227,20 +229,9 @@ public class GenericRegion implements Region
                     }
                     else
                     {
-                        /* 3 d) */
-                        // NOT USED ATM - If corresponding pixel of SKIP bitmap is 0, set
-                        // current pixel to 0. Something like that:
-                        // if (useSkip) {
-                        // for (int i = 1; i < rowstride; i++) {
-                        // if (skip[pixel] == 1) {
-                        // gbReg[pixel] = 0;
-                        // }
-                        // pixel++;
-                        // }
-                        // } else {
+                        /* 6.2.5.7 - 3 d) */
                         decodeLine(line, regionBitmap.getWidth(), regionBitmap.getRowStride(),
                                 paddedWidth);
-                        // }
                     }
                 }
             }
@@ -378,7 +369,15 @@ public class GenericRegion implements Region
                     cx.setIndex(context);
                 }
 
-                int bit = arithDecoder.decode(cx);
+                final int bit;
+                if (useSkip && hSkip.getPixel(x + minorX, lineNumber) == 1)
+                {
+                    bit = 0;
+                }
+                else
+                {
+                    bit = arithDecoder.decode(cx);
+                }
 
                 result |= bit << toShift;
 
@@ -446,7 +445,15 @@ public class GenericRegion implements Region
                     cx.setIndex(context);
                 }
 
-                final int bit = arithDecoder.decode(cx);
+                final int bit;
+                if (useSkip && hSkip.getPixel(x + minorX, lineNumber) == 1)
+                {
+                    bit = 0;
+                }
+                else
+                {
+                    bit = arithDecoder.decode(cx);
+                }
 
                 result |= bit << toShift;
 
@@ -513,7 +520,15 @@ public class GenericRegion implements Region
                     cx.setIndex(context);
                 }
 
-                final int bit = arithDecoder.decode(cx);
+                final int bit;
+                if (useSkip && hSkip.getPixel(x + minorX, lineNumber) == 1)
+                {
+                    bit = 0;
+                }
+                else
+                {
+                    bit = arithDecoder.decode(cx);
+                }
 
                 result |= bit << 7 - minorX;
 
@@ -582,7 +597,15 @@ public class GenericRegion implements Region
                     cx.setIndex(context);
                 }
 
-                final int bit = arithDecoder.decode(cx);
+                final int bit;
+                if (useSkip && hSkip.getPixel(x + minorX, lineNumber) == 1)
+                {
+                    bit = 0;
+                }
+                else
+                {
+                    bit = arithDecoder.decode(cx);
+                }
 
                 result |= bit << (7 - minorX);
 
@@ -639,7 +662,15 @@ public class GenericRegion implements Region
                     cx.setIndex(context);
                 }
 
-                final int bit = arithDecoder.decode(cx);
+                final int bit;
+                if (useSkip && hSkip.getPixel(x + minorX, lineNumber) == 1)
+                {
+                    bit = 0;
+                }
+                else
+                {
+                    bit = arithDecoder.decode(cx);
+                }
 
                 result |= bit << (7 - minorX);
                 context = ((context & 0x1f7) << 1) | bit | ((line1 >> (8 - minorX)) & 0x010);
@@ -998,13 +1029,14 @@ public class GenericRegion implements Region
      * @param gbTemplate gb template
      * @param isTPGDon is TPGDon
      * @param useSkip use skip
+     * @param hSkip the HSKIP bitmap
      * @param gbAtX x values of gbA pixels
      * @param gbAtY y values of gbA pixels
      * 
      */
     protected void setParameters(final boolean isMMREncoded, final long dataOffset,
             final long dataLength, final int gbh, final int gbw, final byte gbTemplate,
-            final boolean isTPGDon, final boolean useSkip, final short[] gbAtX, final short[] gbAtY)
+            final boolean isTPGDon, final boolean useSkip, final Bitmap hSkip, final short[] gbAtX, final short[] gbAtY)
     {
         this.dataOffset = dataOffset;
         this.dataLength = dataLength;
@@ -1019,6 +1051,7 @@ public class GenericRegion implements Region
         this.gbAtX = gbAtX;
         this.gbAtY = gbAtY;
         this.useSkip = useSkip;
+        this.hSkip = hSkip;
     }
 
     /**
@@ -1029,6 +1062,7 @@ public class GenericRegion implements Region
         this.regionBitmap = null;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {
@@ -1037,6 +1071,7 @@ public class GenericRegion implements Region
         parseHeader();
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;
