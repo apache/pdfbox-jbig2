@@ -320,6 +320,7 @@ public class TextRegion implements Region
         }
     }
 
+    @Override
     public Bitmap getRegionBitmap()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -390,7 +391,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeStripT() throws IOException, InvalidHeaderValueException
+    private long decodeStripT() throws IOException, InvalidHeaderValueException
     {
 
         long stripT = 0;
@@ -506,7 +507,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeDT() throws IOException
+    private long decodeDT() throws IOException
     {
         /* 3) b) */
         /* 6.4.6 */
@@ -530,7 +531,7 @@ public class TextRegion implements Region
         return (dT * sbStrips);
     }
 
-    private final long decodeDfS() throws IOException, InvalidHeaderValueException
+    private long decodeDfS() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -553,7 +554,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeIdS() throws IOException, InvalidHeaderValueException
+    private long decodeIdS() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -584,7 +585,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeCurrentT() throws IOException
+    private long decodeCurrentT() throws IOException
     {
         if (sbStrips != 1)
         {
@@ -601,7 +602,7 @@ public class TextRegion implements Region
         return 0;
     }
 
-    private final long decodeID() throws IOException
+    private long decodeID() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -618,7 +619,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeRI() throws IOException
+    private long decodeRI() throws IOException
     {
         if (useRefinement)
         {
@@ -634,7 +635,7 @@ public class TextRegion implements Region
         return 0;
     }
 
-    private final Bitmap decodeIb(long r, long id)
+    private Bitmap decodeIb(long r, long id)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
         Bitmap ib;
@@ -652,10 +653,11 @@ public class TextRegion implements Region
             final long rdy = decodeRdy();
 
             /* 5) */
-            /* long symInRefSize = 0; */
+            long symInRefSize = 0;
+            long streamPosition0 = subInputStream.getStreamPosition();
             if (isHuffmanEncoded)
             {
-                /* symInRefSize = */decodeSymInRefSize();
+                symInRefSize = decodeSymInRefSize();
                 subInputStream.skipBits();
             }
 
@@ -682,12 +684,17 @@ public class TextRegion implements Region
             if (isHuffmanEncoded)
             {
                 subInputStream.skipBits();
+                if (subInputStream.getStreamPosition() != streamPosition0 + symInRefSize)
+                {
+                    throw new IOException("Refinement bitmap bytes expected: " + symInRefSize +
+                            ", bytes read: " + (subInputStream.getStreamPosition() - streamPosition0));
+                }
             }
         }
         return ib;
     }
 
-    private final long decodeRdw() throws IOException, InvalidHeaderValueException
+    private long decodeRdw() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -728,7 +735,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeRdh() throws IOException, InvalidHeaderValueException
+    private long decodeRdh() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -773,7 +780,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeRdx() throws IOException, InvalidHeaderValueException
+    private long decodeRdx() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -822,7 +829,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeRdy() throws IOException, InvalidHeaderValueException
+    private long decodeRdy() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -876,7 +883,7 @@ public class TextRegion implements Region
         }
     }
 
-    private final long decodeSymInRefSize() throws IOException, InvalidHeaderValueException
+    private long decodeSymInRefSize() throws IOException, InvalidHeaderValueException
     {
         if (sbHuffRSize == 0)
         {
@@ -930,7 +937,7 @@ public class TextRegion implements Region
 
     }
 
-    private final void blit(Bitmap ib, long t)
+    private void blit(Bitmap ib, long t)
     {
         if (isTransposed == 0 && (referenceCorner == 2 || referenceCorner == 3))
         {
@@ -1101,6 +1108,7 @@ public class TextRegion implements Region
 
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws InvalidHeaderValueException, IntegerMaxValueException, IOException
     {
@@ -1175,6 +1183,7 @@ public class TextRegion implements Region
         this.symbolCodeLength = sbSymCodeLen;
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;

@@ -345,6 +345,7 @@ public class SymbolDictionary implements Dictionary
      * 
      * @return List of decoded symbol bitmaps as an <code>ArrayList</code>
      */
+    @Override
     public ArrayList<Bitmap> getDictionary()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -519,7 +520,7 @@ public class SymbolDictionary implements Dictionary
 
     }
 
-    private final void decodeHeightClassBitmap(final Bitmap heightClassCollectiveBitmap,
+    private void decodeHeightClassBitmap(final Bitmap heightClassCollectiveBitmap,
             final int heightClassFirstSymbol, final int heightClassHeight,
             final int[] newSymbolsWidths)
             throws IntegerMaxValueException, InvalidHeaderValueException, IOException
@@ -542,7 +543,7 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private final void decodeAggregate(final int symbolWidth, final int heightClassHeight)
+    private void decodeAggregate(final int symbolWidth, final int heightClassHeight)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
         // 6.5.8.2 1)
@@ -570,7 +571,7 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private final long huffDecodeRefAggNInst() throws IOException, InvalidHeaderValueException
+    private long huffDecodeRefAggNInst() throws IOException, InvalidHeaderValueException
     {
         if (sdHuffAggInstanceSelection == 0)
         {
@@ -602,7 +603,7 @@ public class SymbolDictionary implements Dictionary
         return 0;
     }
 
-    private final void decodeThroughTextRegion(final int symbolWidth, final int heightClassHeight,
+    private void decodeThroughTextRegion(final int symbolWidth, final int heightClassHeight,
             final long amountOfRefinementAggregationInstances)
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
@@ -637,14 +638,15 @@ public class SymbolDictionary implements Dictionary
         addSymbol(textRegion);
     }
 
-    private final void decodeRefinedSymbol(final int symbolWidth, final int heightClassHeight)
+    private void decodeRefinedSymbol(final int symbolWidth, final int heightClassHeight)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
 
         final int id;
         final int rdx;
         final int rdy;
-        // long symInRefSize = 0;
+        long symInRefSize = 0;
+        long streamPosition0 = 0;
         if (isHuffmanEncoded)
         {
             /* 2) - 4) */
@@ -652,8 +654,10 @@ public class SymbolDictionary implements Dictionary
             rdx = (int) StandardTables.getTable(15).decode(subInputStream);
             rdy = (int) StandardTables.getTable(15).decode(subInputStream);
 
+            streamPosition0 = subInputStream.getStreamPosition();
+
             /* 5) a) */
-            /* symInRefSize = */StandardTables.getTable(1).decode(subInputStream);
+            symInRefSize = StandardTables.getTable(1).decode(subInputStream);
 
             /* 5) b) - Skip over remaining bits */
             subInputStream.skipBits();
@@ -676,10 +680,15 @@ public class SymbolDictionary implements Dictionary
         {
             subInputStream.skipBits();
             // Make sure that the processed bytes are equal to the value read in step 5 a)
+            if (subInputStream.getStreamPosition() != streamPosition0 + symInRefSize)
+            {
+                throw new IOException("Refinement bitmap bytes expected: " + symInRefSize +
+                        ", bytes read: " + (subInputStream.getStreamPosition() - streamPosition0));
+            }
         }
     }
 
-    private final void decodeNewSymbols(final int symWidth, final int hcHeight, final Bitmap ibo,
+    private void decodeNewSymbols(final int symWidth, final int hcHeight, final Bitmap ibo,
             final int rdx, final int rdy)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
@@ -705,7 +714,7 @@ public class SymbolDictionary implements Dictionary
         addSymbol(genericRefinementRegion);
     }
 
-    private final void decodeDirectlyThroughGenericRegion(final int symWidth, final int hcHeight)
+    private void decodeDirectlyThroughGenericRegion(final int symWidth, final int hcHeight)
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
         if (genericRegion == null)
@@ -720,7 +729,7 @@ public class SymbolDictionary implements Dictionary
         addSymbol(genericRegion);
     }
 
-    private final void addSymbol(final Region region)
+    private void addSymbol(final Region region)
             throws IntegerMaxValueException, InvalidHeaderValueException, IOException
     {
         final Bitmap symbol = region.getRegionBitmap();
@@ -728,7 +737,7 @@ public class SymbolDictionary implements Dictionary
         sbSymbols.add(symbol);
     }
 
-    private final long decodeDifferenceWidth() throws IOException, InvalidHeaderValueException
+    private long decodeDifferenceWidth() throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
         {
@@ -760,7 +769,7 @@ public class SymbolDictionary implements Dictionary
         return 0;
     }
 
-    private final long decodeHeightClassDeltaHeight()
+    private long decodeHeightClassDeltaHeight()
             throws IOException, InvalidHeaderValueException
     {
         if (isHuffmanEncoded)
@@ -780,7 +789,7 @@ public class SymbolDictionary implements Dictionary
      * @throws IOException
      * @throws InvalidHeaderValueException
      */
-    private final long decodeHeightClassDeltaHeightWithHuffman()
+    private long decodeHeightClassDeltaHeightWithHuffman()
             throws IOException, InvalidHeaderValueException
     {
         switch (sdHuffDecodeHeightSelection)
@@ -800,7 +809,7 @@ public class SymbolDictionary implements Dictionary
         return 0;
     }
 
-    private final Bitmap decodeHeightClassCollectiveBitmap(final long bmSize,
+    private Bitmap decodeHeightClassCollectiveBitmap(final long bmSize,
             final int heightClassHeight, final int totalWidth) throws IOException
     {
         if (bmSize == 0)
@@ -882,7 +891,7 @@ public class SymbolDictionary implements Dictionary
         return exportFlags;
     }
 
-    private final long huffDecodeBmSize() throws IOException, InvalidHeaderValueException
+    private long huffDecodeBmSize() throws IOException, InvalidHeaderValueException
     {
         if (bmSizeTable == null)
         {
@@ -932,7 +941,7 @@ public class SymbolDictionary implements Dictionary
      * @throws InvalidHeaderValueException
      * @throws IntegerMaxValueException
      */
-    private final void setSymbolsArray()
+    private void setSymbolsArray()
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
         if (importSymbols == null)
