@@ -654,12 +654,12 @@ public class TextRegion implements Region
 
             /* 5) */
             long symInRefSize = 0;
-            long streamPosition0 = subInputStream.getStreamPosition();
             if (isHuffmanEncoded)
             {
                 symInRefSize = decodeSymInRefSize();
                 subInputStream.skipBits();
             }
+            long streamPosition0 = subInputStream.getStreamPosition();
 
             /* 6) */
             final Bitmap ibo = symbols.get((int) id);
@@ -683,12 +683,13 @@ public class TextRegion implements Region
             /* 7 */
             if (isHuffmanEncoded)
             {
-                subInputStream.skipBits();
-                if (subInputStream.getStreamPosition() != streamPosition0 + symInRefSize)
+                // Make sure that the processed bytes are not more than symInRefSize
+                if (subInputStream.getStreamPosition() > streamPosition0 + symInRefSize)
                 {
                     throw new IOException("Refinement bitmap bytes expected: " + symInRefSize +
                             ", bytes read: " + (subInputStream.getStreamPosition() - streamPosition0));
                 }
+                subInputStream.seek(streamPosition0 + symInRefSize); // needed if less
             }
         }
         return ib;

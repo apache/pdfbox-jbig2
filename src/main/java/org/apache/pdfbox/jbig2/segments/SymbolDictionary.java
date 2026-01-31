@@ -654,13 +654,13 @@ public class SymbolDictionary implements Dictionary
             rdx = (int) StandardTables.getTable(15).decode(subInputStream);
             rdy = (int) StandardTables.getTable(15).decode(subInputStream);
 
-            streamPosition0 = subInputStream.getStreamPosition();
-
             /* 5) a) */
             symInRefSize = StandardTables.getTable(1).decode(subInputStream);
 
             /* 5) b) - Skip over remaining bits */
             subInputStream.skipBits();
+
+            streamPosition0 = subInputStream.getStreamPosition();
         }
         else
         {
@@ -678,13 +678,13 @@ public class SymbolDictionary implements Dictionary
         /* 7) */
         if (isHuffmanEncoded)
         {
-            subInputStream.skipBits();
-            // Make sure that the processed bytes are equal to the value read in step 5 a)
-            if (subInputStream.getStreamPosition() != streamPosition0 + symInRefSize)
+            // Make sure that the processed bytes are not more than symInRefSize
+            if (subInputStream.getStreamPosition() > streamPosition0 + symInRefSize)
             {
                 throw new IOException("Refinement bitmap bytes expected: " + symInRefSize +
                         ", bytes read: " + (subInputStream.getStreamPosition() - streamPosition0));
             }
+            subInputStream.seek(streamPosition0 + symInRefSize); // needed if less
         }
     }
 
