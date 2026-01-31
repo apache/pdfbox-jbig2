@@ -265,6 +265,14 @@ public class GenericRefinementRegion implements Region
             throws IntegerMaxValueException, InvalidHeaderValueException, IOException
     {
         final SegmentHeader[] segments = segmentHeader.getRtSegments();
+        if (segments == null)
+        {
+            throw new InvalidHeaderValueException("Referred-to segments are null");
+        }
+        if (segments.length == 0)
+        {
+            throw new InvalidHeaderValueException("Referred-to segment count is 0");
+        }
         final Region region = (Region) segments[0].getSegmentData();
 
         return region.getRegionBitmap();
