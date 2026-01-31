@@ -369,25 +369,22 @@ public class SegmentHeader
 
         if (null == segmentDataPart)
         {
+            Class<? extends SegmentData> segmentClass = SEGMENT_TYPE_MAP.get(segmentType);
+            if (null == segmentClass)
+            {
+                throw new IllegalArgumentException("No segment class for type " + segmentType);
+            }
             try
             {
-
-                Class<? extends SegmentData> segmentClass = SEGMENT_TYPE_MAP.get(segmentType);
-
-                if (null == segmentClass)
-                {
-                    throw new IllegalArgumentException("No segment class for type " + segmentType);
-                }
-
                 segmentDataPart = segmentClass.newInstance();
                 segmentDataPart.init(this, getDataInputStream());
 
                 segmentData = new SoftReference<SegmentData>(segmentDataPart);
-
             }
             catch (Exception e)
             {
-                throw new RuntimeException("Can't instantiate segment class", e);
+                throw new RuntimeException("Can't instantiate segment class " + segmentClass.getSimpleName() + 
+                        " because of " + e.getClass().getSimpleName() + ": " + e.getMessage(), e);
             }
         }
 
