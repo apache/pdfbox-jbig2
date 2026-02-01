@@ -27,6 +27,7 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
+import org.apache.pdfbox.jbig2.util.CombinationOperator;
 
 /**
  * This class represents a generic refinement region and implements the procedure described in JBIG2 ISO standard, 6.3
@@ -113,6 +114,8 @@ public class GenericRefinementRegion implements Region
     private boolean override;
     private boolean[] grAtOverride;
 
+    private Bitmap pageBitmap;
+
     public GenericRefinementRegion()
     {
     }
@@ -135,7 +138,7 @@ public class GenericRefinementRegion implements Region
      * Parses the flags described in JBIG2 ISO standard:
      * <ul>
      * <li>7.4.7.2 Generic refinement region segment flags</li>
-     * <li>7.4.7.3 Generic refinement refion segment AT flags</li>
+     * <li>7.4.7.3 Generic refinement region segment AT flags</li>
      * </ul>
      * 
      * @throws IOException
@@ -168,6 +171,7 @@ public class GenericRefinementRegion implements Region
         }
     }
 
+    // 7.4.7.3 Generic refinement region segment AT flags
     private void readAtPixels() throws IOException
     {
         grAtX = new short[2];
@@ -190,13 +194,14 @@ public class GenericRefinementRegion implements Region
      * @throws InvalidHeaderValueException if a segment header value is invalid
      * @throws IntegerMaxValueException if the maximum value limit of an integer is exceeded
      */
+    @Override
     public Bitmap getRegionBitmap()
             throws IOException, IntegerMaxValueException, InvalidHeaderValueException
     {
         if (null == regionBitmap)
         {
             /* 6.3.5.6 - 1) */
-            int isLineTypicalPredicted = 0;
+            int isLineTypicalPredicted = 0; // LTP
 
             if (referenceBitmap == null)
             {
@@ -261,17 +266,29 @@ public class GenericRefinementRegion implements Region
         return arithDecoder.decode(cx);
     }
 
+    /**
+     * Call this to pass the page bitmap in case there is no reference bitmap.
+     *
+     * @param pageBitmap 
+     */
+    public void setPageBitmap(Bitmap pageBitmap)
+    {
+        this.pageBitmap = pageBitmap;
+    }
+
     private Bitmap getGrReference()
             throws IntegerMaxValueException, InvalidHeaderValueException, IOException
     {
         final SegmentHeader[] segments = segmentHeader.getRtSegments();
         if (segments == null)
         {
-            throw new InvalidHeaderValueException("Referred-to segments are null");
-        }
-        if (segments.length == 0)
-        {
-            throw new InvalidHeaderValueException("Referred-to segment count is 0");
+            if (CombinationOperator.REPLACE != regionInfo.getCombinationOperator())
+            {
+                // 7.4.7.5 1) "If this segment does not refer to another region segment 
+                //             then its external combination operator must be REPLACE"
+                throw new InvalidHeaderValueException("REPLACE combination operator expected");
+            }
+            return pageBitmap;
         }
         final Region region = (Region) segments[0].getSegmentData();
 
@@ -868,6 +885,7 @@ public class GenericRefinementRegion implements Region
         return b.getPixel(x, y);
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis) throws IOException
     {
         this.segmentHeader = header;
@@ -909,6 +927,7 @@ public class GenericRefinementRegion implements Region
         this.regionBitmap = null;
     }
 
+    @Override
     public RegionSegmentInformation getRegionInfo()
     {
         return regionInfo;

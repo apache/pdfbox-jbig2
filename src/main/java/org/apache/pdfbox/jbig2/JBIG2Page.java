@@ -28,6 +28,7 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.segments.EndOfStripe;
+import org.apache.pdfbox.jbig2.segments.GenericRefinementRegion;
 import org.apache.pdfbox.jbig2.segments.PageInformation;
 import org.apache.pdfbox.jbig2.segments.RegionSegmentInformation;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
@@ -178,6 +179,11 @@ class JBIG2Page
             case 42: // Immediate generic refinement region
             case 43: // Immediate lossless generic refinement region
                 final Region r = (Region) s.getSegmentData();
+
+                if (r instanceof GenericRefinementRegion)
+                {
+                    ((GenericRefinementRegion) r).setPageBitmap(pageBitmap);
+                }
 
                 final Bitmap regionBitmap = r.getRegionBitmap();
 
