@@ -17,6 +17,7 @@
 
 package org.apache.pdfbox.jbig2.segments;
 
+import java.awt.Rectangle;
 import java.io.IOException;
 
 import org.apache.pdfbox.jbig2.Bitmap;
@@ -26,6 +27,7 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
+import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 
@@ -288,7 +290,18 @@ public class GenericRefinementRegion implements Region
                 //             then its external combination operator must be REPLACE"
                 throw new InvalidHeaderValueException("REPLACE combination operator expected");
             }
-            return pageBitmap;
+            // See page 79:
+            // "The region segment is an immediate refinement region segment that refers to no other segments.
+            //  In this case, the region segment is acting as a refinement of part of the page buffer."
+            // 7.4.7.4 Reference bitmap selection:
+            // If this segment does not refer to another region segment, set GRREFERENCE to be a bitmap containing the current
+            // contents of the page buffer (see clause 8), restricted to the area of the page buffer
+            // specified by this segment’s region segment information field.
+            Rectangle roi = new Rectangle(regionInfo.getXLocation(),
+                                          regionInfo.getYLocation(),
+                                            regionInfo.getBitmapWidth(),
+                                            regionInfo.getBitmapHeight());
+            return Bitmaps.extract(roi, pageBitmap);
         }
         final Region region = (Region) segments[0].getSegmentData();
 
