@@ -569,11 +569,11 @@ public class Bitmaps
         final int toShift = shiftVal2 - padding;
 
         if ((shiftVal1 != 0 || padding != 0) && 
-            !(x1 == 0 && src.getWidth() == dst.getWidth()))
+            !(x1 == 0 && src.getWidth() >= dst.getWidth()))
         {
             // PDFBOX-6156: do it the hard way until the other methods are fixed
-            // Test your fix with "bitmap-composite-and-xnor.jbig2" of the serenity project
-            // not needed if both have the same size and start at 0
+            // Test your fix with the "bitmap-composite-and-xnor*.jbig2" files of the serenity project
+            // not needed if both have the same size (or if src larger) and x starts at 0 
             // but needed if start or end not at byte boundary
             blitByPixel(src, dst, x1, y1, combinationOperator);
             return;
