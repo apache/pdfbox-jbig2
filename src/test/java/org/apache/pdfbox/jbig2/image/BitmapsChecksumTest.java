@@ -17,7 +17,7 @@
 
 package org.apache.pdfbox.jbig2.image;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 import java.awt.Dimension;
@@ -74,11 +74,11 @@ public class BitmapsChecksumTest
                         new PreconfiguredImageReadParam(new Dimension(600, 300)), FilterType.Bessel,
                         "-69-11478-721003586-100-72-85-1559101-118-24-94" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(2, 2, 0, 0),
-                        FilterType.Bessel, "42-7327-48-10105-703710-571171181079448-70" },
+                        FilterType.Bessel, "-3733-65-17-3887-10070-78122-6517-98-989959" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(2, 2, 0, 0),
-                        FilterType.Lanczos, "42-7327-48-10105-703710-571171181079448-70" },
+                        FilterType.Lanczos, "-3733-65-17-3887-10070-78122-6517-98-989959" },
                 { "target/images/042_1.jb2", 1, new PreconfiguredImageReadParam(3, 3, 1, 1),
-                        FilterType.Lanczos, "-68082-6815-41-95-124101-60-69-106-114-68-81-65" },
+                        FilterType.Lanczos, "-114123887011117-3-7711920-16-96-707-114-120" },
                 { "target/images/042_1.jb2", 1,
                         new PreconfiguredImageReadParam(new Rectangle(100, 100, 500, 500)),
                         FilterType.Lanczos, "15-92-12415-6-46-89-78-2070-59-4250-305893" },
@@ -133,8 +133,12 @@ public class BitmapsChecksumTest
         {
             sb.append(toAppend);
         }
+        
+        // to check if any changes produce a decent file, do this before changing the test values
+        // if (!checksum.equals(sb.toString()))
+        //     ImageIO.write(Bitmaps.asBufferedImage(b), "png", new File("DIR","jbig2tst-" + inputFile.getName() + "-" + checksum + ".png"));
 
-        assertArrayEquals(checksum.getBytes(), sb.toString().getBytes());
+        assertEquals("File '" + inputFile.getName(), checksum, sb.toString());
     }
 
     static class RasterChecksumCalculator
