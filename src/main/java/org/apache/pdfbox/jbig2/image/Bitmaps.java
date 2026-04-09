@@ -419,8 +419,8 @@ public class Bitmaps
         final int xSubsamplingOffset = param.getSubsamplingXOffset();
         final int ySubsamplingOffset = param.getSubsamplingYOffset();
 
-        final int dstWidth = (src.getWidth() - xSubsamplingOffset) / xSubsampling;
-        final int dstHeight = (src.getHeight() - ySubsamplingOffset) / ySubsampling;
+        final int dstWidth = (int) Math.ceil((src.getWidth() - xSubsamplingOffset) / (double) xSubsampling);
+        final int dstHeight = (int) Math.ceil((src.getHeight() - ySubsamplingOffset) / (double) ySubsampling);
 
         final Bitmap dst = new Bitmap(dstWidth, dstHeight);
 
@@ -445,7 +445,7 @@ public class Bitmaps
         if (src == null)
             throw new IllegalArgumentException("src must not be null");
 
-        final int dstHeight = (src.getWidth() - xSubsamplingOffset) / xSubsampling;
+        final int dstHeight = (int) Math.ceil((src.getWidth() - xSubsamplingOffset) / (double) xSubsampling);
         final Bitmap dst = new Bitmap(src.getWidth(), dstHeight);
 
         for (int yDst = 0; yDst < dst.getHeight(); yDst++)
@@ -468,7 +468,7 @@ public class Bitmaps
         if (src == null)
             throw new IllegalArgumentException("src must not be null");
 
-        final int dstWidth = (src.getWidth() - ySubsamplingOffset) / ySubsampling;
+        final int dstWidth = (int) Math.ceil((src.getWidth() - ySubsamplingOffset) / (double) ySubsampling);
         final Bitmap dst = new Bitmap(dstWidth, src.getHeight());
 
         for (int yDst = 0, ySrc = ySubsamplingOffset; yDst < dst
