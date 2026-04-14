@@ -335,6 +335,21 @@
                             <sha512>5185b59b4117d830a05a225e7e4b3a8239f249c78f6133204d62d510991daf769d287cd704ba91895964ff3df8722fb304d1e571f3b4d250e663a064c53a3091</sha512>
                         </configuration>
                     </execution>
+                    <execution>
+                        <!-- Serenity testfiles by Nico Weber -->
+                        <id>Testfiles2</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>wget</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skip-external-testfiles}</skip>
+                            <url>https://github.com/user-attachments/files/24440663/serenity-jbig2-files.zip</url>
+                            <unpack>true</unpack>
+                            <outputDirectory>${project.build.directory}/images</outputDirectory>
+                            <sha512>3af3189bcc7426cc6c0a4048ade5067c8fdf0e5e3d3c68b96a1c0c4ba17e5309236f1960a9c2b2545e9627cab5c0294531a2350da04c35c43aaf0c1579a86112</sha512>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
