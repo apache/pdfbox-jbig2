@@ -744,7 +744,7 @@ public class GenericRefinementRegion implements Region
         if (currentLine > 0 && currentLine <= referenceBitmap.getHeight())
         {
             previousReferenceLine = referenceBitmap
-                    .getByteAsInteger(byteIndex - refRowStride + deltaRefStride) << 2;
+                    .getByteAsInteger(refByteIndex - refRowStride + deltaRefStride) << 2;
         }
         else
         {
@@ -753,7 +753,7 @@ public class GenericRefinementRegion implements Region
 
         if (currentLine >= 0 && currentLine < referenceBitmap.getHeight())
         {
-            currentReferenceLine = referenceBitmap.getByteAsInteger(byteIndex + deltaRefStride);
+            currentReferenceLine = referenceBitmap.getByteAsInteger(refByteIndex + deltaRefStride);
         }
         else
         {
@@ -763,7 +763,7 @@ public class GenericRefinementRegion implements Region
         if (currentLine > -2 && currentLine < (referenceBitmap.getHeight() - 1))
         {
             nextReferenceLine = referenceBitmap
-                    .getByteAsInteger(byteIndex + refRowStride + deltaRefStride);
+                    .getByteAsInteger(refByteIndex + refRowStride + deltaRefStride);
         }
         else
         {
