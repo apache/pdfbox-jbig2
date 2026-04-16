@@ -871,15 +871,11 @@ public class GenericRefinementRegion implements Region
         if (grAtOverride[1])
         {
             context &= 0xefff;
-            if (grAtY[1] == 0 && grAtX[1] >= -minorX)
-            {
-                context |= (result >> (7 - (minorX + grAtX[1])) & 0x1) << 12;
-            }
-            else
-            {
-                context |= getPixel(referenceBitmap, x + grAtX[1] + referenceDX,
+            // 6.3.5.3
+            // The AT pixel RA2 can be located anywhere in the range (–128, –128) to (127, 127)
+            // in the reference bitmap. Make sure that we do use the reference bitmap.
+            context |= getPixel(referenceBitmap, x + grAtX[1] + referenceDX,
                         y + grAtY[1] + referenceDY) << 12;
-            }
         }
         return context;
     }
