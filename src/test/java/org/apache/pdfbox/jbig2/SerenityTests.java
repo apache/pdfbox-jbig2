@@ -62,8 +62,7 @@ public class SerenityTests
             // Files that are not properly decoded yet
             if (name.equals("bitmap-refine-template1-tpgron.jbig2") ||
                 name.equals("bitmap-symbol-context-reuse.jbig2") ||
-                name.equals("bitmap-symbol-symhuffrefine-textrefine.jbig2") ||
-                name.equals("bitmap-symbol-textrefine-customat.jbig2"))
+                name.equals("bitmap-symbol-symhuffrefine-textrefine.jbig2"))
             {
                 continue;
             }

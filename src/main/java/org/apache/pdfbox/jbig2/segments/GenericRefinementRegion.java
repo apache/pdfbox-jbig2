@@ -534,13 +534,13 @@ public class GenericRefinementRegion implements Region
         switch (templateID)
         {
         case 0:
-            if (grAtX[0] != -1 && grAtY[0] != -1)
+            if (!(grAtX[0] == -1 && grAtY[0] == -1))
             {
                 grAtOverride[0] = true;
                 override = true;
             }
 
-            if (grAtX[1] != -1 && grAtY[1] != -1)
+            if (!(grAtX[1] == -1 && grAtY[1] == -1))
             {
                 grAtOverride[1] = true;
                 override = true;
