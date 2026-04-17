@@ -32,8 +32,55 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 
 /**
- * This class represents a generic refinement region and implements the procedure described in JBIG2 ISO standard, 6.3
- * and 7.4.7.
+ * Reusable implementation of the JBIG2 generic refinement region decoding
+ * procedure as defined in ITU-T T.88 (JBIG2), §6.3.
+ *
+ * <p>This class implements only the <b>decoding algorithm</b> for a generic
+ * refinement region. It does not inherently define how parameters are obtained;
+ * instead, it relies on the caller to supply or initialize the required inputs.
+ * Different parts of the JBIG2 specification reuse this same procedure with
+ * different parameter sources:</p>
+ *
+ * <ul>
+ *   <li><b>Generic refinement region segment</b> (§7.4.7):
+ *     <ul>
+ *       <li>Parameters are parsed from the segment header via {@link #init(...)}.</li>
+ *       <li>The reference bitmap is derived from referred-to segments or the page buffer.</li>
+ *       <li>Per Table 35, {@code GRREFERENCEDX} and {@code GRREFERENCEDY} are fixed to 0.</li>
+ *     </ul>
+ *   </li>
+ *
+ *   <li><b>Symbol dictionary refinement / aggregation</b> (§6.5.8.2):
+ *     <ul>
+ *       <li>Parameters (including reference bitmap and offsets {@code RDX}, {@code RDY})
+ *           are decoded as part of the symbol dictionary procedure.</li>
+ *       <li>These parameters must be supplied via {@link #setParameters(...)}.</li>
+ *     </ul>
+ *   </li>
+ *
+ *   <li><b>Text region refinement</b> (§6.4, reusing §6.3):
+ *     <ul>
+ *       <li>Used indirectly by {@link TextRegion} when symbols are refined or aggregated.</li>
+ *       <li>All parameters are provided programmatically, similar to the symbol dictionary case.</li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ *
+ * <p><b>Usage patterns:</b></p>
+ * <ul>
+ *   <li><b>Header-driven (segment-based):</b>
+ *       Initialize via {@link #init(SegmentHeader, SubInputStream)}.
+ *       In this mode, refinement offsets are implicitly zero as defined by Table 35.</li>
+ *
+ *   <li><b>Parameter-driven (dictionary/text region):</b>
+ *       Call {@link #setParameters(...)} before {@link #getRegionBitmap()} to supply
+ *       all required decoding parameters explicitly.</li>
+ * </ul>
+ *
+ * <p><b>Important:</b> This class does not explicitly enforce which mode is used.
+ * Correct behavior depends on the caller selecting the appropriate initialization
+ * path. Mixing header-based initialization with explicit parameter setting may
+ * lead to undefined results.</p>
  */
 public class GenericRefinementRegion implements Region
 {
