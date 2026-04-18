@@ -661,6 +661,12 @@ public class SymbolDictionary implements Dictionary
             subInputStream.skipBits();
 
             streamPosition0 = subInputStream.getStreamPosition();
+
+            // 5) c) - Initialize arithmetic decoder for refinement bitmap
+            // Note that the same subInputStream is used for both symbol dictionary decoding
+            // and refinement bitmap decoding, so the arithmetic decoder must be re-initialized here.
+            // CXs and other parameters are retained, so only the arithmetic decoder needs to be re-initialized.
+            arithmeticDecoder = new ArithmeticDecoder(subInputStream);
         }
         else
         {
