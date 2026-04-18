@@ -273,9 +273,6 @@ public class SymbolDictionary implements Dictionary
 
     private void setRetainedCodingContexts(final SymbolDictionary sd)
     {
-        this.arithmeticDecoder = sd.arithmeticDecoder;
-        this.isHuffmanEncoded = sd.isHuffmanEncoded;
-        this.useRefinementAggregation = sd.useRefinementAggregation;
         this.sdTemplate = sd.sdTemplate;
         this.sdrTemplate = sd.sdrTemplate;
         this.sdATX = sd.sdATX;
@@ -664,8 +661,7 @@ public class SymbolDictionary implements Dictionary
 
             // 5) c) - Initialize arithmetic decoder for refinement bitmap
             // Note that the same subInputStream is used for both symbol dictionary decoding
-            // and refinement bitmap decoding, so the arithmetic decoder must be re-initialized here.
-            // CXs and other parameters are retained, so only the arithmetic decoder needs to be re-initialized.
+            // and refinement bitmap decoding.
             arithmeticDecoder = new ArithmeticDecoder(subInputStream);
         }
         else
