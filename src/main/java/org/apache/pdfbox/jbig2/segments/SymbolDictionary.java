@@ -393,7 +393,8 @@ public class SymbolDictionary implements Dictionary
 
             if (!isHuffmanEncoded)
             {
-                setCodingStatistics();
+                resetBitmapCodingStatistics();
+                resetIntegerCoderStatistics();
             }
 
             /* 6.5.5 1) */
@@ -505,55 +506,37 @@ public class SymbolDictionary implements Dictionary
         return exportSymbols;
     }
 
-    private void setCodingStatistics() throws IOException
+    /**
+     * Step 4 (§7.4.2.2): Reset arithmetic coding statistics for the generic
+     * region and generic refinement region decoding procedures to zero.
+     * Only the bitmap CX is reset here; integer coder contexts are separate (step 5).
+     */
+    private void resetBitmapCodingStatistics()
     {
-        if (cxIADT == null)
-        {
-            cxIADT = new CX(512, 1);
-        }
+        cx = new CX(65536, 1);
+    }
 
-        if (cxIADH == null)
-        {
-            cxIADH = new CX(512, 1);
-        }
+    /**
+     * Step 5 (§7.4.2.2): Reset arithmetic coding statistics for all contexts
+     * of all arithmetic integer coders to zero.
+     */
+    private void resetIntegerCoderStatistics() throws IOException
+    {
+        cxIADT = new CX(512, 1);
+        cxIADH = new CX(512, 1);
+        cxIADW = new CX(512, 1);
+        cxIAAI = new CX(512, 1);
+        cxIAEX = new CX(512, 1);
 
-        if (cxIADW == null)
+        if (useRefinementAggregation)
         {
-            cxIADW = new CX(512, 1);
-        }
-
-        if (cxIAAI == null)
-        {
-            cxIAAI = new CX(512, 1);
-        }
-
-        if (cxIAEX == null)
-        {
-            cxIAEX = new CX(512, 1);
-        }
-
-        if (useRefinementAggregation && cxIAID == null)
-        {
-            cxIAID = new CX(1 << sbSymCodeLen, 1);
+            cxIAID  = new CX(1 << sbSymCodeLen, 1);
             cxIARDX = new CX(512, 1);
             cxIARDY = new CX(512, 1);
         }
 
-        if (cx == null)
-        {
-            cx = new CX(65536, 1);
-        }
-
-        if (arithmeticDecoder == null)
-        {
-            arithmeticDecoder = new ArithmeticDecoder(subInputStream);
-        }
-
-        if (iDecoder == null)
-        {
-            iDecoder = new ArithmeticIntegerDecoder(arithmeticDecoder);
-        }
-
+        arithmeticDecoder = new ArithmeticDecoder(subInputStream);
+        iDecoder = new ArithmeticIntegerDecoder(arithmeticDecoder);
     }
 
     private void decodeHeightClassBitmap(final Bitmap heightClassCollectiveBitmap,
