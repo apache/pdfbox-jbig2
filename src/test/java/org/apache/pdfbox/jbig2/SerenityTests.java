@@ -69,7 +69,7 @@ public class SerenityTests
             doc = new JBIG2Document(imageIIS);
             page = doc.getPage(1);
             Bitmap bitmap = page.getBitmap();
-            assertEquals("image not equal to epected: " + name, expectedBitmap, bitmap);
+            assertEquals("image not equal to expected: " + name, expectedBitmap, bitmap);
             imageIIS.close();
         }
     }
