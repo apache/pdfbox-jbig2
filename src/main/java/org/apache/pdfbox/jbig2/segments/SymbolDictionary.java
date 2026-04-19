@@ -128,26 +128,39 @@ public class SymbolDictionary implements Dictionary
         readAmountOfNewSymbols();
         setInSyms();
 
-        if (isCodingContextUsed)
-        {
-            SegmentHeader[] rtSegments = segmentHeader.getRtSegments();
+        boolean isContextAdopted = false;
+        SymbolDictionary lastSymbolDictionary = null;
 
+        SegmentHeader[] rtSegments = segmentHeader.getRtSegments();
+
+        if (rtSegments != null)
+        {
             for (int i = rtSegments.length - 1; i >= 0; i--)
             {
 
                 if (rtSegments[i].getSegmentType() == 0)
                 {
-                    SymbolDictionary symbolDictionary = (SymbolDictionary) rtSegments[i]
-                            .getSegmentData();
+                    lastSymbolDictionary = (SymbolDictionary) rtSegments[i]
+                        .getSegmentData();
 
-                    if (symbolDictionary.isCodingContextRetained)
+                    if (isCodingContextUsed && lastSymbolDictionary.isCodingContextRetained)
                     {
                         /* 7.4.2.2 3) */
-                        setRetainedCodingContexts(symbolDictionary);
+                        adoptRetainedCodingContexts(lastSymbolDictionary);
+                        isContextAdopted = true;
                     }
                     break;
                 }
             }
+        }
+
+        if (isCodingContextUsed && !isContextAdopted)
+        {
+            throw new InvalidHeaderValueException(
+                lastSymbolDictionary == null
+                    ? "Coding context reuse requested, but no referred symbol dictionary found"
+                    : "Coding context reuse requested, but last referred symbol dictionary does not retain coding context"
+            );
         }
 
         this.checkInput();
@@ -271,15 +284,41 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private void setRetainedCodingContexts(final SymbolDictionary sd)
+    /**
+     * Adopt retained arithmetic coding context from another symbol dictionary.
+     *
+     * Per spec §7.4.2.2:
+     * - Configuration MUST match (validated here)
+     * - Only bitmap coding statistics (CX) are reused
+     * - ArithmeticDecoder MUST NOT be reused (stream-bound)
+     * @throws InvalidHeaderValueException 
+     */
+    private void adoptRetainedCodingContexts(final SymbolDictionary sd) throws InvalidHeaderValueException
     {
-        this.sdTemplate = sd.sdTemplate;
-        this.sdrTemplate = sd.sdrTemplate;
-        this.sdATX = sd.sdATX;
-        this.sdATY = sd.sdATY;
-        this.sdrATX = sd.sdrATX;
-        this.sdrATY = sd.sdrATY;
+        validateContextValues(sd);
         this.cx = sd.cx;
+    }
+    
+    /**
+     * The values of SDHUFF, SDREFAGG, SDTEMPLATE, SDRTEMPLATE, and all of the AT locations
+     * (both direct and refinement) for this symbol dictionary must match the corresponding
+     * values from the symbol dictionary whose context values are being used.
+     * @param sd
+     * @throws InvalidHeaderValueException 
+     */
+    private void validateContextValues(final SymbolDictionary sd) throws InvalidHeaderValueException
+    {
+        if ( this.isHuffmanEncoded != sd.isHuffmanEncoded
+            || this.useRefinementAggregation != sd.useRefinementAggregation
+            || this.sdTemplate != sd.sdTemplate
+            || this.sdrTemplate != sd.sdrTemplate
+            || !java.util.Arrays.equals(this.sdATX, sd.sdATX)
+            || !java.util.Arrays.equals(this.sdATY, sd.sdATY)
+            || !java.util.Arrays.equals(this.sdrATX, sd.sdrATX)
+            || !java.util.Arrays.equals(this.sdrATY, sd.sdrATY))
+        {
+            throw new InvalidHeaderValueException("SymbolDictionary reuse values don't match");
+        }
     }
 
     private void checkInput() throws InvalidHeaderValueException
