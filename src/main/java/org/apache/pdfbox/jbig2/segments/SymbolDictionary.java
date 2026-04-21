@@ -73,7 +73,7 @@ public class SymbolDictionary implements Dictionary
 
     /** Further parameters */
     private SegmentHeader segmentHeader;
-    private int amountOfImportedSymbolss;
+    private int amountOfImportedSymbols;
     private ArrayList<Bitmap> importSymbols;
     private int amountOfDecodedSymbols;
     private Bitmap[] newSymbols;
@@ -393,7 +393,10 @@ public class SymbolDictionary implements Dictionary
 
             if (!isHuffmanEncoded)
             {
-                resetBitmapCodingStatistics();
+                if (!isCodingContextUsed)
+                {
+                    resetBitmapCodingStatistics();
+                } 
                 resetIntegerCoderStatistics();
             }
 
@@ -649,7 +652,7 @@ public class SymbolDictionary implements Dictionary
         // 6.5.8.2 2) Parameters set according to Table 17, page 36
         textRegion.setParameters(arithmeticDecoder, iDecoder, isHuffmanEncoded, true, symbolWidth,
                 heightClassHeight, amountOfRefinementAggregationInstances, 1,
-                (amountOfImportedSymbolss + amountOfDecodedSymbols), (short) 0, (short) 0,
+                (amountOfImportedSymbols + amountOfDecodedSymbols), (short) 0, (short) 0,
                 (short) 0, (short) 1, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0,
                 (short) 0, (short) 0, (short) 0, (short) 0, sdrTemplate, sdrATX, sdrATY, sbSymbols,
                 sbSymCodeLen);
@@ -865,18 +868,18 @@ public class SymbolDictionary implements Dictionary
     {
         exportSymbols = new ArrayList<Bitmap>(amountOfExportSymbolss);
 
-        for (int i = 0; i < amountOfImportedSymbolss + amountOfNewSymbols; i++)
+        for (int i = 0; i < amountOfImportedSymbols + amountOfNewSymbols; i++)
         {
 
             if (toExportFlags[i] == 1)
             {
-                if (i < amountOfImportedSymbolss)
+                if (i < amountOfImportedSymbols)
                 {
                     exportSymbols.add(importSymbols.get(i));
                 }
                 else
                 {
-                    exportSymbols.add(newSymbols[i - amountOfImportedSymbolss]);
+                    exportSymbols.add(newSymbols[i - amountOfImportedSymbols]);
                 }
             }
         }
@@ -884,13 +887,20 @@ public class SymbolDictionary implements Dictionary
 
     private int[] getToExportFlags() throws IOException, InvalidHeaderValueException
     {
-        int currentExportFlag = 0;
-        long exRunLength = 0;
-        final int[] exportFlags = new int[amountOfImportedSymbolss + amountOfNewSymbols];
+        // the validation could be placed a little earlier but it is needed here before the array creation
+        if (amountOfImportedSymbols < 0 || amountOfNewSymbols < 0 
+                || (long) amountOfImportedSymbols + amountOfNewSymbols > Integer.MAX_VALUE) {
+            throw new InvalidHeaderValueException(" Invalid number of symbols: imported=" + amountOfImportedSymbols + ", new=" + amountOfNewSymbols);
+        }
 
-        for (int exportIndex = 0; exportIndex < amountOfImportedSymbolss
-                + amountOfNewSymbols; exportIndex += exRunLength)
+        int exIndex = 0;
+        int curExFlag = 0;
+        final int total = amountOfImportedSymbols + amountOfNewSymbols;
+        final int[] exportFlags = new int[total];
+
+        while (exIndex < total)
         {
+            long exRunLength;
 
             if (isHuffmanEncoded)
             {
@@ -901,15 +911,17 @@ public class SymbolDictionary implements Dictionary
                 exRunLength = iDecoder.decode(cxIAEX);
             }
 
-            if (exRunLength != 0)
-            {
-                for (int index = exportIndex; index < exportIndex + exRunLength; index++)
-                {
-                    exportFlags[index] = currentExportFlag;
-                }
+            if (exRunLength < 0 || exRunLength > total - exIndex) {
+                throw new InvalidHeaderValueException("Invalid EXRUNLENGTH: " + exRunLength);
             }
 
-            currentExportFlag = (currentExportFlag == 0) ? 1 : 0;
+            for (int i = exIndex; i < exIndex + exRunLength; i++)
+            {
+                exportFlags[i] = curExFlag;
+            }
+
+            exIndex += (int) exRunLength;
+            curExFlag = (curExFlag == 0) ? 1 : 0;
         }
 
         return exportFlags;
@@ -948,13 +960,13 @@ public class SymbolDictionary implements Dictionary
         {
             return Math.max(
                     (int) (Math.ceil(
-                            Math.log(amountOfImportedSymbolss + amountOfNewSymbols) / Math.log(2))),
+                            Math.log(amountOfImportedSymbols + amountOfNewSymbols) / Math.log(2))),
                     1);
         }
         else
         {
             return (int) (Math
-                    .ceil(Math.log(amountOfImportedSymbolss + amountOfNewSymbols) / Math.log(2)));
+                    .ceil(Math.log(amountOfImportedSymbols + amountOfNewSymbols) / Math.log(2)));
         }
     }
 
@@ -998,7 +1010,7 @@ public class SymbolDictionary implements Dictionary
                 final SymbolDictionary sd = (SymbolDictionary) referredToSegmentHeader
                         .getSegmentData();
                 importSymbols.addAll(sd.getDictionary());
-                amountOfImportedSymbolss += sd.amountOfExportSymbolss;
+                amountOfImportedSymbols += sd.amountOfExportSymbolss;
             }
         }
     }
