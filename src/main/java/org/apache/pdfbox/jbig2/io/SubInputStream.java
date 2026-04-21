@@ -66,9 +66,9 @@ public class SubInputStream extends ImageInputStreamImpl
      */
     public SubInputStream(ImageInputStream iis, long offset, long length)
     {
-        assert null != iis;
-        assert length >= 0;
-        assert offset >= 0;
+        if (iis == null) throw new IllegalArgumentException("Stream must not be null");
+        if (offset < 0)  throw new IllegalArgumentException("Offset must be >= 0");
+        if (length < 0)  throw new IllegalArgumentException("Length must be >= 0");
 
         this.wrappedStream = iis;
         this.offset = offset;
@@ -78,6 +78,7 @@ public class SubInputStream extends ImageInputStreamImpl
     @Override
     public int read() throws IOException
     {
+        checkClosed();
         if (streamPos >= length)
         {
             return -1;
@@ -101,6 +102,11 @@ public class SubInputStream extends ImageInputStreamImpl
     @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
+        if (b == null) throw new NullPointerException();
+        if (off < 0 || len < 0 || off + len > b.length) throw new IndexOutOfBoundsException();
+
+        checkClosed();
+        
         if (streamPos >= length)
         {
             return -1;
@@ -108,15 +114,19 @@ public class SubInputStream extends ImageInputStreamImpl
 
         synchronized (wrappedStream)
         {
-            if (wrappedStream.getStreamPosition() != streamPos + offset)
+            long targetPos = streamPos + offset;
+            if (wrappedStream.getStreamPosition() != targetPos)
             {
-                wrappedStream.seek(streamPos + offset);
+                wrappedStream.seek(targetPos);
             }
 
             int toRead = (int) Math.min(len, length - streamPos);
             int read = wrappedStream.read(b, off, toRead);
-            streamPos += read;
-
+            // only advance the stream position if we are not at EOF
+            if (read > 0)
+            {
+                streamPos += read;
+            }
             return read;
         }
     }
@@ -131,16 +141,18 @@ public class SubInputStream extends ImageInputStreamImpl
     {
         synchronized (wrappedStream)
         {
-            if (wrappedStream.getStreamPosition() != streamPos + offset)
+            long targetPos = streamPos + offset;
+            if (wrappedStream.getStreamPosition() != targetPos)
             {
-                wrappedStream.seek(streamPos + offset);
+                wrappedStream.seek(targetPos);
             }
 
             bufferBase = streamPos;
             int toRead = (int) Math.min(buffer.length, length - streamPos);
             int read = wrappedStream.read(buffer, 0, toRead);
-            bufferTop = bufferBase + read;
-
+            if (read > 0) {
+                bufferTop = bufferBase + read;
+            }
             return read > 0;
         }
     }
@@ -159,7 +171,9 @@ public class SubInputStream extends ImageInputStreamImpl
         if (bitOffset != 0)
         {
             bitOffset = 0;
-            streamPos++;
+            if (streamPos < length) {
+                streamPos++;
+            }
         }
     }
 }
