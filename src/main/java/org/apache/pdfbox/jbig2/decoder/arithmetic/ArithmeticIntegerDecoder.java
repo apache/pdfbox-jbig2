@@ -170,16 +170,24 @@ public class ArithmeticIntegerDecoder
     public int decodeIAID(CX cxIAID, long symCodeLen) throws IOException
     {
         // A.3 1)
-        prev = 1;
+        long prev = 1;
+
 
         // A.3 2)
+        // The spec says: "the rightmost SBSYMCODELEN + 1 bits of PREV are used"
+        // But also: "The number of contexts required is 2^SBSYMCODELEN"
+        // The resolution: the leading 1 bit is not used for context
+        // identification—only the lower N bits are.
+
+        long mask = (1L << symCodeLen) - 1;
+        
         for (int i = 0; i < symCodeLen; i++)
         {
-            cxIAID.setIndex(prev);
+            cxIAID.setIndex((int) (prev & mask));
             prev = (prev << 1) | decoder.decode(cxIAID);
         }
 
         // A.3 3) & 4)
-        return (prev - (1 << symCodeLen));
+        return (int) (prev - (1L << symCodeLen));
     }
 }
