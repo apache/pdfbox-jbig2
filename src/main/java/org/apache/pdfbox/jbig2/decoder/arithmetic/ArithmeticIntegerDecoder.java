@@ -27,8 +27,6 @@ public class ArithmeticIntegerDecoder
 
     private final ArithmeticDecoder decoder;
 
-    private int prev;
-
     public ArithmeticIntegerDecoder(ArithmeticDecoder decoder)
     {
         this.decoder = decoder;
@@ -43,6 +41,13 @@ public class ArithmeticIntegerDecoder
      */
     public long decode(CX cxIAx) throws IOException
     {
+
+        // A.2.
+        // CX is identified by … the rightmost 9 bits of PREV
+        // ... Thus, PREV always contains the values of the eight most-recently-decoded bits, 
+        // plus a leading 1 bit, which is used to indicate the number of bits decoded so far.
+        int prev = 1;
+
         int v = 0;
         int d, s;
 
@@ -54,39 +59,37 @@ public class ArithmeticIntegerDecoder
             cxIAx = new CX(512, 1);
         }
 
-        prev = 1;
-
-        cxIAx.setIndex(prev);
+        cxIAx.setIndex(prev & 0x1FF);
         s = decoder.decode(cxIAx);
-        setPrev(s);
+        prev = setPrev(prev, s);
 
-        cxIAx.setIndex(prev);
+        cxIAx.setIndex(prev & 0x1FF);
         d = decoder.decode(cxIAx);
-        setPrev(d);
+        prev = setPrev(prev, d);
 
         if (d == 1)
         {
-            cxIAx.setIndex(prev);
+            cxIAx.setIndex(prev & 0x1FF);
             d = decoder.decode(cxIAx);
-            setPrev(d);
+            prev = setPrev(prev, d);
 
             if (d == 1)
             {
-                cxIAx.setIndex(prev);
+                cxIAx.setIndex(prev & 0x1FF);
                 d = decoder.decode(cxIAx);
-                setPrev(d);
+                prev = setPrev(prev, d);
 
                 if (d == 1)
                 {
-                    cxIAx.setIndex(prev);
+                    cxIAx.setIndex(prev & 0x1FF);
                     d = decoder.decode(cxIAx);
-                    setPrev(d);
+                    prev = setPrev(prev, d);
 
                     if (d == 1)
                     {
-                        cxIAx.setIndex(prev);
+                        cxIAx.setIndex(prev & 0x1FF);
                         d = decoder.decode(cxIAx);
-                        setPrev(d);
+                        prev = setPrev(prev, d);
 
                         if (d == 1)
                         {
@@ -125,9 +128,9 @@ public class ArithmeticIntegerDecoder
 
         for (int i = 0; i < bitsToRead; i++)
         {
-            cxIAx.setIndex(prev);
+            cxIAx.setIndex(prev & 0x1FF);
             d = decoder.decode(cxIAx);
-            setPrev(d);
+            prev = setPrev(prev, d);
             v = (v << 1) | d;
         }
 
@@ -145,8 +148,8 @@ public class ArithmeticIntegerDecoder
         return Long.MAX_VALUE;
     }
 
-    private void setPrev(int bit)
-    {
+    private int setPrev(int prev, int bit)
+    {        
         if (prev < 256)
         {
             prev = ((prev << 1) | bit) & 0x1ff;
@@ -155,6 +158,7 @@ public class ArithmeticIntegerDecoder
         {
             prev = ((((prev << 1) | bit) & 511) | 256) & 0x1ff;
         }
+        return prev;
     }
 
     /**
