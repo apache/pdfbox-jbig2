@@ -18,6 +18,7 @@
 package org.apache.pdfbox.jbig2.decoder;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
@@ -49,10 +50,12 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
  */
 public class GenericRefinementRegionDecodingProcedure
 {
-
     // -------------------------------------------------------------------------
     // Template strategy — bit-context formation for each template type
     // -------------------------------------------------------------------------
+
+    private static final int SLTP_CONTEXT_TEMPLATE0 = 0x100; // §6.3.5.6, Figure 14
+    private static final int SLTP_CONTEXT_TEMPLATE1 = 0x080; // §6.3.5.6, Figure 15
 
     /**
      * Encapsulates the template-specific operations: context bit formation
@@ -79,8 +82,7 @@ public class GenericRefinementRegionDecodingProcedure
         @Override
         protected void setIndex(CX cx)
         {
-            // Figure 14, page 22
-            cx.setIndex(0x100);
+            cx.setIndex(SLTP_CONTEXT_TEMPLATE0);
         }
     }
 
@@ -95,8 +97,7 @@ public class GenericRefinementRegionDecodingProcedure
         @Override
         protected void setIndex(CX cx)
         {
-            // Figure 15, page 22
-            cx.setIndex(0x080);
+            cx.setIndex(SLTP_CONTEXT_TEMPLATE1);
         }
     }
 
@@ -149,25 +150,30 @@ public class GenericRefinementRegionDecodingProcedure
      * Executes the Generic Refinement Region decoding procedure (§6.3.5.6) and
      * returns the decoded bitmap.
      *
-     * <p>A short-lived {@code GenericRefinementRegionDecodingProcedure} instance is created
-     * internally so that the many private helper methods can share state through
-     * fields rather than through long parameter lists. No state survives the
-     * return of this method.</p>
+     * <p>A short-lived instance is created internally so that the many private
+     * helper methods can share state through fields rather than through long
+     * parameter lists. No state survives the return of this method.</p>
      *
      * @param arithDecoder    the arithmetic decoder — shared with the parent
      *                        when called from a symbol dictionary or text region,
-     *                        or freshly created when called from a standalone segment
-     * @param cx              the context model — shared or fresh, as above
-     * @param width           decoded bitmap width  (GRW)
-     * @param height          decoded bitmap height (GRH)
-     * @param grTemplate      template index: 0 or 1 (GRTEMPLATE)
+     *                        or freshly created when called from a standalone segment;
+     *                        must not be {@code null}
+     * @param cx              the context model — shared or fresh, as above;
+     *                        must not be {@code null}
+     * @param width           decoded bitmap width (GRW); must be &gt; 0
+     * @param height          decoded bitmap height (GRH); must be &gt; 0
+     * @param grTemplate      template index: must be 0 or 1 (GRTEMPLATE)
      * @param isTPGROn        whether typical prediction is enabled (TPGRON)
-     * @param referenceBitmap the reference / base bitmap (GRREFERENCE)
+     * @param referenceBitmap the reference / base bitmap (GRREFERENCE);
+     *                        must not be {@code null}
      * @param referenceDX     horizontal offset of reference bitmap (GRREFERENCEDX)
      * @param referenceDY     vertical offset of reference bitmap (GRREFERENCEDY)
-     * @param grAtX           AT pixel X offsets (only used when grTemplate == 0)
-     * @param grAtY           AT pixel Y offsets (only used when grTemplate == 0)
+     * @param grAtX           AT pixel X offsets; required for {@code grTemplate == 0},
+     *                        must be a non-null array of length 2 in that case;
+     *                        ignored for {@code grTemplate == 1}
+     * @param grAtY           AT pixel Y offsets; same requirements as {@code grAtX}
      * @return the decoded bitmap
+     * @throws IllegalArgumentException if any parameter constraint above is violated
      * @throws IOException if an underlying I/O operation fails
      */
     public static Bitmap decode(final ArithmeticDecoder arithDecoder, final CX cx,
@@ -176,6 +182,29 @@ public class GenericRefinementRegionDecodingProcedure
             final int referenceDX, final int referenceDY,
             final short[] grAtX, final short[] grAtY) throws IOException
     {
+        Objects.requireNonNull(arithDecoder, "arithDecoder must not be null");
+        Objects.requireNonNull(cx, "cx must not be null");
+        Objects.requireNonNull(referenceBitmap, "referenceBitmap must not be null");
+
+        if (grTemplate != 0 && grTemplate != 1)
+        {
+            throw new IllegalArgumentException(
+                    "grTemplate must be 0 or 1, got: " + grTemplate);
+        }
+
+        if (grTemplate == 0 && (grAtX == null || grAtY == null
+                || grAtX.length != 2 || grAtY.length != 2))
+        {
+            throw new IllegalArgumentException(
+                    "grAtX and grAtY must be non-null arrays of length 2 for template 0");
+        }
+
+        if (width <= 0 || height <= 0)
+        {
+            throw new IllegalArgumentException(
+                    "width and height must be > 0, got: " + width + "x" + height);
+        }
+
         return new GenericRefinementRegionDecodingProcedure(arithDecoder, cx)
                 .run(width, height, grTemplate, isTPGROn, referenceBitmap,
                         referenceDX, referenceDY, grAtX, grAtY);
