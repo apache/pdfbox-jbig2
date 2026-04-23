@@ -22,7 +22,6 @@ import java.io.IOException;
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
-import org.apache.pdfbox.jbig2.segments.GenericRefinementRegion;
 
 /**
  * Implements the JBIG2 Generic Refinement Region decoding procedure
@@ -36,7 +35,7 @@ import org.apache.pdfbox.jbig2.segments.GenericRefinementRegion;
  * so they decide whether to create fresh instances or share existing ones:</p>
  *
  * <ul>
- *   <li><b>{@link GenericRefinementRegion}</b> — creates its own
+ *   <li><b>{@link @link org.apache.pdfbox.jbig2.segments.GenericRefinementRegion}</b> — creates its own
  *       {@code ArithmeticDecoder} and {@code CX}, then calls {@code decode()}.</li>
  *   <li><b>Symbol dictionary refinement (§6.5.8.2)</b> — passes the
  *       parent dictionary's shared {@code ArithmeticDecoder} and {@code CX}.</li>
@@ -108,7 +107,7 @@ public class GenericRefinementRegionDecodingProcedure
     public static final Template T1 = new Template1();
 
     // -------------------------------------------------------------------------
-    // Decoder state — injected at construction, shared across calls
+    // Decoder state — injected at construction
     // -------------------------------------------------------------------------
 
     private final ArithmeticDecoder arithDecoder;
@@ -150,7 +149,7 @@ public class GenericRefinementRegionDecodingProcedure
      * Executes the Generic Refinement Region decoding procedure (§6.3.5.6) and
      * returns the decoded bitmap.
      *
-     * <p>A short-lived {@code GenericRefinementProcedure} instance is created
+     * <p>A short-lived {@code GenericRefinementRegionDecodingProcedure} instance is created
      * internally so that the many private helper methods can share state through
      * fields rather than through long parameter lists. No state survives the
      * return of this method.</p>

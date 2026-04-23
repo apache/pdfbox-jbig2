@@ -33,62 +33,62 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 
 /**
- * Reusable implementation of the JBIG2 generic refinement region decoding
- * procedure as defined in ITU-T T.88 (JBIG2), §6.3.
+ * Handles a JBIG2 Generic Refinement Region segment (§7.4.7).
  *
- * <p>This class implements only the <b>decoding algorithm</b> for a generic
- * refinement region. It does not inherently define how parameters are obtained;
- * instead, it relies on the caller to supply or initialize the required inputs.
- * Different parts of the JBIG2 specification reuse this same procedure with
- * different parameter sources:</p>
+ * <p>This class is responsible for segment-level concerns only: parsing the
+ * region segment information and flags from the bitstream, resolving the
+ * reference bitmap, and delegating pixel decoding to
+ * {@link GenericRefinementRegionDecodingProcedure}, which implements the
+ * pure algorithm defined in §6.3.5.6.</p>
  *
+ * <h2>Segment types (§7.4.7)</h2>
+ * <p>The three generic refinement region segment types — intermediate,
+ * immediate, and immediate lossless — share an identical data encoding.
+ * They differ only in how the decoded bitmap is acted upon during page
+ * image composition (§8.2):</p>
  * <ul>
- *   <li><b>Generic refinement region segment</b> (§7.4.7):
- *     <ul>
- *       <li>Parameters are parsed from the segment header via {@link #init(...)}.</li>
- *       <li>The reference bitmap is derived from referred-to segments or the page buffer.</li>
- *       <li>Per Table 35, {@code GRREFERENCEDX} and {@code GRREFERENCEDY} are fixed to 0.</li>
- *     </ul>
- *   </li>
- *
- *   <li><b>Symbol dictionary refinement / aggregation</b> (§6.5.8.2):
- *     <ul>
- *       <li>Parameters (including reference bitmap and offsets {@code RDX}, {@code RDY})
- *           are decoded as part of the symbol dictionary procedure.</li>
- *       <li>These parameters must be supplied via {@link #setParameters(...)}.</li>
- *     </ul>
- *   </li>
- *
- *   <li><b>Text region refinement</b> (§6.4, reusing §6.3):
- *     <ul>
- *       <li>Used indirectly by {@link TextRegion} when symbols are refined or aggregated.</li>
- *       <li>All parameters are provided programmatically, similar to the symbol dictionary case.</li>
- *     </ul>
- *   </li>
+ *   <li><b>Intermediate generic refinement region</b> — the decoded bitmap
+ *       is stored but not yet composited onto the page buffer.</li>
+ *   <li><b>Immediate generic refinement region</b> — the decoded bitmap is
+ *       composited onto the page buffer immediately using lossy encoding.</li>
+ *   <li><b>Immediate lossless generic refinement region</b> — as above but
+ *       using lossless encoding.</li>
  * </ul>
  *
- * <p><b>Usage patterns:</b></p>
+ * <h2>Usage modes</h2>
  * <ul>
- *   <li><b>Header-driven (segment-based):</b>
- *       Initialize via {@link #init(SegmentHeader, SubInputStream)}.
- *       In this mode, refinement offsets are implicitly zero as defined by Table 35.</li>
+ *   <li><b>Header-driven (standalone segment):</b>
+ *       Initialise via {@link #init(SegmentHeader, SubInputStream)}.
+ *       The reference bitmap is resolved from referred-to segments or,
+ *       if none are present, from the current page buffer (§7.4.7.4).
+ *       Per Table 35, {@code GRREFERENCEDX} and {@code GRREFERENCEDY}
+ *       are implicitly zero in this mode.</li>
  *
- *   <li><b>Parameter-driven (dictionary/text region):</b>
- *       Call {@link #setParameters(...)} before {@link #getRegionBitmap()} to supply
- *       all required decoding parameters explicitly.</li>
+ *   <li><b>Parameter-driven:</b>
+ *       Call {@link #setParameters(CX, ArithmeticDecoder, short, int, int,
+ *       Bitmap, int, int, boolean, short[], short[])} to supply the shared
+ *       {@code ArithmeticDecoder}, {@code CX}, reference bitmap, and offsets
+ *       before calling {@link #getRegionBitmap()}.
+ *       <br><em>Deprecated:</em> callers should migrate to invoking
+ *       {@link GenericRefinementRegionDecodingProcedure#decode(
+ *       ArithmeticDecoder, CX, int, int, short, boolean, Bitmap, int, int,
+ *       short[], short[])} directly.</li>
  * </ul>
- *
- * <p><b>Important:</b> This class does not explicitly enforce which mode is used.
- * Correct behavior depends on the caller selecting the appropriate initialization
- * path. Mixing header-based initialization with explicit parameter setting may
- * lead to undefined results.</p>
  */
 public class GenericRefinementRegion implements Region
 {
+    /**
+     *
+     * @deprecated Moved to {@link GenericRefinementRegionDecodingProcedure.Template}.
+     *     This declaration will be removed in the next major release.
+     */
+    @Deprecated
     public static abstract class Template
     {
+        @Deprecated
         protected abstract short form(short c1, short c2, short c3, short c4, short c5);
 
+        @Deprecated
         protected abstract void setIndex(CX cx);
     }
 
@@ -211,11 +211,10 @@ public class GenericRefinementRegion implements Region
         }
 
         return GenericRefinementRegionDecodingProcedure.decode(
-            arithDecoder, cx,
-            regionInfo.getBitmapWidth(), regionInfo.getBitmapHeight(),
-            templateID, isTPGROn, referenceBitmap, referenceDX, referenceDY,
-            grAtX, grAtY
-        );
+                arithDecoder, cx,
+                regionInfo.getBitmapWidth(), regionInfo.getBitmapHeight(),
+                templateID, isTPGROn, referenceBitmap, referenceDX, referenceDY,
+                grAtX, grAtY);
     }
 
     /**
@@ -267,12 +266,18 @@ public class GenericRefinementRegion implements Region
         parseHeader();
     }
 
+    /**
+     * @deprecated Use {@link GenericRefinementRegionDecodingProcedure#decode(
+     *     ArithmeticDecoder, CX, int, int, short, boolean, Bitmap, int, int, short[], short[])}
+     *     directly, supplying the shared {@code ArithmeticDecoder} and {@code CX} as arguments.
+     *     This method will be removed in the next major release.
+     */
+    @Deprecated
     protected void setParameters(final CX cx, final ArithmeticDecoder arithmeticDecoder,
             final short grTemplate, final int regionWidth, final int regionHeight,
             final Bitmap grReference, final int grReferenceDX, final int grReferenceDY,
             final boolean isTPGRon, final short[] grAtX, final short[] grAtY)
     {
-
         if (null != cx)
         {
             this.cx = cx;
