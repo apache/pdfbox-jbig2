@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.Region;
 import org.apache.pdfbox.jbig2.SegmentHeader;
+import org.apache.pdfbox.jbig2.decoder.GenericRefinementRegionDecodingProcedure;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticIntegerDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
@@ -86,7 +87,6 @@ public class TextRegion implements Region
 
     private ArithmeticDecoder arithmeticDecoder;
     private ArithmeticIntegerDecoder integerDecoder;
-    private GenericRefinementRegion genericRefinementRegion;
 
     private CX cxIADT;
     private CX cxIAFS;
@@ -669,16 +669,20 @@ public class TextRegion implements Region
             final int genericRegionReferenceDX = (int) ((rdw >> 1) + rdx);
             final int genericRegionReferenceDY = (int) ((rdh >> 1) + rdy);
 
-            if (genericRefinementRegion == null)
-            {
-                genericRefinementRegion = new GenericRefinementRegion(subInputStream);
+            if (arithmeticDecoder == null) {
+                arithmeticDecoder = new ArithmeticDecoder(subInputStream);
             }
 
-            genericRefinementRegion.setParameters(cx, arithmeticDecoder, sbrTemplate,
-                    (int) (wo + rdw), (int) (ho + rdh), ibo, genericRegionReferenceDX,
-                    genericRegionReferenceDY, false, sbrATX, sbrATY);
+            if (cx == null) {
+                cx = new CX(65536, 1);
+            }
 
-            ib = genericRefinementRegion.getRegionBitmap();
+            ib = GenericRefinementRegionDecodingProcedure.decode(
+                    arithmeticDecoder, cx,
+                    (int) (wo + rdw), (int) (ho + rdh),
+                    sbrTemplate, false, ibo,
+                    genericRegionReferenceDX, genericRegionReferenceDY,
+                    sbrATX, sbrATY);
 
             /* 7 */
             if (isHuffmanEncoded)

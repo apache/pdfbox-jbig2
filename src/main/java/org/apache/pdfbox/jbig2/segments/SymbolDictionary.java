@@ -25,6 +25,7 @@ import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.Dictionary;
 import org.apache.pdfbox.jbig2.Region;
 import org.apache.pdfbox.jbig2.SegmentHeader;
+import org.apache.pdfbox.jbig2.decoder.GenericRefinementRegionDecodingProcedure;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.ArithmeticIntegerDecoder;
 import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
@@ -93,7 +94,6 @@ public class SymbolDictionary implements Dictionary
 
     private TextRegion textRegion;
     private GenericRegion genericRegion;
-    private GenericRefinementRegion genericRefinementRegion;
     private CX cx;
 
     private CX cxIADH;
@@ -719,26 +719,21 @@ public class SymbolDictionary implements Dictionary
             final int rdx, final int rdy)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
-        if (genericRefinementRegion == null)
-        {
-            genericRefinementRegion = new GenericRefinementRegion(subInputStream);
+        if (arithmeticDecoder == null) {
+            arithmeticDecoder = new ArithmeticDecoder(subInputStream);
+        }
 
-            if (arithmeticDecoder == null)
-            {
-                arithmeticDecoder = new ArithmeticDecoder(subInputStream);
-            }
-
-            if (cx == null)
-            {
-                cx = new CX(65536, 1);
-            }
+        if (cx == null) {
+            cx = new CX(65536, 1);
         }
 
         // Parameters as shown in Table 18, page 36
-        genericRefinementRegion.setParameters(cx, arithmeticDecoder, sdrTemplate, symWidth,
-                hcHeight, ibo, rdx, rdy, false, sdrATX, sdrATY);
+        final Bitmap symbol = GenericRefinementRegionDecodingProcedure.decode(
+                arithmeticDecoder, cx, symWidth, hcHeight,
+                sdrTemplate, false, ibo, rdx, rdy, sdrATX, sdrATY);
 
-        addSymbol(genericRefinementRegion);
+        newSymbols[amountOfDecodedSymbols] = symbol;
+        sbSymbols.add(symbol);
     }
 
     private void decodeDirectlyThroughGenericRegion(final int symWidth, final int hcHeight)
