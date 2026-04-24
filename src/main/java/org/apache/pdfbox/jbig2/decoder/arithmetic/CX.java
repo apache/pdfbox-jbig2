@@ -74,4 +74,22 @@ public final class CX
     {
         this.index = index;
     }
+
+    /**
+     * Creates and returns a deep copy of this {@code CX} object.
+     * The new instance will have the same context values, probability estimates,
+     * and current index as this object, but will be a separate instance.
+     * Changes to the copied object will not affect the original, and vice versa.
+     *
+     * <p>This is required when reusing arithmetic coding contexts across segments,
+     * to avoid sharing mutable probability state between decoders.</p>
+     *
+     * @return A new {@code CX} object with the same internal state as this object.
+     */
+    public CX copy() {
+        CX result = new CX(cx.length, index);
+        System.arraycopy(cx, 0, result.cx, 0, cx.length);
+        System.arraycopy(mps, 0, result.mps, 0, mps.length);
+        return result;
+    }
 }
