@@ -36,7 +36,7 @@ import org.apache.pdfbox.jbig2.decoder.arithmetic.CX;
  * so they decide whether to create fresh instances or share existing ones:</p>
  *
  * <ul>
- *   <li><b>{@link @link org.apache.pdfbox.jbig2.segments.GenericRefinementRegion}</b> — creates its own
+ *   <li><b>{@link org.apache.pdfbox.jbig2.segments.GenericRefinementRegion}</b> — creates its own
  *       {@code ArithmeticDecoder} and {@code CX}, then calls {@code decode()}.</li>
  *   <li><b>Symbol dictionary refinement (§6.5.8.2)</b> — passes the
  *       parent dictionary's shared {@code ArithmeticDecoder} and {@code CX}.</li>
