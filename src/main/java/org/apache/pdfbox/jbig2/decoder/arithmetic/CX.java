@@ -18,8 +18,29 @@
 package org.apache.pdfbox.jbig2.decoder.arithmetic;
 
 /**
- * CX represents the context used by arithmetic decoding and arithmetic integer decoding. It selects the probability
- * estimate and statistics used during decoding procedure.
+ * Arithmetic coding context used during JBIG2 bitstream decoding.
+ * 
+ * <p>Represents a context in the arithmetic decoder that selects probability
+ * estimates and statistics used during decoding procedures, as defined in
+ * ITU-T Rec. T.88 (2000 E), ISO/IEC 14492:2001.</p>
+ * 
+ * <p><b>Context State:</b></p>
+ * <ul>
+ *   <li>{@code cx} array: Stores the probability estimate index (0-127) for each context state</li>
+ *   <li>{@code mps} array: Stores the most probable symbol (0 or 1) for each context state</li>
+ *   <li>{@code index}: Current context index, selected based on the neighborhood pattern
+ *       (template-specific arrangement of previously decoded pixels)</li>
+ * </ul>
+ * 
+ * <p><b>Usage:</b>
+ * The index is set before each decision to select which context state to use.
+ * After decoding, the arithmetic decoder updates the selected context's probability
+ * estimate and MPS based on the decoded symbol (see Annex A, T.88).</p>
+ * 
+ * <p><b>Reuse:</b>
+ * When arithmetic coding contexts are retained and reused across segments (§7.4.2.2),
+ * a {@link #copy()} must be created to avoid sharing mutable probability state
+ * between decoders.</p>
  */
 public final class CX
 {
@@ -29,8 +50,11 @@ public final class CX
     private final byte mps[];
 
     /**
-     * @param size - Amount of context values.
-     * @param index - Start index.
+     * Creates a new context with the specified number of context states.
+     * All probability estimates are initialized to 0, and all MPS values are initialized to 0.
+     * 
+     * @param size the number of context states
+     * @param index the initial context index
      */
     public CX(int size, int index)
     {
@@ -70,6 +94,15 @@ public final class CX
         return index;
     }
 
+    /**
+     * Sets the context index used for subsequent decoding decisions.
+     * The index selects which context state's probability estimate and MPS will be used.
+     * 
+     * <p>The index value is typically computed from the neighboring pixels in the template
+     * (§6.2.5.1 for generic regions, §6.4.7.1 for text regions).</p>
+     * 
+     * @param index the context index (0 to size-1)
+     */
     public void setIndex(int index)
     {
         this.index = index;
