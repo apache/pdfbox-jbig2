@@ -107,6 +107,8 @@ public class SymbolDictionary implements Dictionary
     protected CX cxIAID;
     private int sbSymCodeLen;
 
+    SymbolDictionary lastSymbolDictionary;
+
     public SymbolDictionary()
     {
     }
@@ -129,7 +131,6 @@ public class SymbolDictionary implements Dictionary
         setInSyms();
 
         boolean isContextAdopted = false;
-        SymbolDictionary lastSymbolDictionary = null;
 
         SegmentHeader[] rtSegments = segmentHeader.getRtSegments();
 
@@ -145,8 +146,6 @@ public class SymbolDictionary implements Dictionary
 
                     if (isCodingContextUsed && lastSymbolDictionary.isCodingContextRetained)
                     {
-                        /* 7.4.2.2 3) */
-                        adoptRetainedCodingContexts(lastSymbolDictionary);
                         isContextAdopted = true;
                     }
                     break;
@@ -296,7 +295,7 @@ public class SymbolDictionary implements Dictionary
     private void adoptRetainedCodingContexts(final SymbolDictionary sd) throws InvalidHeaderValueException
     {
         validateContextValues(sd);
-        this.cx = sd.cx;
+        this.cx = sd.cx.copy();
     }
     
     /**
@@ -376,6 +375,29 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
+    private void ensureBitmapCxInitialized() throws InvalidHeaderValueException, IOException
+    {
+        if (cx != null)
+        {
+            return;
+        }
+
+        if (isCodingContextUsed)
+        {
+            if (lastSymbolDictionary == null)
+            {
+                throw new InvalidHeaderValueException(
+                    "Coding context reuse requested but no previous dictionary available");
+            }
+
+            adoptRetainedCodingContexts(lastSymbolDictionary);
+        }
+        else
+        {
+            resetBitmapCodingStatistics();
+        }
+    }
+
     /**
      * 6.5.5 Decoding the symbol dictionary
      * 
@@ -387,17 +409,21 @@ public class SymbolDictionary implements Dictionary
     {
         if (null == exportSymbols)
         {
+            ensureBitmapCxInitialized();
 
             if (useRefinementAggregation)
                 sbSymCodeLen = getSbSymCodeLen();
 
-            if (!isHuffmanEncoded)
-            {
-                if (!isCodingContextUsed)
-                {
-                    resetBitmapCodingStatistics();
-                } 
+            if (!isHuffmanEncoded) {
                 resetIntegerCoderStatistics();
+            }
+
+            // decodes all referred segments including lastSymbolDictionary
+            setSymbolsArray();
+
+            // Now safe: lastSymbolDictionary was decoded by setSymbolsArray above
+            if (!isHuffmanEncoded && isCodingContextUsed) {
+                adoptRetainedCodingContexts(lastSymbolDictionary);
             }
 
             /* 6.5.5 1) */
@@ -409,8 +435,6 @@ public class SymbolDictionary implements Dictionary
             {
                 newSymbolsWidths = new int[amountOfNewSymbols];
             }
-
-            setSymbolsArray();
 
             /* 6.5.5 3) */
             int heightClassHeight = 0;
@@ -715,16 +739,37 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
+    /**
+     * Decodes a new symbol using the provided parameters.
+     *
+     * @param symWidth The width of the symbol.
+     * @param hcHeight The height of the symbol.
+     * @param ibo The input bitmap object.
+     * @param rdx The x-offset for refinement.
+     * @param rdy The y-offset for refinement.
+     * @throws IllegalStateException if {@code cx} or {@code arithmeticDecoder} is not initialized.
+     * @throws IOException if an I/O error occurs during decoding.
+     * @throws InvalidHeaderValueException if an invalid header value is encountered.
+     * @throws IntegerMaxValueException if an integer value exceeds its maximum allowed value
+     * 
+     */
     private void decodeNewSymbols(final int symWidth, final int hcHeight, final Bitmap ibo,
             final int rdx, final int rdy)
             throws IOException, InvalidHeaderValueException, IntegerMaxValueException
     {
-        if (arithmeticDecoder == null) {
-            arithmeticDecoder = new ArithmeticDecoder(subInputStream);
+        // cx (bitmap coding context) must already be initialized via ensureBitmapCxInitialized()
+        // in getDictionary(). It is required by GenericRefinementRegionDecodingProcedure.decode
+        // and provides the arithmetic decoder statistics for bitmap decoding.
+        if (cx == null)
+        {
+            throw new IllegalStateException("CX not initialized (bug in initialization order)");
         }
 
-        if (cx == null) {
-            cx = new CX(65536, 1);
+        // arithmeticDecoder must already be initialized for the current bitstream context.
+        // It is required by GenericRefinementRegionDecodingProcedure.decode and is
+        // normally set during segment decoding (e.g., refinement or integer-coded paths).
+        if (arithmeticDecoder == null) {
+            throw new IllegalStateException("ArithmeticDecoder not initialized");
         }
 
         // Parameters as shown in Table 18, page 36
@@ -897,12 +942,9 @@ public class SymbolDictionary implements Dictionary
         {
             long exRunLength;
 
-            if (isHuffmanEncoded)
-            {
+            if (isHuffmanEncoded) {
                 exRunLength = StandardTables.getTable(1).decode(subInputStream);
-            }
-            else
-            {
+            } else {
                 exRunLength = iDecoder.decode(cxIAEX);
             }
 

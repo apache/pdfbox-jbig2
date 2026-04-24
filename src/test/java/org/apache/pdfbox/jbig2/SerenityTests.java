@@ -60,8 +60,7 @@ public class SerenityTests
         {
             String name = file.getName();
             // Files that are not properly decoded yet
-            if (name.equals("bitmap-refine-template1-tpgron.jbig2") ||
-                name.equals("bitmap-symbol-context-reuse.jbig2"))
+            if (name.equals("bitmap-refine-template1-tpgron.jbig2"))
             {
                 continue;
             }
