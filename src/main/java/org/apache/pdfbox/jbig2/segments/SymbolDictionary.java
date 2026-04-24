@@ -107,7 +107,7 @@ public class SymbolDictionary implements Dictionary
     protected CX cxIAID;
     private int sbSymCodeLen;
 
-    SymbolDictionary lastSymbolDictionary;
+    private SymbolDictionary lastSymbolDictionary;
 
     public SymbolDictionary()
     {
@@ -146,6 +146,7 @@ public class SymbolDictionary implements Dictionary
 
                     if (isCodingContextUsed && lastSymbolDictionary.isCodingContextRetained)
                     {
+                        validateContextValues(lastSymbolDictionary);
                         isContextAdopted = true;
                     }
                     break;
@@ -286,15 +287,12 @@ public class SymbolDictionary implements Dictionary
     /**
      * Adopt retained arithmetic coding context from another symbol dictionary.
      *
-     * Per spec §7.4.2.2:
-     * - Configuration MUST match (validated here)
-     * - Only bitmap coding statistics (CX) are reused
-     * - ArithmeticDecoder MUST NOT be reused (stream-bound)
-     * @throws InvalidHeaderValueException 
+     * Per spec §7.4.2.2, only bitmap coding statistics (CX) are reused;
+     * configuration compatibility is validated in parseHeader() before this is called,
+     * and ArithmeticDecoder must not be reused as it is bound to the current stream.
      */
-    private void adoptRetainedCodingContexts(final SymbolDictionary sd) throws InvalidHeaderValueException
+    private void adoptRetainedCodingContexts(final SymbolDictionary sd)
     {
-        validateContextValues(sd);
         this.cx = sd.cx.copy();
     }
     
@@ -375,29 +373,6 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private void ensureBitmapCxInitialized() throws InvalidHeaderValueException, IOException
-    {
-        if (cx != null)
-        {
-            return;
-        }
-
-        if (isCodingContextUsed)
-        {
-            if (lastSymbolDictionary == null)
-            {
-                throw new InvalidHeaderValueException(
-                    "Coding context reuse requested but no previous dictionary available");
-            }
-
-            adoptRetainedCodingContexts(lastSymbolDictionary);
-        }
-        else
-        {
-            resetBitmapCodingStatistics();
-        }
-    }
-
     /**
      * 6.5.5 Decoding the symbol dictionary
      * 
@@ -409,21 +384,24 @@ public class SymbolDictionary implements Dictionary
     {
         if (null == exportSymbols)
         {
-            ensureBitmapCxInitialized();
-
             if (useRefinementAggregation)
                 sbSymCodeLen = getSbSymCodeLen();
-
-            if (!isHuffmanEncoded) {
-                resetIntegerCoderStatistics();
-            }
 
             // decodes all referred segments including lastSymbolDictionary
             setSymbolsArray();
 
-            // Now safe: lastSymbolDictionary was decoded by setSymbolsArray above
-            if (!isHuffmanEncoded && isCodingContextUsed) {
-                adoptRetainedCodingContexts(lastSymbolDictionary);
+            // Bitmap CX needed for both arithmetic path and huffman+refinement path
+            if (!isHuffmanEncoded || useRefinementAggregation) {
+                if (isCodingContextUsed) {
+                    adoptRetainedCodingContexts(lastSymbolDictionary);
+                } else {
+                    resetBitmapCodingStatistics();
+                }
+            }
+
+            // Integer coders only needed for arithmetic path
+            if (!isHuffmanEncoded) {
+                resetIntegerCoderStatistics();
             }
 
             /* 6.5.5 1) */
