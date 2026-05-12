@@ -55,7 +55,7 @@ public class GenericRefinementRegionDecodingProcedure
     // -------------------------------------------------------------------------
 
     private static final int SLTP_CONTEXT_TEMPLATE0 = 0x100; // §6.3.5.6, Figure 14
-    private static final int SLTP_CONTEXT_TEMPLATE1 = 0x080; // §6.3.5.6, Figure 15
+    private static final int SLTP_CONTEXT_TEMPLATE1 = 0x008; // §6.3.5.6, Figure 15
 
     /**
      * Encapsulates the template-specific operations: context bit formation
@@ -255,22 +255,128 @@ public class GenericRefinementRegionDecodingProcedure
                 isLineTypicalPredicted ^= decodeSLTP();
             }
 
-            if (isLineTypicalPredicted == 0)
+            if (templateID == 1)
             {
-                /* 6.3.5.6 - 3 c) */
-                decodeOptimized(y, width, regionBitmap.getRowStride(),
-                        referenceBitmap.getRowStride(), paddedWidth, deltaRefStride, yOffset);
+                if (isLineTypicalPredicted == 0)
+                {
+                    decodeLineExplicitT1(y, width);
+                }
+                else
+                {
+                    decodeLineTPGRT1(y, width);
+                }
             }
             else
             {
-                /* 6.3.5.6 - 3 d) */
-                decodeTypicalPredictedLine(y, width, regionBitmap.getRowStride(),
-                        referenceBitmap.getRowStride(), paddedWidth, deltaRefStride);
+                // existing template 0 paths unchanged
+                if (isLineTypicalPredicted == 0) {
+                    decodeOptimized(y, width, regionBitmap.getRowStride(),
+                            referenceBitmap.getRowStride(), paddedWidth, deltaRefStride, yOffset);
+                } else {
+                    decodeTypicalPredictedLine(y, width, regionBitmap.getRowStride(),
+                            referenceBitmap.getRowStride(), paddedWidth, deltaRefStride);
+                }
             }
         }
 
         /* 6.3.5.6 - 4) */
         return regionBitmap;
+    }
+
+    // -------------------------------------------------------------------------
+    // Pixel accessors — §6.3.5.2 out-of-bounds rule: all outside pixels = 0
+    // -------------------------------------------------------------------------
+
+    private int getPixelSafe(final Bitmap bitmap, final int x, final int y)
+    {
+        if (x < 0 || y < 0)
+            return 0;
+        if (x >= bitmap.getWidth() || y >= bitmap.getHeight())
+            return 0;
+        return bitmap.getPixel(x, y);
+    }
+
+    private int getReferenceBit(final int x, final int y)
+    {
+        return getPixelSafe(referenceBitmap, x - referenceDX, y - referenceDY);
+    }
+
+    private int getRegionBit(final int x, final int y)
+    {
+        return getPixelSafe(regionBitmap, x, y);
+    }
+
+    // -------------------------------------------------------------------------
+    // Template 1 context formation — §6.3.5.6, Figure 13
+    // Pixels gathered in reading order, GRREG before GRREFERENCE:
+    //   GRREG:      (x-2,y-1) (x-1,y-1) (x,y-1) (x-1,y)           → bits 9-6
+    //   GRREFERENCE:(x,y-1) (x-1,y) (x,y) (x+1,y) (x,y+1) (x+1,y+1) → bits 5-0
+    // Spec example: only ⊗=(x,y)=1 → CX="GR0000001000"=0x08 → bit 3 ✓
+    // -------------------------------------------------------------------------
+
+    private int buildContextT1(final int x, final int y)
+    {
+        return (getRegionBit(x - 1, y - 1) << 9)
+            | (getRegionBit(x,     y - 1) << 8)
+            | (getRegionBit(x + 1, y - 1) << 7)
+            | (getRegionBit(x - 1, y    ) << 6)
+            | (getReferenceBit(x    , y - 1) << 5)
+            | (getReferenceBit(x - 1, y    ) << 4)
+            | (getReferenceBit(x    , y    ) << 3)
+            | (getReferenceBit(x + 1, y    ) << 2)
+            | (getReferenceBit(x,     y + 1) << 1)
+            | (getReferenceBit(x + 1, y + 1));
+    }
+
+    // -------------------------------------------------------------------------
+    // Template 1 — explicit decode (LTP=0 path, §6.3.5.6 step 3c)
+    // -------------------------------------------------------------------------
+
+    private void decodeLineExplicitT1(final int y, final int width) throws IOException
+    {
+        for (int x = 0; x < width; x++)
+        {
+            cx.setIndex(buildContextT1(x, y));
+            regionBitmap.setPixel(x, y, (byte) arithDecoder.decode(cx));
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Template 1 — typical prediction decode (LTP=1 path, §6.3.5.6 step 3d)
+    // TPGRPIX=1 when the 3×3 reference neighbourhood is uniform (§6.3.5.6 3d-i)
+    // -------------------------------------------------------------------------
+
+    private void decodeLineTPGRT1(final int y, final int width) throws IOException
+    {
+        for (int x = 0; x < width; x++)
+        {
+            final int center = getReferenceBit(x, y);
+            boolean uniform = true;
+            outer:
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    if (getReferenceBit(x + dx, y + dy) != center)
+                    {
+                        uniform = false;
+                        break outer;
+                    }
+                }
+            }
+
+            final int bit;
+            if (uniform)
+            {
+                bit = center;
+            }
+            else
+            {
+                cx.setIndex(buildContextT1(x, y));
+                bit = arithDecoder.decode(cx);
+            }
+            regionBitmap.setPixel(x, y, (byte) bit);
+        }
     }
 
     // -------------------------------------------------------------------------

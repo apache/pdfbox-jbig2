@@ -17,6 +17,7 @@
 
 package org.apache.pdfbox.jbig2;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
@@ -25,6 +26,8 @@ import java.io.InputStream;
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
+import org.apache.pdfbox.jbig2.image.Bitmaps;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -59,11 +62,6 @@ public class SerenityTests
         for (File file : files)
         {
             String name = file.getName();
-            // Files that are not properly decoded yet
-            if (name.equals("bitmap-refine-template1-tpgron.jbig2"))
-            {
-                continue;
-            }
             imageIIS = ImageIO.createImageInputStream(file);
             doc = new JBIG2Document(imageIIS);
             page = doc.getPage(1);

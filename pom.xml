@@ -222,12 +222,24 @@
   </scm>
 	
     <dependencies>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>4.13.2</version>
-		<scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>1.37</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>1.37</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <!-- enable the usage of external testfiles with -Dskip-external-testfiles=false  -->
@@ -236,24 +248,24 @@
     </properties>
 
 	<build>
-		<plugins>
-                    <plugin>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules combine.children="append">
-                                        <requireMavenVersion>
-                                            <version>3.7.0</version>
-                                        </requireMavenVersion>
-                                    </rules>    
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+        <plugins>
+            <plugin>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules combine.children="append">
+                                <requireMavenVersion>
+                                    <version>3.7.0</version>
+                                </requireMavenVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -266,10 +278,10 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<!-- Keep changes in the local repo, push will be done afterwards -->
+                    <!-- Keep changes in the local repo, push will be done afterwards -->
 					<pushChanges>false</pushChanges>
 					<localCheckout>true</localCheckout>
-					<!-- Use a better name for the tag -->
+                    <!-- Use a better name for the tag -->
 					<tagNameFormat>${project.artifactId}-${project.version}</tagNameFormat>
 				</configuration>
 				<dependencies>
@@ -420,6 +432,54 @@
                 </plugins>
             </build>
         </profile>
+    <profile>
+        <id>benchmark</id>
+        <build>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <debug>false</debug>
+                        <optimize>true</optimize>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.openjdk.jmh</groupId>
+                                <artifactId>jmh-generator-annprocess</artifactId>
+                                <version>1.37</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <executions>
+                        <execution>
+                            <id>run-benchmarks</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                            <configuration>
+                                <mainClass>org.openjdk.jmh.Main</mainClass>
+                                <classpathScope>test</classpathScope>
+                                <arguments>
+                                    <argument>.*Benchmark.*</argument>
+                                    <argument>-rf</argument>
+                                    <argument>json</argument>
+                                    <argument>-rff</argument>
+                                    <argument>${project.build.directory}/benchmark-results.json</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </build>
+    </profile>
     <profile>
       <id>apache-release</id>
       <build>
