@@ -1,5 +1,6 @@
 .idea/
 .settings/
+.vscode/
 .project
 .classpath
 atlassian-ide-plugin.xml
