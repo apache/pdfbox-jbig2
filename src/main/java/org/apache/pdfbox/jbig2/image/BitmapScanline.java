@@ -29,7 +29,7 @@ final class BitmapScanline extends Scanline
 
     private int[] lineBuffer;
 
-    public BitmapScanline(final Bitmap src, final WritableRaster dst, final int width)
+    BitmapScanline(final Bitmap src, final WritableRaster dst, final int width)
     {
         super(width);
         this.bitmap = src;
