@@ -572,7 +572,7 @@ public class MMRDecompressor
         {
 
             final int offset = currentOffsets[index];
-            byte value;
+            int value;
 
             if ((index & 1) == 0)
             {
