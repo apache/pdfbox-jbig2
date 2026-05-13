@@ -975,17 +975,17 @@ public class SymbolDictionary implements Dictionary
      */
     private int getSbSymCodeLen() throws IOException
     {
+
+        final int sbSymCodeLen = (int) Math.ceil(
+            Math.log((double) amountOfImportedSymbols + amountOfNewSymbols) / Math.log(2));
+
         if (isHuffmanEncoded)
         {
-            return Math.max(
-                    (int) (Math.ceil(
-                            Math.log(amountOfImportedSymbols + amountOfNewSymbols) / Math.log(2))),
-                    1);
+            return Math.max(sbSymCodeLen, 1);
         }
         else
         {
-            return (int) (Math
-                    .ceil(Math.log(amountOfImportedSymbols + amountOfNewSymbols) / Math.log(2)));
+            return sbSymCodeLen;
         }
     }
 
