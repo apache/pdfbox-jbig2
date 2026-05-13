@@ -63,12 +63,12 @@ public final class CX
         mps = new byte[size];
     }
 
-    protected int cx()
+    int cx()
     {
         return cx[index] & 0x7f;
     }
 
-    protected void setCx(int value)
+    void setCx(int value)
     {
         cx[index] = (byte) (value & 0x7f);
     }
@@ -76,7 +76,7 @@ public final class CX
     /**
      * @return The decision. Possible values are {@code 0} or {@code 1}.
      */
-    protected byte mps()
+    byte mps()
     {
         return mps[index];
     }
@@ -84,12 +84,12 @@ public final class CX
     /**
      * Flips the bit in actual "more predictable symbol" array element.
      */
-    protected void toggleMps()
+    void toggleMps()
     {
         mps[index] ^= 1;
     }
 
-    protected int getIndex()
+    int getIndex()
     {
         return index;
     }
