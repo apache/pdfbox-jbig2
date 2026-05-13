@@ -20,6 +20,8 @@ package org.apache.pdfbox.jbig2.decoder.mmr;
 import java.io.EOFException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.stream.ImageInputStream;
 
@@ -72,7 +74,7 @@ public class MMRDecompressor
             catch (IOException e)
             {
                 buffer = new byte[10];
-                e.printStackTrace();
+                Logger.getLogger(MMRDecompressor.class.getName()).log(Level.WARNING, e.getMessage(), e);
             }
         }
 
@@ -414,7 +416,7 @@ public class MMRDecompressor
 
                 case MMRConstants.EOL:
                 default:
-                    System.err.println("Should not happen!");
+                    Logger.getLogger(MMRDecompressor.class.getName()).log(Level.WARNING, "Should not happen! code.runLength: {0}", code.runLength);
                     // Possibly MMR Decoded
                     if (runData.offset == 12 && code.runLength == MMRConstants.EOL)
                     {

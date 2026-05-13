@@ -34,6 +34,8 @@ import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -233,8 +235,7 @@ public class TestImage extends JFrame
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(TestImage.class.getName()).log(Level.WARNING, e.getMessage(), e);
         }
     }
 
@@ -261,8 +262,7 @@ public class TestImage extends JFrame
         }
         catch (IOException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Logger.getLogger(TestImage.class.getName()).log(Level.WARNING, e.getMessage(), e);
         }
     }
 }
