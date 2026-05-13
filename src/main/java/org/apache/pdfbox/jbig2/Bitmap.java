@@ -36,7 +36,7 @@ public class Bitmap
     private final int rowStride;
 
     /** 8 pixels per byte, 0 for white, 1 for black */
-    private byte[] bitmap;
+    private final byte[] bitmapBytes;
 
     /**
      * Creates an instance of a blank image.<br>
@@ -55,7 +55,7 @@ public class Bitmap
         this.width = width;
         this.rowStride = (width + 7) >> 3;
 
-        bitmap = new byte[this.height * this.rowStride];
+        bitmapBytes = new byte[this.height * this.rowStride];
     }
 
     /**
@@ -98,14 +98,14 @@ public class Bitmap
 
         final int shift = 7 - bitOffset;
 
-        final byte src = bitmap[byteIndex];
+        final byte src = bitmapBytes[byteIndex];
         if ((pixelValue & 1) == 1)
         {
-            bitmap[byteIndex] = (byte) (src | (1 << shift));
+            bitmapBytes[byteIndex] = (byte) (src | (1 << shift));
         }
         else
         {
-            bitmap[byteIndex] = (byte) (src & ~(1 << shift));
+            bitmapBytes[byteIndex] = (byte) (src & ~(1 << shift));
         }
     }
 
@@ -133,7 +133,7 @@ public class Bitmap
     @Deprecated
     public byte[] getByteArray()
     {
-        return bitmap;
+        return bitmapBytes;
     }
 
     /**
@@ -147,7 +147,7 @@ public class Bitmap
      */
     public byte getByte(int index)
     {
-        return this.bitmap[index];
+        return this.bitmapBytes[index];
     }
 
     /**
@@ -161,7 +161,7 @@ public class Bitmap
      */
     public void setByte(int index, byte value)
     {
-        this.bitmap[index] = value;
+        this.bitmapBytes[index] = value;
     }
 
     /**
@@ -175,7 +175,7 @@ public class Bitmap
      */
     public int getByteAsInteger(int index)
     {
-        return (this.bitmap[index] & 0xff);
+        return (this.bitmapBytes[index] & 0xff);
     }
 
     /**
@@ -248,7 +248,7 @@ public class Bitmap
      */
     public int getLength()
     {
-        return bitmap.length;
+        return bitmapBytes.length;
     }
 
     /**
@@ -258,7 +258,7 @@ public class Bitmap
      */
     public void fillBitmap(byte fillByte)
     {
-        Arrays.fill(bitmap, fillByte);
+        Arrays.fill(bitmapBytes, fillByte);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class Bitmap
             return false;
         }
         Bitmap other = (Bitmap)obj;
-        if (Arrays.equals(bitmap, other.bitmap))
+        if (Arrays.equals(bitmapBytes, other.bitmapBytes))
         {
             return true;
         }
@@ -291,7 +291,7 @@ public class Bitmap
             int idx = getByteIndex(0, y);
             for (int i = idx; i < idx + rowStride - 1; ++i)
             {
-                if (bitmap[i] != other.bitmap[i])
+                if (bitmapBytes[i] != other.bitmapBytes[i])
                 {
                     return false;
                 }
@@ -308,6 +308,17 @@ public class Bitmap
         return true;
     }
 
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 59 * hash + this.height;
+        hash = 59 * hash + this.width;
+        hash = 59 * hash + this.rowStride;
+        hash = 59 * hash + Arrays.hashCode(this.bitmapBytes);
+        return hash;
+    }
+
     /**
      * Copy parts of the underlying array of a Bitmap to another Bitmap.
      *  
@@ -319,6 +330,6 @@ public class Bitmap
      */
     public static void arraycopy(Bitmap src, int srcPos, Bitmap dest, int destPos,  int length)
     {
-        System.arraycopy(src.bitmap, srcPos, dest.bitmap, destPos, length);
+        System.arraycopy(src.bitmapBytes, srcPos, dest.bitmapBytes, destPos, length);
     }
 }
