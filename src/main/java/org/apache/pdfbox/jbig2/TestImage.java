@@ -143,8 +143,10 @@ public class TestImage extends JFrame
                 {
                     mt.waitForAll();
                 }
-                catch (Exception ex)
+                catch (InterruptedException ex)
                 {
+                    Thread.currentThread().interrupt();
+                    Logger.getLogger(TestImage.class.getName()).log(Level.WARNING, ex.getMessage(), ex);
                 }
 
                 imgWidth = myImage.getWidth(this);
