@@ -38,6 +38,7 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 /**
  * This is a utility class. It can be used to show intermediary results.
@@ -55,7 +56,7 @@ public class TestImage extends JFrame
         int scanlineStride = (w + 7) / 8;
 
         // hier sind die Daten
-        byte data[] = new byte[h * scanlineStride];
+        byte[] data = new byte[h * scanlineStride];
 
         // dummy-Daten erzeugen
         for (int i = 0; i < data.length; i++)
@@ -78,7 +79,6 @@ public class TestImage extends JFrame
          */
         protected ImageComponent()
         {
-            super();
         }
 
         /**
@@ -86,7 +86,6 @@ public class TestImage extends JFrame
          */
         public ImageComponent(Image image)
         {
-            super();
             setImage(image);
         }
 
@@ -95,6 +94,7 @@ public class TestImage extends JFrame
          * 
          * @param image java.awt.Image
          */
+        @Override
         public Dimension getPreferredSize()
         {
             if (prefSize != null)
@@ -108,6 +108,7 @@ public class TestImage extends JFrame
          * 
          * @param image java.awt.Image
          */
+        @Override
         public Dimension getMinimumSize()
         {
             if (prefSize != null)
@@ -160,6 +161,7 @@ public class TestImage extends JFrame
          * 
          * @return Insets the Insets of the Component
          */
+        @Override
         public Insets getInsets()
         {
             return new Insets(1, 1, 1, 1);
@@ -170,6 +172,7 @@ public class TestImage extends JFrame
          * 
          * @param g java.awt.Graphics
          */
+        @Override
         protected void paintComponent(Graphics g)
         {
             Graphics2D g2 = (Graphics2D) g;
@@ -197,7 +200,7 @@ public class TestImage extends JFrame
         }
     }
 
-    public TestImage(byte data[], int w, int h, int scanlineStride)
+    public TestImage(byte[] data, int w, int h, int scanlineStride)
     {
         super("Demobild");
 
@@ -239,7 +242,7 @@ public class TestImage extends JFrame
     {
         super("Demobild");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         ImageComponent imageComponent = new ImageComponent(bufferedImage);
         imageComponent.setScale(1);
