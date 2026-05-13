@@ -966,21 +966,23 @@ public class TextRegion implements Region
 
         if (referenceCorner != 1)
         {
-            if (referenceCorner == 0)
+            switch (referenceCorner)
             {
-                // BL
-                t -= ib.getHeight() - 1;
-            }
-            else if (referenceCorner == 2)
-            {
-                // BR
-                t -= ib.getHeight() - 1;
-                s -= ib.getWidth() - 1;
-            }
-            else if (referenceCorner == 3)
-            {
-                // TR
-                s -= ib.getWidth() - 1;
+                case 0:
+                    // BL
+                    t -= ib.getHeight() - 1;
+                    break;
+                case 2:
+                    // BR
+                    t -= ib.getHeight() - 1;
+                    s -= ib.getWidth() - 1;
+                    break;
+                case 3:
+                    // TR
+                    s -= ib.getWidth() - 1;
+                    break;
+                default:
+                    break;
             }
         }
 
