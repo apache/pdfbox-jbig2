@@ -40,6 +40,7 @@ public class EndOfStripe implements SegmentData
         lineNumber = (int) (subInputStream.readBits(32) & 0xffffffff);
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws IntegerMaxValueException, InvalidHeaderValueException, IOException
     {

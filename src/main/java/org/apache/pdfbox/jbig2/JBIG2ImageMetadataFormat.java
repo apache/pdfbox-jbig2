@@ -47,6 +47,7 @@ public class JBIG2ImageMetadataFormat extends IIOMetadataFormatImpl
                 true);
     }
 
+    @Override
     public boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType)
     {
         return true;

@@ -22,6 +22,7 @@ public class SoftReferenceCacheBridge implements CacheBridge
 
     private static final SoftReferenceCache cache = new SoftReferenceCache();
 
+    @Override
     public Cache getCache()
     {
         return cache;

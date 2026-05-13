@@ -37,6 +37,7 @@ import javax.imageio.stream.MemoryCacheImageInputStream;
 public class DefaultInputStreamFactory implements InputStreamFactory
 {
 
+    @Override
     public ImageInputStream getInputStream(InputStream is)
     {
         try

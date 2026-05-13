@@ -42,6 +42,7 @@ public class JBIG2DocumentFacade extends JBIG2Document
         super(input, globals);
     }
 
+    @Override
     public JBIG2Page getPage(int pageNumber)
     {
         return super.getPage(pageNumber);

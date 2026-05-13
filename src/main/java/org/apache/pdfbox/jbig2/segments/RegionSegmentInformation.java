@@ -79,6 +79,7 @@ public class RegionSegmentInformation implements SegmentData
                 .translateOperatorCodeToEnum((short) (subInputStream.readBits(3) & 0xf)));
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws InvalidHeaderValueException, IntegerMaxValueException, IOException
     {

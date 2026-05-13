@@ -134,6 +134,7 @@ public class PatternDictionary implements Dictionary
      * 
      * @return An array of {@link Bitmap}s as result of the decoding procedure.
      */
+    @Override
     public ArrayList<Bitmap> getDictionary() throws IOException, InvalidHeaderValueException
     {
         if (null == patterns)
@@ -202,6 +203,7 @@ public class PatternDictionary implements Dictionary
         }
     }
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
             throws InvalidHeaderValueException, IOException
     {

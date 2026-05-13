@@ -247,6 +247,7 @@ public class MMRDecompressor
             runLength = codeData[2];
         }
 
+        @Override
         public String toString()
         {
             return bitLength + "/" + codeWord + "/" + runLength;
@@ -255,6 +256,7 @@ public class MMRDecompressor
         /**
          * @see java.lang.Object#equals(Object)
          */
+        @Override
         public boolean equals(Object obj)
         {
             return (obj instanceof Code) && //

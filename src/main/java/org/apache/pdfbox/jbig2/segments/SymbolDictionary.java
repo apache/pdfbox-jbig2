@@ -1057,6 +1057,7 @@ public class SymbolDictionary implements Dictionary
         return null;
     }
 
+    @Override
     public void init(final SegmentHeader header, final SubInputStream sis)
             throws InvalidHeaderValueException, IntegerMaxValueException, IOException
     {

@@ -27,6 +27,7 @@ import org.apache.pdfbox.jbig2.io.SubInputStream;
 public class Profiles implements SegmentData
 {
 
+    @Override
     public void init(SegmentHeader header, SubInputStream sis)
     {
     }
