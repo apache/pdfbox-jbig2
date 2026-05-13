@@ -263,7 +263,7 @@ public class StandardTables
                     { 7, 32, 25 } /* high */
             } };
 
-    private static final HuffmanTable STANDARD_TABLES[] = new HuffmanTable[TABLES.length];
+    private static final HuffmanTable[] STANDARD_TABLES = new HuffmanTable[TABLES.length];
 
     public static HuffmanTable getTable(int number)
     {
