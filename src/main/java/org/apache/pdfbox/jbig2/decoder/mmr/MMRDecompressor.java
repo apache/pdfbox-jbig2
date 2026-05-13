@@ -456,7 +456,7 @@ public class MMRDecompressor
         }
         catch (Throwable t)
         {
-            StringBuffer strBuf = new StringBuffer();
+            StringBuilder strBuf = new StringBuilder();
             strBuf.append("whiteRun           = ");
             strBuf.append(whiteRun);
             strBuf.append("\n");
