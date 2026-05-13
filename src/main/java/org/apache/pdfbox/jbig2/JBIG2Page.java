@@ -201,6 +201,8 @@ class JBIG2Page
                 }
 
                 break;
+            default:
+                break;
             }
         }
     }
@@ -272,6 +274,8 @@ class JBIG2Page
                 pageStripes.add(eos);
                 finalHeight = eos.getLineNumber() + 1;
                 break;
+            default:
+                break;
             }
         }
 
@@ -301,6 +305,8 @@ class JBIG2Page
             case 42: // Immediate generic refinement region
             case 43: // Immediate lossless generic refinement region
                 regionCount++;
+            default:
+                break;
             }
         }
 
