@@ -143,7 +143,7 @@ class JBIG2Document
     {
         if (amountOfPagesUnknown || amountOfPages == 0)
         {
-            if (pages.size() == 0)
+            if (pages.isEmpty())
             {
                 mapStream();
             }
