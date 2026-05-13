@@ -177,8 +177,8 @@ public class HalftoneRegion implements Region
             Bitmap hSkip = null;
             if (hSkipEnabled)
             {
-                int hPatternHeight = (int) patterns.get(0).getHeight(); // HPW
-                int hPatternWidth = (int) patterns.get(0).getWidth(); // HPH
+                int hPatternHeight = patterns.get(0).getHeight(); // HPW
+                int hPatternWidth = patterns.get(0).getWidth(); // HPH
                 hSkip = computeHSkip(hPatternWidth, hPatternHeight);
             }
 
