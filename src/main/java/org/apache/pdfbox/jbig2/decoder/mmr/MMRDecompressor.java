@@ -31,8 +31,8 @@ import org.apache.pdfbox.jbig2.Bitmap;
 public class MMRDecompressor
 {
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     /**
      * A class encapsulating the compressed raw data.
@@ -76,12 +76,12 @@ public class MMRDecompressor
             }
         }
 
-        private final Code uncompressGetCode(Code table[])
+        private Code uncompressGetCode(Code table[])
         {
             return uncompressGetCodeLittleEndian(table);
         }
 
-        private final Code uncompressGetCodeLittleEndian(Code table[])
+        private Code uncompressGetCodeLittleEndian(Code table[])
         {
             final int code = uncompressGetNextCodeLittleEndian() & 0xffffff;
             Code result = table[code >> CODE_OFFSET - FIRST_LEVEL_TABLE_SIZE];
@@ -102,7 +102,7 @@ public class MMRDecompressor
          * This method returns code words of 16 bits, which are aligned to the 24th bit. The lowest 8 bits are used as a
          * "queue" of bits so that an access to the actual data is only needed, when this queue becomes empty.
          */
-        private final int uncompressGetNextCodeLittleEndian()
+        private int uncompressGetNextCodeLittleEndian()
         {
             try
             {
@@ -199,7 +199,7 @@ public class MMRDecompressor
                     // CK: if filling degree is too small,
                     // smoothly fill up to the next three bytes or substitute with with
                     // empty bytes
-                    int read = 0;
+                    int read;
                     while (bufferTop < 3)
                     {
                         try
@@ -275,9 +275,9 @@ public class MMRDecompressor
     private static Code blackTable[] = null;
     private static Code modeTable[] = null;
 
-    private RunData data;
+    private final RunData data;
 
-    private synchronized final static void initTables()
+    private static synchronized void initTables()
     {
         if (null == whiteTable)
         {
@@ -287,7 +287,7 @@ public class MMRDecompressor
         }
     }
 
-    private final int uncompress2D(RunData runData, int[] referenceOffsets, int refRunLength,
+    private int uncompress2D(RunData runData, int[] referenceOffsets, int refRunLength,
             int[] runOffsets, int width)
     {
 
@@ -516,7 +516,7 @@ public class MMRDecompressor
         referenceOffsets[0] = width;
         int refRunLength = 1;
 
-        int count = 0;
+        int count;
 
         for (int line = 0; line < height; line++)
         {
@@ -601,7 +601,7 @@ public class MMRDecompressor
         }
     }
 
-    private final int uncompress1D(RunData runData, int[] runOffsets, int width)
+    private int uncompress1D(RunData runData, int[] runOffsets, int width)
     {
 
         boolean whiteRun = true;
@@ -670,10 +670,9 @@ public class MMRDecompressor
     private static Code[] createLittleEndianTable(int codes[][])
     {
         final Code firstLevelTable[] = new Code[FIRST_LEVEL_TABLE_MASK + 1];
-        for (int i = 0; i < codes.length; i++)
+        for (int[] cod : codes)
         {
-            final Code code = new Code(codes[i]);
-
+            final Code code = new Code(cod);
             if (code.bitLength <= FIRST_LEVEL_TABLE_SIZE)
             {
                 final int variantLength = FIRST_LEVEL_TABLE_SIZE - code.bitLength;

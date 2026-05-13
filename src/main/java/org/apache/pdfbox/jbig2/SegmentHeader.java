@@ -56,9 +56,8 @@ public class SegmentHeader
                 { 43, GenericRefinementRegion.class }, { 48, PageInformation.class },
                 { 50, EndOfStripe.class }, { 52, Profiles.class }, { 53, Table.class }, };
 
-        for (int i = 0; i < SEGMENT_TYPES.length; i++)
+        for (Object[] objects : SEGMENT_TYPES)
         {
-            Object[] objects = SEGMENT_TYPES[i];
             SEGMENT_TYPE_MAP.put((Integer) objects[0], (Class<? extends SegmentData>) objects[1]);
         }
     }

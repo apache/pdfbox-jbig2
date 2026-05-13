@@ -29,14 +29,16 @@ public class StandardTables
 
             List<Code> codeTable = new ArrayList<Code>();
 
-            for (int i = 0; i < table.length; i++)
+            for (int[] subTable : table)
             {
-                int prefixLength = table[i][0];
-                int rangeLength = table[i][1];
-                int rangeLow = table[i][2];
+                int prefixLength = subTable[0];
+                int rangeLength = subTable[1];
+                int rangeLow = subTable[2];
                 boolean isLowerRange = false;
-                if (table[i].length > 3)
+                if (subTable.length > 3)
+                {
                     isLowerRange = true;
+                }
                 codeTable.add(new Code(prefixLength, rangeLength, rangeLow, isLowerRange));
             }
 
@@ -261,7 +263,7 @@ public class StandardTables
                     { 7, 32, 25 } /* high */
             } };
 
-    private static HuffmanTable STANDARD_TABLES[] = new HuffmanTable[TABLES.length];
+    private static final HuffmanTable STANDARD_TABLES[] = new HuffmanTable[TABLES.length];
 
     public static HuffmanTable getTable(int number)
     {
