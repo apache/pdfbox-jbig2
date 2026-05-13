@@ -32,7 +32,7 @@ final class Weighttab
      * cen, for source coordinates in the range [0..len-1], writing the weights into wtab. Scale the weights so they sum
      * to WEIGHTONE, and trim leading and trailing zeros if trimzeros!=0. b is the dest coordinate (for diagnostics).
      */
-    public Weighttab(ParameterizedFilter pf, int weightOne, final double center, int a0,
+    Weighttab(ParameterizedFilter pf, int weightOne, final double center, int a0,
             final int a1, final boolean trimzeros)
     {
         // find the source coord range of this positioned filter: [i0..i1-1] and clamp to input range
