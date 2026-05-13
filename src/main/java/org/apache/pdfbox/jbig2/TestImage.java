@@ -71,7 +71,7 @@ public class TestImage extends JFrame
         Image myImage;
         int imgWidth = -1;
         int imgHeight = -1;
-        Dimension prefSize = null;
+        Dimension myPrefSize = null;
         private int scale = 1;
 
         /**
@@ -97,8 +97,8 @@ public class TestImage extends JFrame
         @Override
         public Dimension getPreferredSize()
         {
-            if (prefSize != null)
-                return this.prefSize;
+            if (myPrefSize != null)
+                return myPrefSize;
             else
                 return super.getPreferredSize();
         }
@@ -111,8 +111,8 @@ public class TestImage extends JFrame
         @Override
         public Dimension getMinimumSize()
         {
-            if (prefSize != null)
-                return prefSize;
+            if (myPrefSize != null)
+                return myPrefSize;
             else
                 return super.getMinimumSize();
         }
@@ -149,7 +149,7 @@ public class TestImage extends JFrame
                 imgHeight = myImage.getHeight(this);
 
                 setSize(imgWidth * scale, imgHeight * scale);
-                prefSize = getSize();
+                myPrefSize = getSize();
                 invalidate();
                 validate();
                 repaint();
@@ -188,7 +188,7 @@ public class TestImage extends JFrame
             this.scale = scale;
 
             setSize(imgWidth * scale, imgHeight * scale);
-            prefSize = getSize();
+            myPrefSize = getSize();
 
             revalidate();
             repaint();
