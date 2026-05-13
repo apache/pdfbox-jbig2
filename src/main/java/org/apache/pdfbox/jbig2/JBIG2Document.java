@@ -85,14 +85,6 @@ class JBIG2Document
     private final SubInputStream subInputStream;
 
     /**
-     * Flag:
-     * <ul>
-     * <li>{@code true} if stream is embedded in another file format and the file header is missing</li>
-     * <li>{@code false} if stream is created of a native jbig2 file and the file header should be present</li>
-     * </ul>
-     */
-
-    /**
      * Holds a load of segments, that aren't associated with a page.
      */
     private JBIG2Globals globalSegments;
@@ -308,8 +300,6 @@ class JBIG2Document
 
         // Bit 0 - Indicates file organisation type
         organisationType = (short) subInputStream.readBit();
-
-        // fileHeaderLength = 9;
 
         /*
          * D.4.3 Number of pages (field is only present if amount of pages are 'NOT unknown')
