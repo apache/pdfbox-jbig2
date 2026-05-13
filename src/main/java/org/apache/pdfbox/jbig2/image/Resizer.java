@@ -131,7 +131,7 @@ class Resizer
      * 
      * @param scale the scale factor for x and y direction
      */
-    public Resizer(double scale)
+    Resizer(double scale)
     {
         this(scale, scale);
     }
@@ -142,7 +142,7 @@ class Resizer
      * @param scaleX the scale factor for x direction
      * @param scaleY the scale factor for y direction
      */
-    public Resizer(double scaleX, double scaleY)
+    Resizer(double scaleX, double scaleY)
     {
         mappingX = new Mapping(scaleX);
         mappingY = new Mapping(scaleY);
