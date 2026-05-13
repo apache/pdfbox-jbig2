@@ -85,8 +85,8 @@ public class PatternDictionaryTest
 
         int i = 5;
         // for (int i = 0; i < 8; i++) {
-        new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(),
-                (int) b.get(i).getHeight(), b.get(i).getRowStride());
+        new TestImage(b.get(i).getByteArray(), b.get(i).getWidth(),
+                b.get(i).getHeight(), b.get(i).getRowStride());
         // }
     }
 
@@ -112,8 +112,8 @@ public class PatternDictionaryTest
 
         int i = 2;
         // for (int i = 0; i < 8; i++) {
-        new TestImage(b.get(i).getByteArray(), (int) b.get(i).getWidth(),
-                (int) b.get(i).getHeight(), b.get(i).getRowStride());
+        new TestImage(b.get(i).getByteArray(), b.get(i).getWidth(),
+                b.get(i).getHeight(), b.get(i).getRowStride());
         // }
     }
 }
