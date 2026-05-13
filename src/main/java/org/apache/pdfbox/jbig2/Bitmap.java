@@ -130,6 +130,7 @@ public class Bitmap
      * 
      * @deprecated don't expose the underlying byte array, will be removed in a future release.
      */
+    @Deprecated
     public byte[] getByteArray()
     {
         return bitmap;
@@ -234,6 +235,7 @@ public class Bitmap
      * 
      * @deprecated renamed, will be removed in a future release. Use {@link Bitmap#getLength()} instead.
      */
+    @Deprecated
     public int getMemorySize()
     {
         return getLength();
