@@ -47,7 +47,7 @@ public class SegmentHeader
 
     static
     {
-        Object SEGMENT_TYPES[][] = { { 0, SymbolDictionary.class }, { 4, TextRegion.class },
+        Object [][] SEGMENT_TYPES = { { 0, SymbolDictionary.class }, { 4, TextRegion.class },
                 { 6, TextRegion.class }, { 7, TextRegion.class }, { 16, PatternDictionary.class },
                 { 20, HalftoneRegion.class }, { 22, HalftoneRegion.class },
                 { 23, HalftoneRegion.class }, { 36, GenericRegion.class },
@@ -138,10 +138,10 @@ public class SegmentHeader
      */
     private void readSegmentHeaderFlag(ImageInputStream subInputStream) throws IOException
     {
-        // Bit 7: Retain Flag, if 1, this segment is flagged as retained;
+        // Bit 7: Retain Flag, if 1, this segment is flagged as retained
         retainFlag = (byte) subInputStream.readBit();
 
-        // Bit 6: Size of the page association field. One byte if 0, four bytes if 1;
+        // Bit 6: Size of the page association field. One byte if 0, four bytes if 1
         pageAssociationFieldSize = (byte) subInputStream.readBit();
 
         // Bit 5-0: Contains the values (between 0 and 62 with gaps) for segment types, specified in 7.3
@@ -176,7 +176,8 @@ public class SegmentHeader
             countOfRTS = (int) (subInputStream.readBits(29) & 0xffffffff);
 
             int arrayLength = (countOfRTS + 8) >> 3;
-            retainBit = new byte[arrayLength <<= 3];
+            arrayLength <<= 3;
+            retainBit = new byte[arrayLength];
 
             for (int i = 0; i < arrayLength; i++)
             {
@@ -376,7 +377,7 @@ public class SegmentHeader
             }
             try
             {
-                segmentDataPart = segmentClass.newInstance();
+                segmentDataPart = segmentClass.getDeclaredConstructor().newInstance();
                 segmentDataPart.init(this, getDataInputStream());
 
                 segmentData = new SoftReference<SegmentData>(segmentDataPart);
@@ -399,6 +400,7 @@ public class SegmentHeader
         }
     }
 
+    @Override
     public String toString()
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -407,7 +409,7 @@ public class SegmentHeader
         {
             for (SegmentHeader s : rtSegments)
             {
-                stringBuilder.append(s.segmentNr + " ");
+                stringBuilder.append(s.segmentNr).append(" ");
             }
         }
         else
