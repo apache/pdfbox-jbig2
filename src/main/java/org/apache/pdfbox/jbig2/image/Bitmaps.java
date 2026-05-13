@@ -127,8 +127,8 @@ public class Bitmaps
             // Apply vertical and horizontal subsampling
             if (requiresScaling)
             {
-                scaleX /= (double) param.getSourceXSubsampling();
-                scaleY /= (double) param.getSourceYSubsampling();
+                scaleX /= param.getSourceXSubsampling();
+                scaleY /= param.getSourceYSubsampling();
             }
             else
             {
@@ -142,7 +142,7 @@ public class Bitmaps
                 // Apply horizontal subsampling only
                 if (requiresScaling)
                 {
-                    scaleX /= (double) param.getSourceXSubsampling();
+                    scaleX /= param.getSourceXSubsampling();
                 }
                 else
                 {
@@ -156,7 +156,7 @@ public class Bitmaps
                 // Apply vertical subsampling only
                 if (requiresScaling)
                 {
-                    scaleY /= (double) param.getSourceYSubsampling();
+                    scaleY /= param.getSourceYSubsampling();
                 }
                 else
                 {
