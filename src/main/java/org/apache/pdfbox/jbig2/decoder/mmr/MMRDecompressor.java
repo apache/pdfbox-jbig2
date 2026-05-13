@@ -567,7 +567,7 @@ public class MMRDecompressor
 
         int x = 0;
         int targetByte = result.getByteIndex(0, line);
-        byte targetByteValue = 0;
+        int targetByteValue = 0;
         for (int index = 0; index < count; index++)
         {
 
@@ -590,16 +590,17 @@ public class MMRDecompressor
 
                 if ((x & 7) == 0)
                 {
-                    result.setByte(targetByte++, targetByteValue);
+                    result.setByte(targetByte++, (byte) targetByteValue);
                     targetByteValue = 0;
                 }
             }
         }
 
+        // Flush remaining bits in the last partial byte
         if ((x & 7) != 0)
         {
             targetByteValue <<= 8 - (x & 7);
-            result.setByte(targetByte, targetByteValue);
+            result.setByte(targetByte, (byte) targetByteValue);
         }
     }
 

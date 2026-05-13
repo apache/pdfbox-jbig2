@@ -98,7 +98,7 @@ public class Bitmap
 
         final int shift = 7 - bitOffset;
 
-        final byte src = bitmapBytes[byteIndex];
+        final int src = bitmapBytes[byteIndex] & 0xff; // convert to int for bitwise operations
         if ((pixelValue & 1) == 1)
         {
             bitmapBytes[byteIndex] = (byte) (src | (1 << shift));
