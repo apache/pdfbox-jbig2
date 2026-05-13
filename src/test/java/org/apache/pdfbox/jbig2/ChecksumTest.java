@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -130,8 +130,7 @@ public class ChecksumTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         JBIG2Document doc = new JBIG2Document(iis);
 

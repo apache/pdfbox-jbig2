@@ -29,10 +29,10 @@ import java.io.InputStream;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -67,8 +67,7 @@ public class JBIG2ImageReaderTest
 
         InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
 
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         imageReader.setInput(imageInputStream);
@@ -95,8 +94,7 @@ public class JBIG2ImageReaderTest
 
         InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
 
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         imageReader.setInput(imageInputStream);
@@ -118,8 +116,7 @@ public class JBIG2ImageReaderTest
 
         InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         imageReader.setInput(imageInputStream);
         BufferedImage bufferedImage = imageReader.read(imageIndex, null);
@@ -140,8 +137,7 @@ public class JBIG2ImageReaderTest
 
         InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         imageReader.setInput(imageInputStream);
         Raster raster = imageReader.readRaster(imageIndex, null);
@@ -156,8 +152,7 @@ public class JBIG2ImageReaderTest
         String filepath = "/images/002.jb2";
 
         InputStream inputStream = getClass().getResourceAsStream(filepath);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         imageReader.setInput(imageInputStream);
         int numImages = imageReader.getNumImages(true);

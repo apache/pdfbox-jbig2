@@ -20,8 +20,8 @@ package org.apache.pdfbox.jbig2.decoder.arithmetic;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -32,8 +32,7 @@ public class ArithmeticIntegerDecoderTest
     public void decodeTest() throws Throwable
     {
         InputStream is = getClass().getResourceAsStream("/images/arith/encoded testsequence");
-        DefaultInputStreamFactory isFactory = new DefaultInputStreamFactory();
-        ImageInputStream iis = isFactory.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
 
         ArithmeticDecoder ad = new ArithmeticDecoder(iis);
         ArithmeticIntegerDecoder aid = new ArithmeticIntegerDecoder(ad);

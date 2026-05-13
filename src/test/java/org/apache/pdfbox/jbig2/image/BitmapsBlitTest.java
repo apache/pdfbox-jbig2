@@ -27,11 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.JBIG2DocumentFacade;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
 
@@ -48,8 +48,7 @@ public class BitmapsBlitTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        final ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
 
@@ -70,8 +69,7 @@ public class BitmapsBlitTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        final ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
 

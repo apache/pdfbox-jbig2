@@ -27,11 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -53,8 +53,7 @@ public class JBIG2PageTest
         int pageNumber = 1;
 
         InputStream is = new FileInputStream(inputFile);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
         JBIG2Document doc = new JBIG2Document(iis);
 
         Bitmap pageBitmap = doc.getPage(pageNumber).getBitmap();
@@ -78,8 +77,7 @@ public class JBIG2PageTest
         int pageNumber = 1;
 
         InputStream is = new FileInputStream(inputFile);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
 
         for (int i = 0; i < runs; i++)
         {
@@ -108,8 +106,7 @@ public class JBIG2PageTest
         System.out.println("File: " + path);
 
         InputStream is = getClass().getResourceAsStream(path);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
 
         for (int j = 1; j <= pages; j++)
         {

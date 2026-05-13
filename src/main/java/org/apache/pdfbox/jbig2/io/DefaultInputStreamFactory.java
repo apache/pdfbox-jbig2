@@ -24,6 +24,16 @@ import javax.imageio.stream.FileCacheImageInputStream;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
+/**
+ * @deprecated This factory provides no way to configure its behaviour and 
+ * does not document the tradeoff it makes: it defaults to
+ * {@link FileCacheImageInputStream} (file-backed, lower memory usage) with
+ * {@link MemoryCacheImageInputStream} only as a fallback on I/O failure.
+ * Callers should construct the appropriate {@link ImageInputStream} directly
+ * based on their own memory and performance requirements.
+ * This class will be removed in a future release.
+ */
+@Deprecated
 public class DefaultInputStreamFactory implements InputStreamFactory
 {
 

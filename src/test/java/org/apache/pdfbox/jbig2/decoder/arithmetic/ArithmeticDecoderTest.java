@@ -19,8 +19,8 @@ package org.apache.pdfbox.jbig2.decoder.arithmetic;
 
 import java.io.InputStream;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -161,8 +161,7 @@ public class ArithmeticDecoderTest
     public void decodeTest() throws Throwable
     {
         InputStream is = getClass().getResourceAsStream("/images/arith/encoded testsequence");
-        DefaultInputStreamFactory factory = new DefaultInputStreamFactory();
-        ImageInputStream iis = factory.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
 
         ArithmeticDecoder decoder = new ArithmeticDecoder(iis);
 
@@ -178,8 +177,7 @@ public class ArithmeticDecoderTest
     public void decodeTestWithTracadataComparison() throws Throwable
     {
         InputStream is = getClass().getResourceAsStream("/images/arith/encoded testsequence");
-        DefaultInputStreamFactory factory = new DefaultInputStreamFactory();
-        ImageInputStream iis = factory.getInputStream(is);
+        ImageInputStream iis = new MemoryCacheImageInputStream(is);
 
         ArithmeticDecoder decoder = new ArithmeticDecoder(iis);
         CX cx = new CX(1, 0);

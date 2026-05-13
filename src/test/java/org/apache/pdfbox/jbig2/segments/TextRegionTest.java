@@ -26,13 +26,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 import org.apache.pdfbox.jbig2.JBIG2ImageReaderSpi;
 import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -55,8 +55,7 @@ public class TextRegionTest
         assumeTrue(inputFile.exists());
 
         InputStream inputStream = new FileInputStream(inputFile);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         JBIG2ImageReader jb2 = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
         jb2.setInput(iis);
         BufferedImage b = jb2.read(pageNumber);

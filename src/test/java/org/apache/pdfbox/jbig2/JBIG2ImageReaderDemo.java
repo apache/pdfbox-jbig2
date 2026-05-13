@@ -29,11 +29,11 @@ import java.net.URL;
 
 import javax.imageio.ImageReadParam;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
 import org.apache.pdfbox.jbig2.image.FilterType;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 
 public class JBIG2ImageReaderDemo
 {
@@ -50,8 +50,7 @@ public class JBIG2ImageReaderDemo
     public void show() throws IOException, JBIG2Exception
     {
         InputStream inputStream = new FileInputStream(new File(filepath));
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream imageInputStream = disf.getInputStream(inputStream);
+        ImageInputStream imageInputStream = new MemoryCacheImageInputStream(inputStream);
 
         JBIG2ImageReader imageReader = new JBIG2ImageReader(new JBIG2ImageReaderSpi());
 

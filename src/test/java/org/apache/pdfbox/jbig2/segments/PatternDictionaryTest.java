@@ -26,11 +26,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -48,8 +48,7 @@ public class PatternDictionaryTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Sixth Segment (number 5)
         SubInputStream sis = new SubInputStream(iis, 245, 45);
         PatternDictionary pd = new PatternDictionary();
@@ -75,8 +74,7 @@ public class PatternDictionaryTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Sixth Segment (number 5)
         SubInputStream sis = new SubInputStream(iis, 245, 45);
 
@@ -103,8 +101,7 @@ public class PatternDictionaryTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Twelfth Segment (number 12)
         SubInputStream sis = new SubInputStream(iis, 569, 28);
 

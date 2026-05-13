@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Assert;
@@ -46,8 +46,7 @@ public class HalftoneRegionTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Seventh Segment (number 6)
         SubInputStream sis = new SubInputStream(iis, 302, 87);
         HalftoneRegion hr = new HalftoneRegion(sis);

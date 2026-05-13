@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.junit.Test;
 
@@ -54,8 +54,7 @@ public class MMRDecompressorTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        final DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        final ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         // Sixth Segment (number 5)
         final SubInputStream sis = new SubInputStream(iis, 252, 38);

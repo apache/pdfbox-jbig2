@@ -25,9 +25,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Assert;
@@ -47,8 +47,7 @@ public class PageInformationTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Second Segment (number 1)
         SubInputStream sis = new SubInputStream(iis, 59, 19);
         PageInformation pi = new PageInformation();
@@ -76,8 +75,7 @@ public class PageInformationTest
         // skip test if input stream isn't available
         assumeTrue(inputStream != null && inputStream.available() > 0);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Second Segment (number 1)
         SubInputStream sis = new SubInputStream(iis, 59, 19);
         PageInformation pi = new PageInformation();
@@ -95,8 +93,7 @@ public class PageInformationTest
         // skip test if input stream isn't available
         assumeTrue(inputStream != null && inputStream.available() > 0);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Second Segment (number 1)
         SubInputStream sis = new SubInputStream(iis, 59, 19);
         PageInformation pi = new PageInformation();

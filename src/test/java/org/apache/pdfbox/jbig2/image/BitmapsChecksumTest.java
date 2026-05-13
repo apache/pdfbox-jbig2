@@ -35,13 +35,12 @@ import java.util.Collection;
 
 import javax.imageio.ImageReadParam;
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.JBIG2DocumentFacade;
 import org.apache.pdfbox.jbig2.PreconfiguredImageReadParam;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
-import org.apache.pdfbox.jbig2.io.InputStreamFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -115,8 +114,7 @@ public class BitmapsChecksumTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        final InputStreamFactory disf = new DefaultInputStreamFactory();
-        final ImageInputStream iis = disf.getInputStream(inputStream);
+        final ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
         final Bitmap b = doc.getPageBitmap(pageNumber);
@@ -155,8 +153,7 @@ public class BitmapsChecksumTest
 
             final InputStream inputStream = new FileInputStream(inputFile);
 
-            final InputStreamFactory disf = new DefaultInputStreamFactory();
-            final ImageInputStream iis = disf.getInputStream(inputStream);
+            final ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
             final JBIG2DocumentFacade doc = new JBIG2DocumentFacade(iis);
             final Bitmap b = doc.getPageBitmap(pageNumber);

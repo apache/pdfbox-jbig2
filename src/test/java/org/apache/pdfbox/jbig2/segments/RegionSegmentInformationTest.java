@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Test;
@@ -44,8 +44,7 @@ public class RegionSegmentInformationTest
         assumeTrue(inputFile.exists());
 
         InputStream inputStream = new FileInputStream(inputFile);
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         SubInputStream sis = new SubInputStream(iis, 130, 49);
         RegionSegmentInformation rsi = new RegionSegmentInformation(sis);
         rsi.parseHeader();

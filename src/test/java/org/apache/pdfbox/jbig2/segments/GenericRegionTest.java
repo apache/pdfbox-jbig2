@@ -25,11 +25,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.stream.ImageInputStream;
+import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.TestImage;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.image.Bitmaps;
-import org.apache.pdfbox.jbig2.io.DefaultInputStreamFactory;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Assert;
@@ -48,8 +48,7 @@ public class GenericRegionTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
 
         // Twelfth Segment (number 11)
         SubInputStream sis = new SubInputStream(iis, 523, 35);
@@ -92,8 +91,7 @@ public class GenericRegionTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Twelfth Segment (number 11)
         SubInputStream sis = new SubInputStream(iis, 523, 35);
         GenericRegion gr = new GenericRegion();
@@ -113,8 +111,7 @@ public class GenericRegionTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Twelfth Segment (number 11)
         SubInputStream sis = new SubInputStream(iis, 523, 35);
         GenericRegion gr = new GenericRegion(sis);
@@ -134,8 +131,7 @@ public class GenericRegionTest
 
         final InputStream inputStream = new FileInputStream(inputFile);
 
-        DefaultInputStreamFactory disf = new DefaultInputStreamFactory();
-        ImageInputStream iis = disf.getInputStream(inputStream);
+        ImageInputStream iis = new MemoryCacheImageInputStream(inputStream);
         // Fifth Segment (number 4)
         SubInputStream sis = new SubInputStream(iis, 190, 59);
         GenericRegion gr = new GenericRegion(sis);
