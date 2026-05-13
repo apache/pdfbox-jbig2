@@ -21,7 +21,7 @@ import org.apache.pdfbox.jbig2.util.Utils;
 
 class ParameterizedFilter
 {
-    public ParameterizedFilter(final Filter f, final double scale)
+    ParameterizedFilter(final Filter f, final double scale)
     {
         filter = f;
         /*
@@ -37,7 +37,7 @@ class ParameterizedFilter
         width = (int) Math.ceil(2. * support);
     }
 
-    public ParameterizedFilter(final Filter f, final double scale, final double support,
+    ParameterizedFilter(final Filter f, final double scale, final double support,
             final int width)
     {
         filter = f;
