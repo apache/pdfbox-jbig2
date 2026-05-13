@@ -305,6 +305,7 @@ class JBIG2Page
             case 42: // Immediate generic refinement region
             case 43: // Immediate lossless generic refinement region
                 regionCount++;
+                break;
             default:
                 break;
             }
