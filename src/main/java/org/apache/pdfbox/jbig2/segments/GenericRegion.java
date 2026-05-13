@@ -262,6 +262,8 @@ public class GenericRegion implements Region
         case 3:
             cx.setIndex(0x195);
             break;
+        default:
+            break;
         }
         return arithDecoder.decode(cx);
     }
@@ -292,6 +294,8 @@ public class GenericRegion implements Region
             break;
         case 3:
             decodeTemplate3(lineNumber, width, rowStride, paddedWidth, byteIndex, idx);
+            break;
+        default:
             break;
         }
     }
@@ -763,6 +767,8 @@ public class GenericRegion implements Region
         case 3:
             if (gbAtX[0] != 2 || gbAtY[0] != -1)
                 setOverrideFlag(0);
+            break;
+        default:
             break;
         }
 

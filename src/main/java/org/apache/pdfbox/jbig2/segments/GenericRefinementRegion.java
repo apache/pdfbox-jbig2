@@ -167,6 +167,8 @@ public class GenericRefinementRegion implements Region
             break;
         case 1:
             break;
+        default:
+            break;
         }
     }
 

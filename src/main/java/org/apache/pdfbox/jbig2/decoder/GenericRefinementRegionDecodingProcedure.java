@@ -410,6 +410,8 @@ public class GenericRefinementRegionDecodingProcedure
             decodeTemplate(lineNumber, width, rowStride, refRowStride, paddedWidth, deltaRefStride,
                     lineOffset, byteIndex, currentLine, referenceByteIndex, T1);
             break;
+        default:
+            break;
         }
     }
 
@@ -626,6 +628,8 @@ public class GenericRefinementRegionDecodingProcedure
         case 1:
             override = false;
             break;
+        default:
+            break;
         }
     }
 
@@ -648,6 +652,8 @@ public class GenericRefinementRegionDecodingProcedure
         case 1:
             decodeTypicalPredictedLineTemplate1(lineNumber, width, rowStride, refRowStride,
                     paddedWidth, deltaRefStride, byteIndex, currentLine, refByteIndex);
+            break;
+        default:
             break;
         }
     }

@@ -805,6 +805,8 @@ public class SymbolDictionary implements Dictionary
                 }
 
                 return dwTable.decode(subInputStream);
+            default:
+                break;
             }
         }
         else
@@ -849,6 +851,8 @@ public class SymbolDictionary implements Dictionary
                 dhTable = getUserTable(0);
             }
             return dhTable.decode(subInputStream);
+        default:
+            break;
         }
 
         return 0;
