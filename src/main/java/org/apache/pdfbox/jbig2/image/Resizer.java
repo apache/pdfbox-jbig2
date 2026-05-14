@@ -86,11 +86,11 @@ class Resizer
     private int weightOne = 1 << weightBits;
 
     /** Number of bits per channel */
-    private int bitsPerChannel[] = new int[] { 8, 8, 8 };
+    private int[] bitsPerChannel = new int[] { 8, 8, 8 };
 
-    private static final int NO_SHIFT[] = new int[16];
+    private static final int[] NO_SHIFT= new int[16];
 
-    private int finalShift[] = new int[] { 2 * weightBits - bitsPerChannel[0],
+    private int[] finalShift = new int[] { 2 * weightBits - bitsPerChannel[0],
             2 * weightBits - bitsPerChannel[1], 2 * weightBits - bitsPerChannel[2] };
 
     /**
@@ -157,7 +157,7 @@ class Resizer
         final int dstX0 = dstBounds.x;
         final int dstX1 = dstBounds.x + dstBounds.width;
 
-        final Weighttab tabs[] = new Weighttab[dstBounds.width];
+        final Weighttab[] tabs = new Weighttab[dstBounds.width];
         for (int dstX = dstX0; dstX < dstX1; dstX++)
         {
             final double center = mappingX.mapPixelCenter(dstX);
@@ -209,11 +209,11 @@ class Resizer
         final Scanline accumulator = createScanline(src, dst, dstBounds.width);
 
         // a sampled filter for source pixels for each dest x position
-        final Weighttab xWeights[] = createXWeights(srcBounds, dstBounds, xFilter);
+        final Weighttab[] xWeights = createXWeights(srcBounds, dstBounds, xFilter);
 
         // Circular buffer of active lines
         final int yBufferSize = yFilter.width + 2;
-        final Scanline lineBuffer[] = new Scanline[yBufferSize];
+        final Scanline[] lineBuffer = new Scanline[yBufferSize];
         for (int y = 0; y < yBufferSize; y++)
         {
             lineBuffer[y] = createScanline(src, dst, dstBounds.width);
@@ -287,11 +287,11 @@ class Resizer
         final Scanline accumulator = createScanline(src, dst, srcBounds.width);
 
         // a sampled filter for source pixels for each destination x position
-        final Weighttab xWeights[] = createXWeights(srcBounds, dstBounds, xFilter);
+        final Weighttab[] xWeights = createXWeights(srcBounds, dstBounds, xFilter);
 
         // Circular buffer of active lines
         final int yBufferSize = yFilter.width + 2;
-        final Scanline lineBuffer[] = new Scanline[yBufferSize];
+        final Scanline[] lineBuffer = new Scanline[yBufferSize];
         for (int y = 0; y < yBufferSize; y++)
         {
             lineBuffer[y] = createScanline(src, dst, srcBounds.width);

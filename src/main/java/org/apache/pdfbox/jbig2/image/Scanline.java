@@ -55,8 +55,8 @@ abstract class Scanline
         {
             final ByteBGRScanline bcs = (ByteBGRScanline) dst;
 
-            final int abuf[] = data;
-            final int bbuf[] = bcs.data;
+            final int[] abuf = data;
+            final int[] bbuf = bcs.data;
 
             for (int b = 0; b < bbuf.length; b++)
                 bbuf[b] += weight * abuf[b];
@@ -84,10 +84,10 @@ abstract class Scanline
             final int nx = dst.length;
 
             // start sum at 1<<shift-1 for rounding
-            final int start[] = new int[] { 1 << postShift[0] - 1, 1 << postShift[1] - 1,
+            final int[] start = new int[] { 1 << postShift[0] - 1, 1 << postShift[1] - 1,
                     1 << postShift[2] - 1 };
-            final int abuf[] = data;
-            final int bbuf[] = bcs.data;
+            final int[] abuf = data;
+            final int[] bbuf = bcs.data;
 
             // the next two blocks are duplicated except for the missing shift
             // operation if preShift==0.
@@ -141,10 +141,10 @@ abstract class Scanline
         @Override
         protected void shift(final int[] shift)
         {
-            final int half[] = new int[] { 1 << shift[0] - 1, 1 << shift[1] - 1,
+            final int[] half = new int[] { 1 << shift[0] - 1, 1 << shift[1] - 1,
                     1 << shift[2] - 1 };
 
-            final int abuf[] = data;
+            final int[] abuf = data;
 
             for (int b = 0; b < abuf.length;)
             {
@@ -204,8 +204,8 @@ abstract class Scanline
         {
             final IntegerSinglePixelPackedScanline ispps = (IntegerSinglePixelPackedScanline) dst;
 
-            final int abuf[] = data;
-            final int bbuf[] = ispps.data;
+            final int[] abuf = data;
+            final int[] bbuf = ispps.data;
 
             for (int b = 0; b < bbuf.length; b++)
                 bbuf[b] += weight * abuf[b];
@@ -233,12 +233,12 @@ abstract class Scanline
             final int nx = dst.length;
 
             // start sum at 1<<shift-1 for rounding
-            final int start[] = tmp;
+            final int[] start = tmp;
             for (int c = 0; c < componentCount; c++)
                 start[c] = 1 << postShift[c] - 1;
 
-            final int abuf[] = data;
-            final int bbuf[] = ispps.data;
+            final int[] abuf = data;
+            final int[] bbuf = ispps.data;
 
             // the next two blocks are duplicated except for the missing shift
             // operation if preShift==0.
@@ -283,11 +283,11 @@ abstract class Scanline
         @Override
         protected void shift(final int[] shift)
         {
-            final int half[] = tmp;
+            final int[] half = tmp;
             for (int c = 0; c < componentCount; c++)
                 half[c] = 1 << shift[c] - 1;
 
-            final int abuf[] = data;
+            final int[] abuf = data;
 
             for (int b = 0; b < abuf.length;)
             {
@@ -323,7 +323,7 @@ abstract class Scanline
         private final ScanlineFilter inputFilter;
 
         protected GenericRasterScanline(Raster src, WritableRaster dst, final int length,
-                int bitsPerChannel[], ScanlineFilter inputFilter)
+                int[] bitsPerChannel, ScanlineFilter inputFilter)
         {
             super(length);
             srcRaster = src;
@@ -536,8 +536,8 @@ abstract class Scanline
 
             // start sum at 1<<shift-1 for rounding
             final int start = 1 << postShift[0] - 1;
-            final int abuf[] = data;
-            final int bbuf[] = bblps.data;
+            final int[] abuf = data;
+            final int[] bbuf = bblps.data;
 
             // the next two blocks are duplicated except for the missing shift
             // operation if preShift==0.
@@ -580,7 +580,7 @@ abstract class Scanline
             final int shift0 = shift[0];
             final int half = 1 << shift0 - 1;
 
-            final int abuf[] = data;
+            final int[] abuf = data;
 
             for (int b = 0; b < abuf.length; b++)
             {

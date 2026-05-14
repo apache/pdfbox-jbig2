@@ -1149,7 +1149,7 @@ public class TextRegion implements Region
             short sbCombinationOperator, short transposed, short refCorner, short sbdsOffset,
             short sbHuffFS, short sbHuffDS, short sbHuffDT, short sbHuffRDWidth,
             short sbHuffRDHeight, short sbHuffRDX, short sbHuffRDY, short sbHuffRSize,
-            short sbrTemplate, short sbrATX[], short sbrATY[], ArrayList<Bitmap> sbSyms,
+            short sbrTemplate, short[] sbrATX, short[] sbrATY, ArrayList<Bitmap> sbSyms,
             int sbSymCodeLen)
     {
 

@@ -100,14 +100,14 @@ public abstract class HuffmanTable
             maxPrefixLength = Math.max(maxPrefixLength, c.prefixLength);
         }
 
-        int lenCount[] = new int[maxPrefixLength + 1];
+        int[] lenCount = new int[maxPrefixLength + 1];
         for (Code c : codeTable)
         {
             lenCount[c.prefixLength]++;
         }
 
         int curCode;
-        int firstCode[] = new int[lenCount.length + 1];
+        int[] firstCode = new int[lenCount.length + 1];
         lenCount[0] = 0;
 
         /* Annex B.3 3) */

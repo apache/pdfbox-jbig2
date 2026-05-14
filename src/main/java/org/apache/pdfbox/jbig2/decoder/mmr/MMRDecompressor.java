@@ -78,12 +78,12 @@ public class MMRDecompressor
             }
         }
 
-        private Code uncompressGetCode(Code table[])
+        private Code uncompressGetCode(Code[] table)
         {
             return uncompressGetCodeLittleEndian(table);
         }
 
-        private Code uncompressGetCodeLittleEndian(Code table[])
+        private Code uncompressGetCodeLittleEndian(Code[] table)
         {
             final int code = uncompressGetNextCodeLittleEndian() & 0xffffff;
             Code result = table[code >> CODE_OFFSET - FIRST_LEVEL_TABLE_SIZE];
@@ -238,11 +238,11 @@ public class MMRDecompressor
 
     private static final class Code
     {
-        Code subTable[] = null;
+        Code[] subTable = null;
 
         final int bitLength, codeWord, runLength;
 
-        Code(int codeData[])
+        Code(int[] codeData)
         {
             bitLength = codeData[0];
             codeWord = codeData[1];
@@ -273,9 +273,9 @@ public class MMRDecompressor
     private static final int SECOND_LEVEL_TABLE_SIZE = 5;
     private static final int SECOND_LEVEL_TABLE_MASK = (1 << SECOND_LEVEL_TABLE_SIZE) - 1;
 
-    private static Code whiteTable[] = null;
-    private static Code blackTable[] = null;
-    private static Code modeTable[] = null;
+    private static Code[] whiteTable = null;
+    private static Code[] blackTable = null;
+    private static Code[] modeTable = null;
 
     private final RunData data;
 
@@ -535,7 +535,7 @@ public class MMRDecompressor
             }
 
             // Swap lines
-            int tempOffsets[] = referenceOffsets;
+            int[] tempOffsets = referenceOffsets;
             referenceOffsets = currentOffsets;
             currentOffsets = tempOffsets;
             refRunLength = count;
@@ -672,7 +672,7 @@ public class MMRDecompressor
      */
     private static Code[] createLittleEndianTable(int[][] codes)
     {
-        final Code firstLevelTable[] = new Code[FIRST_LEVEL_TABLE_MASK + 1];
+        final Code[] firstLevelTable = new Code[FIRST_LEVEL_TABLE_MASK + 1];
         for (int[] cod : codes)
         {
             final Code code = new Code(cod);
@@ -703,7 +703,7 @@ public class MMRDecompressor
                 // fill second level table
                 if (code.bitLength <= FIRST_LEVEL_TABLE_SIZE + SECOND_LEVEL_TABLE_SIZE)
                 {
-                    final Code secondLevelTable[] = firstLevelTable[firstLevelIndex].subTable;
+                    final Code[] secondLevelTable = firstLevelTable[firstLevelIndex].subTable;
                     final int variantLength = FIRST_LEVEL_TABLE_SIZE + SECOND_LEVEL_TABLE_SIZE
                             - code.bitLength;
                     final int baseWord = (code.codeWord << variantLength) & SECOND_LEVEL_TABLE_MASK;

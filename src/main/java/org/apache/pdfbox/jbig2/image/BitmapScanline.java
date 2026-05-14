@@ -69,8 +69,8 @@ final class BitmapScanline extends Scanline
 
         // start sum at 1 << shift - 1 for rounding
         final int start = 1 << postShift[0] - 1;
-        final int srcBuffer[] = lineBuffer;
-        final int dstBuffer[] = dstBitmapScanline.lineBuffer;
+        final int[] srcBuffer = lineBuffer;
+        final int[] dstBuffer = dstBitmapScanline.lineBuffer;
 
         // the next two blocks are duplicated except for the missing shift operation if preShift == 0.
         final int preShift0 = preShift[0];
@@ -117,8 +117,8 @@ final class BitmapScanline extends Scanline
     {
         final BitmapScanline dstBitmapScanline = (BitmapScanline) dst;
 
-        final int srcBuffer[] = lineBuffer;
-        final int dstBuffer[] = dstBitmapScanline.lineBuffer;
+        final int[] srcBuffer = lineBuffer;
+        final int[] dstBuffer = dstBitmapScanline.lineBuffer;
 
         for (int b = 0; b < dstBuffer.length; b++)
             dstBuffer[b] += weight * srcBuffer[b];
@@ -130,7 +130,7 @@ final class BitmapScanline extends Scanline
         final int shift0 = shift[0];
         final int half = 1 << shift0 - 1;
 
-        final int srcBuffer[] = lineBuffer;
+        final int[] srcBuffer = lineBuffer;
 
         for (int b = 0; b < srcBuffer.length; b++)
         {

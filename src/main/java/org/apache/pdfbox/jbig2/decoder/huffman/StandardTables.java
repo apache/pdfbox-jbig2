@@ -47,7 +47,7 @@ public class StandardTables
     }
 
     // Fourth Value (999) is used for the LowerRange-line
-    private static final int TABLES[][][] = {
+    private static final int[][][] TABLES = {
             // B1
             { { 1, 4, 0 }, //
                     { 2, 8, 16 }, //

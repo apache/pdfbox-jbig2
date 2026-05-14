@@ -45,7 +45,7 @@ public class SubInputStream extends ImageInputStreamImpl
     /**
      * A buffer which is used to improve read performance.
      */
-    private final byte buffer[] = new byte[4096];
+    private final byte[] buffer = new byte[4096];
 
     /**
      * Location of the first byte in the buffer with respect to the start of the stream.
