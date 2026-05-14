@@ -269,7 +269,7 @@ class Resizer
             accumulator.shift(finalShift);
             accumulator.store(dstBounds.x, dstY);
             if (debug)
-                System.out.printf("\n");
+                System.out.println();
         }
     }
 
@@ -351,7 +351,7 @@ class Resizer
             // store destination scanline into destination raster
             buffer.store(dstBounds.x, dstY);
             if (debug)
-                System.out.printf("\n");
+                System.out.println();
         }
     }
 

@@ -118,7 +118,7 @@ final class Weighttab
             System.out.printf("\t");
             for (int idx = 0, i = i0; i < i1; i++, idx++)
                 System.out.printf("%5d ", weights[idx]);
-            System.out.printf("\n");
+            System.out.println();
         }
     }
 
