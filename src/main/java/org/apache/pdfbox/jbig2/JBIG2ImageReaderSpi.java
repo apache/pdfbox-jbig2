@@ -19,6 +19,8 @@ package org.apache.pdfbox.jbig2;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageReader;
 import javax.imageio.spi.ImageReaderSpi;
@@ -91,7 +93,7 @@ public class JBIG2ImageReaderSpi extends ImageReaderSpi
 
         if (!(source instanceof ImageInputStream))
         {
-            System.out.println("source is not an ImageInputStream");
+            Logger.getLogger(JBIG2ImageReaderSpi.class.getName()).log(Level.WARNING, "source is not an ImageInputStream: {0}", source);
             return false;
         }
 
