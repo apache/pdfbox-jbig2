@@ -57,7 +57,7 @@ class ValueNode extends Node
 
     static String bitPattern(int v, int len)
     {
-        char result[] = new char[len];
+        char[] result = new char[len];
         for (int i = 1; i <= len; i++)
             result[i - 1] = (v >> (len - i) & 1) != 0 ? '1' : '0';
 
