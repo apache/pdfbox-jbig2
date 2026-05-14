@@ -612,7 +612,7 @@ public class MMRDecompressor
         Code code = null;
         int refOffset = 0;
 
-        loop: while (iBitPos < width)
+        while (iBitPos < width)
         {
             while (true)
             {
@@ -629,7 +629,7 @@ public class MMRDecompressor
 
                 if (code.runLength < 0)
                 {
-                    break loop;
+                    break;
                 }
 
                 iBitPos += code.runLength;
@@ -640,6 +640,10 @@ public class MMRDecompressor
                     runOffsets[refOffset++] = iBitPos;
                     break;
                 }
+            }
+            if (code.runLength < 0)
+            {
+                break;
             }
         }
 
