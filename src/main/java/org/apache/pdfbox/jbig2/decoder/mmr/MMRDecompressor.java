@@ -52,7 +52,7 @@ public class MMRDecompressor
         int lastOffset = 0;
         int lastCode = 0;
 
-        byte buffer[];
+        byte[] buffer;
         int bufferBase;
         int bufferTop;
 

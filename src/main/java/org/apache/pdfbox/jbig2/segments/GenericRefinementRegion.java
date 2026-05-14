@@ -104,8 +104,8 @@ public class GenericRefinementRegion implements Region
     private short templateID;
 
     /** Generic refinement region segment AT flags, 7.4.7.3 */
-    private short grAtX[];
-    private short grAtY[];
+    private short[] grAtX;
+    private short[] grAtY;
 
     /** Variables for decoding */
     private Bitmap referenceBitmap;

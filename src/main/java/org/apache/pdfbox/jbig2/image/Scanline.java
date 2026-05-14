@@ -39,7 +39,7 @@ abstract class Scanline
         private final Raster srcRaster;
         private final WritableRaster dstRaster;
 
-        private final int data[];
+        private final int[] data;
 
         protected ByteBGRScanline(Raster src, WritableRaster dst, final int length)
         {
@@ -171,12 +171,12 @@ abstract class Scanline
         private final Raster srcRaster;
         private final WritableRaster dstRaster;
 
-        private final int data[];
+        private final int[] data;
         private final int[] bitMasks;
         private final int[] bitOffsets;
         private final int componentCount;
         private final SinglePixelPackedSampleModel srcSM;
-        private final int tmp[];
+        private final int[] tmp;
 
         protected IntegerSinglePixelPackedScanline(Raster src, WritableRaster dst, final int length)
         {
@@ -487,7 +487,7 @@ abstract class Scanline
         private final Raster srcRaster;
         private final WritableRaster dstRaster;
 
-        private final int data[];
+        private final int[] data;
 
         protected ByteBiLevelPackedScanline(Raster src, WritableRaster dst, final int length)
         {

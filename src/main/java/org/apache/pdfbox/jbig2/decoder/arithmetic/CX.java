@@ -46,8 +46,8 @@ public final class CX
 {
     private int index;
 
-    private final byte cx[];
-    private final byte mps[];
+    private final byte[] cx;
+    private final byte[] mps;
 
     /**
      * Creates a new context with the specified number of context states.

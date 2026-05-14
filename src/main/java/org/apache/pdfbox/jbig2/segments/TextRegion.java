@@ -71,8 +71,8 @@ public class TextRegion implements Region
     private short sbHuffFS;
 
     /** Text region refinement AT flags, 7.4.3.1.3 */
-    private short sbrATX[];
-    private short sbrATY[];
+    private short[] sbrATX;
+    private short[] sbrATY;
 
     /** Number of symbol instances, 7.4.3.1.4 */
     private long amountOfSymbolInstances;
