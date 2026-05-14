@@ -971,9 +971,8 @@ public class SymbolDictionary implements Dictionary
      * 6.5.8.2.3 - Setting SBSYMCODES and SBSYMCODELEN
      * 
      * @return Result of computing SBSYMCODELEN
-     * @throws IOException
      */
-    private int getSbSymCodeLen() throws IOException
+    private int getSbSymCodeLen()
     {
 
         final int sbSymCodeLen = (int) Math.ceil(
