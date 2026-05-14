@@ -322,7 +322,6 @@ public class GenericRegion implements Region
             final int paddedWidth, int byteIndex, int idx) throws IOException
     {
         int context;
-        int overriddenContext = 0;
 
         int line1 = 0;
         int line2 = 0;
@@ -364,7 +363,7 @@ public class GenericRegion implements Region
                 final int toShift = 7 - minorX;
                 if (override)
                 {
-                    overriddenContext = overrideAtTemplate0a(context, (x + minorX), lineNumber,
+                    int overriddenContext = overrideAtTemplate0a(context, (x + minorX), lineNumber,
                             result, minorX, toShift);
                     cx.setIndex(overriddenContext);
                 }
@@ -398,7 +397,6 @@ public class GenericRegion implements Region
             final int paddedWidth, int byteIndex, int idx) throws IOException
     {
         int context;
-        int overriddenContext = 0;
 
         int line1 = 0;
         int line2 = 0;
@@ -440,7 +438,7 @@ public class GenericRegion implements Region
                 final int toShift = 7 - minorX;
                 if (override)
                 {
-                    overriddenContext = overrideAtTemplate0b(context, (x + minorX), lineNumber,
+                    int overriddenContext = overrideAtTemplate0b(context, (x + minorX), lineNumber,
                             result, minorX, toShift);
                     cx.setIndex(overriddenContext);
                 }
