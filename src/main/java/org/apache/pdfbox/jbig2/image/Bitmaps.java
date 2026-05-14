@@ -197,7 +197,8 @@ public class Bitmaps
             final int bytes = width / 8;
             final int bits = (~0xff >> (width & 7)) & 0xff;
             final byte[] dst = new byte[height * bitmap.getRowStride()];
-            for ( int idx = 0, row = height; row>0; row-- ) 
+            int idx = 0;
+            for (int row = height; row > 0; row--)
             {
                 for ( int count = bytes; count>0; count-- ) 
                 {
