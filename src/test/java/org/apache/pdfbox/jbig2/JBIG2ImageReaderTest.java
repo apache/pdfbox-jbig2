@@ -31,8 +31,6 @@ import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
-import org.apache.pdfbox.jbig2.err.IntegerMaxValueException;
-import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -56,7 +54,7 @@ public class JBIG2ImageReaderTest
     }
 
     @Test
-    public void testRead() throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    public void testRead() throws IOException
     {
 
         int imageIndex = 0;
@@ -82,8 +80,7 @@ public class JBIG2ImageReaderTest
     }
 
     @Test
-    public void testReadRaster()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    public void testReadRaster() throws IOException
     {
 
         int imageIndex = 0;
@@ -104,8 +101,7 @@ public class JBIG2ImageReaderTest
     }
 
     @Test
-    public void testReadImageReadParamNull()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    public void testReadImageReadParamNull() throws IOException
     {
 
         int imageIndex = 0;
@@ -125,8 +121,7 @@ public class JBIG2ImageReaderTest
     }
 
     @Test
-    public void testReadRasterImageReadParamNull()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    public void testReadRasterImageReadParamNull() throws IOException
     {
 
         int imageIndex = 0;
@@ -146,8 +141,7 @@ public class JBIG2ImageReaderTest
     }
 
     @Test
-    public void testGetNumImages()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    public void testGetNumImages() throws IOException
     {
         String filepath = "/images/002.jb2";
 
