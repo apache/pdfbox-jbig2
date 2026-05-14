@@ -17,7 +17,7 @@
 
 package org.apache.pdfbox.jbig2.image;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 import java.awt.Rectangle;
@@ -56,7 +56,7 @@ public class BitmapsBlitTest
         final Bitmap dst = new Bitmap(src.getWidth(), src.getHeight());
         Bitmaps.blit(src, dst, 0, 0, CombinationOperator.REPLACE);
 
-        assertTrue(src.equals(dst));
+        assertEquals(src, dst);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class BitmapsBlitTest
 
         final Bitmap dstRegionBitmap = Bitmaps.extract(roi, dst);
 
-        assertTrue(src.equals(dstRegionBitmap));
+        assertEquals(src, dstRegionBitmap);
     }
 
 }

@@ -17,7 +17,7 @@
 
 package org.apache.pdfbox.jbig2.decoder.mmr;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeTrue;
 
 import java.io.File;
@@ -31,6 +31,7 @@ import javax.imageio.stream.MemoryCacheImageInputStream;
 import org.apache.pdfbox.jbig2.Bitmap;
 import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
+
 import org.junit.Test;
 
 public class MMRDecompressorTest
@@ -63,6 +64,6 @@ public class MMRDecompressorTest
 
         final Bitmap b = mmrd.uncompress();
 
-        assertTrue(expectedBitmap.equals(b));
+        assertEquals(expectedBitmap, b);
     }
 }
