@@ -249,7 +249,7 @@ public class TextRegion implements Region
         amountOfSymbolInstances = subInputStream.readBits(32) & 0xffffffff;
 
         // sanity check: don't decode more than one symbol per pixel
-        long pixels = (long) regionInfo.getBitmapWidth() * (long) regionInfo.getBitmapHeight();
+        long pixels = regionInfo.getBitmapWidth() * (long) regionInfo.getBitmapHeight();
         if (pixels < amountOfSymbolInstances)
         {
             amountOfSymbolInstances = pixels;

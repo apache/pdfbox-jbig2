@@ -185,7 +185,7 @@ public class ArithmeticDecoderTest
         for (int i = 0; i < 255; i++)
         {
             Assert.assertEquals(tracedata[i][0], decoder.decode(cx));
-            Assert.assertEquals(tracedata[i + 1][1], (long) decoder.getA());
+            Assert.assertEquals(tracedata[i + 1][1], decoder.getA());
             Assert.assertEquals(tracedata[i + 1][2], decoder.getC());
 
         }
