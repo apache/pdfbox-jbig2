@@ -91,8 +91,9 @@ abstract class Scanline
 
             // the next two blocks are duplicated except for the missing shift
             // operation if preShift==0.
+            int bp = 0;
             if (preShift[0] != 0 || preShift[1] != 0 || preShift[2] != 0)
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int b = 0; b < nx; b++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;
@@ -116,7 +117,7 @@ abstract class Scanline
                     bbuf[bp++] = t < 0 ? 0 : t > 255 ? 255 : t;
                 }
             else
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int b = 0; b < nx; b++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;
@@ -245,8 +246,9 @@ abstract class Scanline
             boolean hasPreShift = false;
             for (int c = 0; c < componentCount && !hasPreShift; c++)
                 hasPreShift |= preShift[c] != 0;
+            int bp = 0;
             if (hasPreShift)
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int b = 0; b < nx; b++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;
@@ -263,7 +265,7 @@ abstract class Scanline
                     }
                 }
             else
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int b = 0; b < nx; b++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;

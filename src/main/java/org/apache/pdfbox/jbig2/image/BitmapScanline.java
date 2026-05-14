@@ -75,9 +75,10 @@ final class BitmapScanline extends Scanline
         // the next two blocks are duplicated except for the missing shift operation if preShift == 0.
         final int preShift0 = preShift[0];
         final int postShift0 = postShift[0];
+        int dstIndex = 0;
         if (preShift0 != 0)
         {
-            for (int dstIndex = 0, tab = 0; tab < dstLength; tab++)
+            for (int tab = 0; tab < dstLength; tab++)
             {
                 final Weighttab weightTab = tabs[tab];
                 final int weights = weightTab.weights.length;
@@ -95,7 +96,7 @@ final class BitmapScanline extends Scanline
         }
         else
         {
-            for (int dstIndex = 0, tab = 0; tab < dstLength; tab++)
+            for (int tab = 0; tab < dstLength; tab++)
             {
                 final Weighttab weightTab = tabs[tab];
                 final int weights = weightTab.weights.length;
