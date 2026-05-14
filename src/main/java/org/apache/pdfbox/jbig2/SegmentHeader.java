@@ -75,8 +75,8 @@ public class SegmentHeader
 
     private Reference<SegmentData> segmentData;
 
-    public SegmentHeader(JBIG2Document document, SubInputStream sis, long offset,
-            int organisationType) throws IOException
+    SegmentHeader(JBIG2Document document, SubInputStream sis, long offset, int organisationType)
+            throws IOException
     {
         this.subInputStream = sis;
         parse(document, sis, offset, organisationType);
