@@ -482,7 +482,7 @@ public class MMRDecompressor
             strBuf.append(runData.offset & 0x07);
             strBuf.append(" )");
 
-            Logger.getLogger(MMRDecompressor.class.getName()).log(Level.WARNING, "{0}", strBuf.toString());
+            Logger.getLogger(MMRDecompressor.class.getName()).log(Level.WARNING, "{0}", strBuf);
 
             return MMRConstants.EOF;
         }
