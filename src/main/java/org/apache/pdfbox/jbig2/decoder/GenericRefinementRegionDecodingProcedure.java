@@ -120,7 +120,6 @@ public class GenericRefinementRegionDecodingProcedure
 
     private short templateID;
     private Template template;
-    private boolean isTPGROn;
     private Bitmap referenceBitmap;
     private int referenceDX;
     private int referenceDY;
@@ -221,7 +220,6 @@ public class GenericRefinementRegionDecodingProcedure
     {
         this.templateID = grTemplate;
         this.template = (grTemplate == 0) ? T0 : T1;
-        this.isTPGROn = isTPGROn;
         this.referenceBitmap = referenceBitmap;
         this.referenceDX = referenceDX;
         this.referenceDY = referenceDY;
@@ -894,23 +892,23 @@ public class GenericRefinementRegionDecodingProcedure
 
             for (int minorX = 0; minorX < minorWidth; minorX++)
             {
-                int bit = 0;
+                int bit;
 
                 // i)
                 final int bitmapValue = (grReferenceValue >> 4) & 0x1ff;
 
-                if (bitmapValue == 0x1ff)
+                switch (bitmapValue)
                 {
-                    bit = 1;
-                }
-                else if (bitmapValue == 0x00)
-                {
-                    bit = 0;
-                }
-                else
-                {
-                    cx.setIndex(context);
-                    bit = arithDecoder.decode(cx);
+                    case 0x1ff:
+                        bit = 1;
+                        break;
+                    case 0x00:
+                        bit = 0;
+                        break;
+                    default:
+                        cx.setIndex(context);
+                        bit = arithDecoder.decode(cx);
+                        break;
                 }
 
                 final int toShift = 7 - minorX;
@@ -943,7 +941,7 @@ public class GenericRefinementRegionDecodingProcedure
             }
             else
             {
-                context |= getPixel(regionBitmap, x + grAtX[0], y + grAtY[0]) << 3;
+                context |= getPixelSafe(regionBitmap, x + grAtX[0], y + grAtY[0]) << 3;
             }
         }
 
@@ -953,22 +951,9 @@ public class GenericRefinementRegionDecodingProcedure
             // 6.3.5.3
             // The AT pixel RA2 can be located anywhere in the range (–128, –128) to (127, 127)
             // in the reference bitmap. Make sure that we do use the reference bitmap.
-            context |= getPixel(referenceBitmap, x + grAtX[1] + referenceDX,
+            context |= getPixelSafe(referenceBitmap, x + grAtX[1] + referenceDX,
                     y + grAtY[1] + referenceDY) << 12;
         }
         return context;
-    }
-
-    private byte getPixel(final Bitmap b, final int x, final int y) throws IOException
-    {
-        if (x < 0 || x >= b.getWidth())
-        {
-            return 0;
-        }
-        if (y < 0 || y >= b.getHeight())
-        {
-            return 0;
-        }
-        return b.getPixel(x, y);
     }
 }
