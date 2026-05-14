@@ -391,12 +391,12 @@ public class MMRDecompressor
                     {
                         referenceBufferOffset += 2;
                     }
-                    continue decodeLoop;
+                    continue;
 
                 case MMRConstants.CODE_P:
                     referenceBufferOffset++;
                     currentLineBitPosition = referenceOffsets[referenceBufferOffset++];
-                    continue decodeLoop;
+                    continue;
 
                 case MMRConstants.CODE_VR2:
                     currentLineBitPosition = referenceOffsets[referenceBufferOffset] + 2;
@@ -429,7 +429,7 @@ public class MMRDecompressor
                         return retCode;
                     }
                     currentLineBitPosition = width;
-                    continue decodeLoop;
+                    continue;
                 }
 
                 // Only vertical modes get this far
