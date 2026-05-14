@@ -24,7 +24,7 @@ public class StandardTables
 {
     static class StandardTable extends HuffmanTable
     {
-        private StandardTable(int table[][])
+        private StandardTable(int[][] table)
         {
 
             List<Code> codeTable = new ArrayList<Code>();
