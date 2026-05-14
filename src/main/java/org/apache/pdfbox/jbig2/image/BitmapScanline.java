@@ -84,9 +84,9 @@ final class BitmapScanline extends Scanline
 
                 int sum = start;
                 for (int weightIndex = 0, srcIndex = weightTab.i0; weightIndex < weights
-                        && srcIndex < srcBuffer.length; weightIndex++)
+                        && srcIndex < srcBuffer.length; weightIndex++, srcIndex++)
                 {
-                    sum += weightTab.weights[weightIndex] * (srcBuffer[srcIndex++] >> preShift0);
+                    sum += weightTab.weights[weightIndex] * (srcBuffer[srcIndex] >> preShift0);
                 }
 
                 final int t = sum >> postShift0;
