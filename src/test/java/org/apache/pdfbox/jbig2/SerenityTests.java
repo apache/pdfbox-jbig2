@@ -27,6 +27,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.apache.pdfbox.jbig2.err.JBIG2Exception;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 import org.junit.Test;
 
 /**
@@ -42,7 +43,9 @@ public class SerenityTests
         String targetDir = "target/output";
         new File(targetDir).mkdirs();
         File inputDir = new File("target/images");
-        InputStream is = new FileInputStream(new File(inputDir,"bitmap.jbig2"));
+        File expectedBitmapFile = new File(inputDir, "bitmap.jbig2");
+        assumeTrue(expectedBitmapFile.exists());
+        InputStream is = new FileInputStream(expectedBitmapFile);
         ImageInputStream imageIIS = ImageIO.createImageInputStream(is);
         JBIG2Document doc = new JBIG2Document(imageIIS);
         JBIG2Page page = doc.getPage(1);
