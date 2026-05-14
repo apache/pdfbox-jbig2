@@ -31,7 +31,6 @@ import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 import org.apache.pdfbox.jbig2.util.CombinationOperator;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class PageInformationTest
@@ -66,7 +65,6 @@ public class PageInformationTest
         Assert.assertEquals(0, pi.getMaxStripeSize());
     }
 
-    @Ignore
     @Test
     public void parseHeaderXOROperatorTest() throws IOException, InvalidHeaderValueException
     {
@@ -80,11 +78,9 @@ public class PageInformationTest
         SubInputStream sis = new SubInputStream(iis, 59, 19);
         PageInformation pi = new PageInformation();
         pi.init(null, sis);
-        // XOR (2) als Operator erwartet
-        Assert.assertEquals(2, pi.getCombinationOperator());
+        Assert.assertEquals(CombinationOperator.XOR, pi.getCombinationOperator());
     }
 
-    @Ignore
     @Test
     public void parseHeaderANDOperatorTest() throws IOException, InvalidHeaderValueException
     {
@@ -99,7 +95,6 @@ public class PageInformationTest
         PageInformation pi = new PageInformation();
         pi.init(null, sis);
         Assert.assertEquals(true, pi.isLossless());
-        // AND (1) als Operator erwartet
-        Assert.assertEquals(1, pi.getCombinationOperator());
+        Assert.assertEquals(CombinationOperator.AND, pi.getCombinationOperator());
     }
 }
