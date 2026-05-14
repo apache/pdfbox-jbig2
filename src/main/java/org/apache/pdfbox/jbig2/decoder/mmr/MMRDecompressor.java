@@ -670,7 +670,7 @@ public class MMRDecompressor
      * </pre>
      * 
      */
-    private static Code[] createLittleEndianTable(int codes[][])
+    private static Code[] createLittleEndianTable(int[][] codes)
     {
         final Code firstLevelTable[] = new Code[FIRST_LEVEL_TABLE_MASK + 1];
         for (int[] cod : codes)

@@ -27,7 +27,7 @@ import javax.imageio.stream.ImageInputStream;
 public class ArithmeticDecoder
 {
 
-    private static final int QE[][] = { { 0x5601, 1, 1, 1 }, { 0x3401, 2, 6, 0 },
+    private static final int[][] QE = { { 0x5601, 1, 1, 1 }, { 0x3401, 2, 6, 0 },
             { 0x1801, 3, 9, 0 }, { 0x0AC1, 4, 12, 0 }, { 0x0521, 5, 29, 0 }, { 0x0221, 38, 33, 0 },
             { 0x5601, 7, 6, 1 }, { 0x5401, 8, 14, 0 }, { 0x4801, 9, 14, 0 }, { 0x3801, 10, 14, 0 },
             { 0x3001, 11, 17, 0 }, { 0x2401, 12, 18, 0 }, { 0x1C01, 13, 20, 0 },

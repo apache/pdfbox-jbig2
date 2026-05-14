@@ -49,7 +49,7 @@ public class MMRConstants
     public static final int CODE_MAX = 12;
 
     // --------------------------------------------------------------------------------------------------------------
-    public static final int ModeCodes[][] = { { 4, 0x1, CODE_P }, // 0001 pass
+    public static final int[][] ModeCodes = { { 4, 0x1, CODE_P }, // 0001 pass
             { 3, 0x1, CODE_H }, // 001 horizontal
             { 1, 0x1, CODE_V0 }, // 1 vert 0
             { 3, 0x3, CODE_VR1 }, // 011 vert r 1
@@ -64,7 +64,7 @@ public class MMRConstants
             // 000000000001
     };
 
-    public static final int WhiteCodes[][] = { { 4, 0x07, 2 }, // 0111
+    public static final int[][] WhiteCodes = { { 4, 0x07, 2 }, // 0111
             { 4, 0x08, 3 }, // 1000
             { 4, 0x0B, 4 }, // 1011
             { 4, 0x0C, 5 }, // 1100
@@ -177,7 +177,7 @@ public class MMRConstants
     };
     public static final int MAX_WHITE_RUN = 2560;
 
-    public static final int BlackCodes[][] = { { 2, 0x02, 3 }, // 10
+    public static final int[][] BlackCodes = { { 2, 0x02, 3 }, // 10
             { 2, 0x03, 2 }, // 11
             { 3, 0x02, 1 }, // 010
             { 3, 0x03, 4 }, // 011

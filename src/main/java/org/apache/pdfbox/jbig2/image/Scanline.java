@@ -315,10 +315,10 @@ abstract class Scanline
         private final WritableRaster dstRaster;
 
         private final int componentCount;
-        private final int data[][];
+        private final int[][] data;
         private final SampleModel srcSM;
         private final SampleModel dstSM;
-        private final int channelMask[];
+        private final int[] channelMask;
         private final int[] tmp;
         private final ScanlineFilter inputFilter;
 
@@ -358,8 +358,8 @@ abstract class Scanline
             final int l = grs.data[0].length;
             for (int c = 0; c < componentCount; c++)
             {
-                final int ac[] = data[c];
-                final int bc[] = grs.data[c];
+                final int[] ac = data[c];
+                final int[] bc = grs.data[c];
 
                 for (int b = 0; b < l; b++)
                     bc[b] += weight * ac[b];
@@ -396,7 +396,7 @@ abstract class Scanline
             final int nx = dst.length;
 
             // start sum at 1<<shift-1 for rounding
-            final int start[] = tmp;
+            final int[] start = tmp;
             for (int c = 0; c < componentCount; c++)
                 start[c] = 1 << postShift[c] - 1;
 
@@ -410,8 +410,8 @@ abstract class Scanline
             if (hasPreShift)
                 for (int c = 0; c < componentCount; c++)
                 {
-                    final int ac[] = data[c];
-                    final int bc[] = grs.data[c];
+                    final int[] ac = data[c];
+                    final int[] bc = grs.data[c];
                     final int m = channelMask[c];
                     for (int b = 0; b < nx; b++)
                     {
@@ -429,8 +429,8 @@ abstract class Scanline
             else
                 for (int c = 0; c < componentCount; c++)
                 {
-                    final int ac[] = data[c];
-                    final int bc[] = grs.data[c];
+                    final int[] ac = data[c];
+                    final int[] bc = grs.data[c];
 
                     for (int b = 0; b < nx; b++)
                     {
@@ -449,16 +449,16 @@ abstract class Scanline
         @Override
         protected void shift(final int[] shift)
         {
-            final int half[] = tmp;
+            final int[] half = tmp;
             for (int c = 0; c < componentCount; c++)
                 half[c] = 1 << shift[c] - 1;
 
-            final int abuf[][] = data;
+            final int[][] abuf = data;
 
             final int l = abuf[0].length;
             for (int c = 0; c < componentCount; c++)
             {
-                final int ac[] = data[c];
+                final int[] ac = data[c];
                 final int m = channelMask[c];
 
                 for (int a = 0; a < l; a++)
@@ -503,8 +503,8 @@ abstract class Scanline
         {
             final ByteBiLevelPackedScanline bblps = (ByteBiLevelPackedScanline) dst;
 
-            final int abuf[] = data;
-            final int bbuf[] = bblps.data;
+            final int[] abuf = data;
+            final int[] bbuf = bblps.data;
 
             for (int b = 0; b < bbuf.length; b++)
                 bbuf[b] += weight * abuf[b];
