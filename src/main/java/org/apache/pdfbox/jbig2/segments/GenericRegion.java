@@ -787,7 +787,7 @@ public class GenericRegion implements Region
             if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
                 context |= (result >> (toShift - gbAtX[0]) & 0x1) << 4;
             else
-                context |= getPixel(x + gbAtX[0], y + gbAtY[0]) << 4;
+                context |= getPixelSafe(x + gbAtX[0], y + gbAtY[0]) << 4;
         }
 
         if (gbAtOverride[1])
@@ -796,7 +796,7 @@ public class GenericRegion implements Region
             if (gbAtY[1] == 0 && gbAtX[1] >= -minorX)
                 context |= (result >> (toShift - gbAtX[1]) & 0x1) << 10;
             else
-                context |= getPixel(x + gbAtX[1], y + gbAtY[1]) << 10;
+                context |= getPixelSafe(x + gbAtX[1], y + gbAtY[1]) << 10;
         }
 
         if (gbAtOverride[2])
@@ -805,7 +805,7 @@ public class GenericRegion implements Region
             if (gbAtY[2] == 0 && gbAtX[2] >= -minorX)
                 context |= (result >> (toShift - gbAtX[2]) & 0x1) << 11;
             else
-                context |= getPixel(x + gbAtX[2], y + gbAtY[2]) << 11;
+                context |= getPixelSafe(x + gbAtX[2], y + gbAtY[2]) << 11;
         }
 
         if (gbAtOverride[3])
@@ -814,7 +814,7 @@ public class GenericRegion implements Region
             if (gbAtY[3] == 0 && gbAtX[3] >= -minorX)
                 context |= (result >> (toShift - gbAtX[3]) & 0x1) << 15;
             else
-                context |= getPixel(x + gbAtX[3], y + gbAtY[3]) << 15;
+                context |= getPixelSafe(x + gbAtX[3], y + gbAtY[3]) << 15;
         }
         return context;
     }
@@ -828,7 +828,7 @@ public class GenericRegion implements Region
             if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
                 context |= (result >> (toShift - gbAtX[0]) & 0x1) << 1;
             else
-                context |= getPixel(x + gbAtX[0], y + gbAtY[0]) << 1;
+                context |= getPixelSafe(x + gbAtX[0], y + gbAtY[0]) << 1;
         }
 
         if (gbAtOverride[1])
@@ -837,7 +837,7 @@ public class GenericRegion implements Region
             if (gbAtY[1] == 0 && gbAtX[1] >= -minorX)
                 context |= (result >> (toShift - gbAtX[1]) & 0x1) << 13;
             else
-                context |= getPixel(x + gbAtX[1], y + gbAtY[1]) << 13;
+                context |= getPixelSafe(x + gbAtX[1], y + gbAtY[1]) << 13;
         }
         if (gbAtOverride[2])
         {
@@ -845,7 +845,7 @@ public class GenericRegion implements Region
             if (gbAtY[2] == 0 && gbAtX[2] >= -minorX)
                 context |= (result >> (toShift - gbAtX[2]) & 0x1) << 9;
             else
-                context |= getPixel(x + gbAtX[2], y + gbAtY[2]) << 9;
+                context |= getPixelSafe(x + gbAtX[2], y + gbAtY[2]) << 9;
         }
         if (gbAtOverride[3])
         {
@@ -853,7 +853,7 @@ public class GenericRegion implements Region
             if (gbAtY[3] == 0 && gbAtX[3] >= -minorX)
                 context |= (result >> (toShift - gbAtX[3]) & 0x1) << 14;
             else
-                context |= getPixel(x + gbAtX[3], y + gbAtY[3]) << 14;
+                context |= getPixelSafe(x + gbAtX[3], y + gbAtY[3]) << 14;
         }
         if (gbAtOverride[4])
         {
@@ -861,7 +861,7 @@ public class GenericRegion implements Region
             if (gbAtY[4] == 0 && gbAtX[4] >= -minorX)
                 context |= (result >> (toShift - gbAtX[4]) & 0x1) << 12;
             else
-                context |= getPixel(x + gbAtX[4], y + gbAtY[4]) << 12;
+                context |= getPixelSafe(x + gbAtX[4], y + gbAtY[4]) << 12;
         }
         if (gbAtOverride[5])
         {
@@ -869,7 +869,7 @@ public class GenericRegion implements Region
             if (gbAtY[5] == 0 && gbAtX[5] >= -minorX)
                 context |= (result >> (toShift - gbAtX[5]) & 0x1) << 5;
             else
-                context |= getPixel(x + gbAtX[5], y + gbAtY[5]) << 5;
+                context |= getPixelSafe(x + gbAtX[5], y + gbAtY[5]) << 5;
         }
         if (gbAtOverride[6])
         {
@@ -877,7 +877,7 @@ public class GenericRegion implements Region
             if (gbAtY[6] == 0 && gbAtX[6] >= -minorX)
                 context |= (result >> (toShift - gbAtX[6]) & 0x1) << 2;
             else
-                context |= getPixel(x + gbAtX[6], y + gbAtY[6]) << 2;
+                context |= getPixelSafe(x + gbAtX[6], y + gbAtY[6]) << 2;
         }
         if (gbAtOverride[7])
         {
@@ -885,7 +885,7 @@ public class GenericRegion implements Region
             if (gbAtY[7] == 0 && gbAtX[7] >= -minorX)
                 context |= (result >> (toShift - gbAtX[7]) & 0x1) << 3;
             else
-                context |= getPixel(x + gbAtX[7], y + gbAtY[7]) << 3;
+                context |= getPixelSafe(x + gbAtX[7], y + gbAtY[7]) << 3;
         }
         if (gbAtOverride[8])
         {
@@ -893,7 +893,7 @@ public class GenericRegion implements Region
             if (gbAtY[8] == 0 && gbAtX[8] >= -minorX)
                 context |= (result >> (toShift - gbAtX[8]) & 0x1) << 11;
             else
-                context |= getPixel(x + gbAtX[8], y + gbAtY[8]) << 11;
+                context |= getPixelSafe(x + gbAtX[8], y + gbAtY[8]) << 11;
         }
         if (gbAtOverride[9])
         {
@@ -901,7 +901,7 @@ public class GenericRegion implements Region
             if (gbAtY[9] == 0 && gbAtX[9] >= -minorX)
                 context |= (result >> (toShift - gbAtX[9]) & 0x1) << 4;
             else
-                context |= getPixel(x + gbAtX[9], y + gbAtY[9]) << 4;
+                context |= getPixelSafe(x + gbAtX[9], y + gbAtY[9]) << 4;
         }
         if (gbAtOverride[10])
         {
@@ -909,7 +909,7 @@ public class GenericRegion implements Region
             if (gbAtY[10] == 0 && gbAtX[10] >= -minorX)
                 context |= (result >> (toShift - gbAtX[10]) & 0x1) << 15;
             else
-                context |= getPixel(x + gbAtX[10], y + gbAtY[10]) << 15;
+                context |= getPixelSafe(x + gbAtX[10], y + gbAtY[10]) << 15;
         }
         if (gbAtOverride[11])
         {
@@ -917,7 +917,7 @@ public class GenericRegion implements Region
             if (gbAtY[11] == 0 && gbAtX[11] >= -minorX)
                 context |= (result >> (toShift - gbAtX[11]) & 0x1) << 10;
             else
-                context |= getPixel(x + gbAtX[11], y + gbAtY[11]) << 10;
+                context |= getPixelSafe(x + gbAtX[11], y + gbAtY[11]) << 10;
         }
 
         return context;
@@ -930,7 +930,7 @@ public class GenericRegion implements Region
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
             return (context | (result >> (7 - (minorX + gbAtX[0])) & 0x1) << 3);
         else
-            return (context | getPixel(x + gbAtX[0], y + gbAtY[0]) << 3);
+            return (context | getPixelSafe(x + gbAtX[0], y + gbAtY[0]) << 3);
     }
 
     private int overrideAtTemplate2(int context, final int x, final int y, final int result,
@@ -940,7 +940,7 @@ public class GenericRegion implements Region
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
             return (context | (result >> (7 - (minorX + gbAtX[0])) & 0x1) << 2);
         else
-            return (context | getPixel(x + gbAtX[0], y + gbAtY[0]) << 2);
+            return (context | getPixelSafe(x + gbAtX[0], y + gbAtY[0]) << 2);
     }
 
     private int overrideAtTemplate3(int context, final int x, final int y, final int result,
@@ -950,10 +950,10 @@ public class GenericRegion implements Region
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
             return (context | (result >> (7 - (minorX + gbAtX[0])) & 0x1) << 4);
         else
-            return (context | getPixel(x + gbAtX[0], y + gbAtY[0]) << 4);
+            return (context | getPixelSafe(x + gbAtX[0], y + gbAtY[0]) << 4);
     }
 
-    private byte getPixel(final int x, final int y) throws IOException
+    private byte getPixelSafe(final int x, final int y)
     {
         if (x < 0 || x >= regionBitmap.getWidth())
             return 0;
