@@ -86,7 +86,7 @@ public class BitmapTest
     public void getByteAsIntegerThrowsExceptionTest()
     {
         Bitmap bitmap = new Bitmap(16, 16);
-        bitmap.getByte(32);
+        bitmap.getByteAsInteger(32);
     }
 
     @Test
