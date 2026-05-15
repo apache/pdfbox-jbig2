@@ -147,7 +147,8 @@ abstract class Scanline
 
             final int[] abuf = data;
 
-            for (int b = 0; b < abuf.length;)
+            int b = 0;
+            while (b < abuf.length)
             {
                 for (int c = 0; c < 3; c++, b++)
                 {
@@ -291,7 +292,8 @@ abstract class Scanline
 
             final int[] abuf = data;
 
-            for (int b = 0; b < abuf.length;)
+            int b = 0;
+            while (b < abuf.length)
             {
                 for (int c = 0; c < componentCount; c++, b++)
                 {
