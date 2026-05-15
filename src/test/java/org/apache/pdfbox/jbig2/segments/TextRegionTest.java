@@ -46,7 +46,7 @@ public class TextRegionTest
     public void textRegionWith() throws IOException, InvalidHeaderValueException
     {
 
-        int pageNumber = 1;
+        int pageNumber = 0;
 
         final File inputFile = new File("target/images/042_11.jb2");
         // skip test if input stream isn't available
