@@ -595,7 +595,7 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private long huffDecodeRefAggNInst() throws IOException, InvalidHeaderValueException
+    private long huffDecodeRefAggNInst() throws IOException
     {
         if (sdHuffAggInstanceSelection == 0)
         {
@@ -779,7 +779,7 @@ public class SymbolDictionary implements Dictionary
         sbSymbols.add(symbol);
     }
 
-    private long decodeDifferenceWidth() throws IOException, InvalidHeaderValueException
+    private long decodeDifferenceWidth() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -831,10 +831,8 @@ public class SymbolDictionary implements Dictionary
      * 
      * @return long - Result of decoding HCDH
      * @throws IOException
-     * @throws InvalidHeaderValueException
      */
-    private long decodeHeightClassDeltaHeightWithHuffman()
-            throws IOException, InvalidHeaderValueException
+    private long decodeHeightClassDeltaHeightWithHuffman() throws IOException
     {
         switch (sdHuffDecodeHeightSelection)
         {
@@ -943,7 +941,7 @@ public class SymbolDictionary implements Dictionary
         return exportFlags;
     }
 
-    private long huffDecodeBmSize() throws IOException, InvalidHeaderValueException
+    private long huffDecodeBmSize() throws IOException
     {
         if (bmSizeTable == null)
         {

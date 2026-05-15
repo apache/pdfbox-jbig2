@@ -779,7 +779,7 @@ public class GenericRegion implements Region
     }
 
     private int overrideAtTemplate0a(int context, final int x, final int y, final int result,
-            final int minorX, final int toShift) throws IOException
+            final int minorX, final int toShift)
     {
         if (gbAtOverride[0])
         {
@@ -820,7 +820,7 @@ public class GenericRegion implements Region
     }
 
     private int overrideAtTemplate0b(int context, final int x, final int y, final int result,
-            final int minorX, final int toShift) throws IOException
+            final int minorX, final int toShift)
     {
         if (gbAtOverride[0])
         {
@@ -924,7 +924,7 @@ public class GenericRegion implements Region
     }
 
     private int overrideAtTemplate1(int context, final int x, final int y, final int result,
-            final int minorX) throws IOException
+            final int minorX)
     {
         context &= 0x1ff7;
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
@@ -934,7 +934,7 @@ public class GenericRegion implements Region
     }
 
     private int overrideAtTemplate2(int context, final int x, final int y, final int result,
-            final int minorX) throws IOException
+            final int minorX)
     {
         context &= 0x3fb;
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
@@ -944,7 +944,7 @@ public class GenericRegion implements Region
     }
 
     private int overrideAtTemplate3(int context, final int x, final int y, final int result,
-            final int minorX) throws IOException
+            final int minorX)
     {
         context &= 0x3ef;
         if (gbAtY[0] == 0 && gbAtX[0] >= -minorX)
