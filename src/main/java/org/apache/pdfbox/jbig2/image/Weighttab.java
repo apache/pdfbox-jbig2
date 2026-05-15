@@ -77,7 +77,8 @@ final class Weighttab
 
         // compute the discrete, sampled filter coefficients
         int sum = 0;
-        for (int idx = 0, i = i0; i <= i1; i++)
+        int idx = 0;
+        for (int i = i0; i <= i1; i++)
         {
             /* evaluate the filter function at p */
             final double tr = Utils.clamp(scale * pf.eval(center, i), Short.MIN_VALUE,
@@ -116,8 +117,8 @@ final class Weighttab
         if (Resizer.debug)
         {
             System.out.printf("\t");
-            for (int idx = 0, i = i0; i < i1; i++, idx++)
-                System.out.printf("%5d ", weights[idx]);
+            for (int jdx = 0, i = i0; i < i1; i++, jdx++)
+                System.out.printf("%5d ", weights[jdx]);
             System.out.println();
         }
     }
