@@ -422,7 +422,7 @@ public class HalftoneRegion implements Region
     }
 
     // 6.6.5.1 Computing HSKIP
-    private Bitmap computeHSkip(int hPatternWidth, int hPatternHeight) throws IOException
+    private Bitmap computeHSkip(int hPatternWidth, int hPatternHeight)
     {
         Bitmap bitmap = new Bitmap(hGridWidth, hGridHeight); // HSKIP is HGW by HGH pixels
         for (int m = 0; m < hGridHeight; ++m)
