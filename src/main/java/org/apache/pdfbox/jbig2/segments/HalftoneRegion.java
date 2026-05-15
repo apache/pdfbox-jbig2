@@ -93,7 +93,7 @@ public class HalftoneRegion implements Region
         this.regionInfo = new RegionSegmentInformation(subInputStream);
     }
 
-    private void parseHeader() throws IOException, InvalidHeaderValueException
+    private void parseHeader() throws IOException
     {
         regionInfo.parseHeader();
 

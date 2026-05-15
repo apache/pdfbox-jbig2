@@ -57,7 +57,7 @@ public class PageInformation implements SegmentData
     private boolean isStriped;
     private short maxStripeSize;
 
-    private void parseHeader() throws IOException, InvalidHeaderValueException
+    private void parseHeader() throws IOException
     {
 
         readWidthAndHeight();
