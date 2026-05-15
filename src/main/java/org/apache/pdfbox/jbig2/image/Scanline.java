@@ -546,33 +546,33 @@ abstract class Scanline
             final int preShift0 = preShift[0];
             final int postShift0 = postShift[0];
             if (preShift0 != 0)
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int bp = 0, b = 0; b < nx; b++, bp++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;
 
                     int sum = start;
-                    for (int wp = 0, ap = wtab.i0; wp < an && ap < abuf.length; wp++)
+                    for (int wp = 0, ap = wtab.i0; wp < an && ap < abuf.length; wp++, ap++)
                     {
-                        sum += wtab.weights[wp] * (abuf[ap++] >> preShift0);
+                        sum += wtab.weights[wp] * (abuf[ap] >> preShift0);
                     }
 
                     final int t = sum >> postShift0;
-                    bbuf[bp++] = t < 0 ? 0 : t > 255 ? 255 : t;
+                    bbuf[bp] = t < 0 ? 0 : t > 255 ? 255 : t;
                 }
             else
-                for (int bp = 0, b = 0; b < nx; b++)
+                for (int bp = 0, b = 0; b < nx; b++, bp++)
                 {
                     final Weighttab wtab = tabs[b];
                     final int an = wtab.weights.length;
 
                     int sum = start;
-                    for (int wp = 0, ap = wtab.i0; wp < an && ap < abuf.length; wp++)
+                    for (int wp = 0, ap = wtab.i0; wp < an && ap < abuf.length; wp++, ap++)
                     {
-                        sum += wtab.weights[wp] * abuf[ap++];
+                        sum += wtab.weights[wp] * abuf[ap];
                     }
 
-                    bbuf[bp++] = sum >> postShift0;
+                    bbuf[bp] = sum >> postShift0;
                 }
         }
 
