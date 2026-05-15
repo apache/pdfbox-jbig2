@@ -102,7 +102,8 @@ final class BitmapScanline extends Scanline
                 final int weights = weightTab.weights.length;
 
                 int sum = start;
-                for (int weightIndex = 0, srcIndex = weightTab.i0; weightIndex < weights
+                int srcIndex = weightTab.i0;
+                for (int weightIndex = 0; weightIndex < weights
                         && srcIndex < srcBuffer.length; weightIndex++)
                 {
                     sum += weightTab.weights[weightIndex] * srcBuffer[srcIndex++];
