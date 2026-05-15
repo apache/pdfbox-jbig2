@@ -44,8 +44,7 @@ public class Table implements SegmentData
     /** Code table highest value, B.2.3, page 87 */
     private int htHigh;
 
-    private void parseHeader()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    private void parseHeader() throws IOException, InvalidHeaderValueException
     {
         int bit;
 
