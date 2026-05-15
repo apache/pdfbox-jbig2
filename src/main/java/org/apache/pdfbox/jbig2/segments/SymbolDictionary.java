@@ -547,7 +547,6 @@ public class SymbolDictionary implements Dictionary
     private void decodeHeightClassBitmap(final Bitmap heightClassCollectiveBitmap,
             final int heightClassFirstSymbol, final int heightClassHeight,
             final int[] newSymbolsWidths)
-            throws IOException
     {
 
         for (int i = heightClassFirstSymbol; i < amountOfDecodedSymbols; i++)
@@ -813,8 +812,7 @@ public class SymbolDictionary implements Dictionary
         return 0;
     }
 
-    private long decodeHeightClassDeltaHeight()
-            throws IOException, InvalidHeaderValueException
+    private long decodeHeightClassDeltaHeight() throws IOException
     {
         if (isHuffmanEncoded)
         {
