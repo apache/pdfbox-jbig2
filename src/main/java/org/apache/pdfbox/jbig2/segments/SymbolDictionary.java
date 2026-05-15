@@ -318,7 +318,7 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private void checkInput() throws InvalidHeaderValueException
+    private void checkInput()
     {
         if (isHuffmanEncoded)
         {
@@ -547,7 +547,7 @@ public class SymbolDictionary implements Dictionary
     private void decodeHeightClassBitmap(final Bitmap heightClassCollectiveBitmap,
             final int heightClassFirstSymbol, final int heightClassHeight,
             final int[] newSymbolsWidths)
-            throws IntegerMaxValueException, InvalidHeaderValueException, IOException
+            throws IOException
     {
 
         for (int i = heightClassFirstSymbol; i < amountOfDecodedSymbols; i++)
@@ -727,13 +727,10 @@ public class SymbolDictionary implements Dictionary
      * @param rdy The y-offset for refinement.
      * @throws IllegalStateException if {@code cx} or {@code arithmeticDecoder} is not initialized.
      * @throws IOException if an I/O error occurs during decoding.
-     * @throws InvalidHeaderValueException if an invalid header value is encountered.
-     * @throws IntegerMaxValueException if an integer value exceeds its maximum allowed value
-     * 
      */
     private void decodeNewSymbols(final int symWidth, final int hcHeight, final Bitmap ibo,
             final int rdx, final int rdy)
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+            throws IOException
     {
         // cx (bitmap coding context) must already be initialized via ensureBitmapCxInitialized()
         // in getDictionary(). It is required by GenericRefinementRegionDecodingProcedure.decode
@@ -1033,8 +1030,7 @@ public class SymbolDictionary implements Dictionary
         }
     }
 
-    private HuffmanTable getUserTable(final int tablePosition)
-            throws InvalidHeaderValueException, IOException
+    private HuffmanTable getUserTable(final int tablePosition) throws IOException
     {
         int tableCounter = 0;
 

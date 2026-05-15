@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -70,7 +69,7 @@ public class JBIG2ImageReaderDemo
     }
 
     public static void main(String[] args)
-            throws InterruptedException, InvocationTargetException, IOException, JBIG2Exception, URISyntaxException
+            throws IOException, JBIG2Exception, URISyntaxException
     {
         URL imageUrl = JBIG2ImageReaderDemo.class.getResource("/images/042_1.jb2");
         new JBIG2ImageReaderDemo(imageUrl.toURI().getPath(), 1).show();

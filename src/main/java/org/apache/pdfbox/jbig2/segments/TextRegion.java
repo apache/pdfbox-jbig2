@@ -391,7 +391,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeStripT() throws IOException, InvalidHeaderValueException
+    private long decodeStripT() throws IOException
     {
 
         long stripT = 0;
@@ -433,8 +433,7 @@ public class TextRegion implements Region
         return stripT * -(sbStrips);
     }
 
-    private void decodeSymbolInstances()
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    private void decodeSymbolInstances() throws IOException
     {
 
         long stripT = decodeStripT();
@@ -531,7 +530,7 @@ public class TextRegion implements Region
         return (dT * sbStrips);
     }
 
-    private long decodeDfS() throws IOException, InvalidHeaderValueException
+    private long decodeDfS() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -554,7 +553,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeIdS() throws IOException, InvalidHeaderValueException
+    private long decodeIdS() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -635,8 +634,7 @@ public class TextRegion implements Region
         return 0;
     }
 
-    private Bitmap decodeIb(long r, long id)
-            throws IOException, InvalidHeaderValueException, IntegerMaxValueException
+    private Bitmap decodeIb(long r, long id) throws IOException
     {
         Bitmap ib;
 
@@ -699,7 +697,7 @@ public class TextRegion implements Region
         return ib;
     }
 
-    private long decodeRdw() throws IOException, InvalidHeaderValueException
+    private long decodeRdw() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -740,7 +738,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeRdh() throws IOException, InvalidHeaderValueException
+    private long decodeRdh() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -785,7 +783,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeRdx() throws IOException, InvalidHeaderValueException
+    private long decodeRdx() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -834,7 +832,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeRdy() throws IOException, InvalidHeaderValueException
+    private long decodeRdy() throws IOException
     {
         if (isHuffmanEncoded)
         {
@@ -888,7 +886,7 @@ public class TextRegion implements Region
         }
     }
 
-    private long decodeSymInRefSize() throws IOException, InvalidHeaderValueException
+    private long decodeSymInRefSize() throws IOException
     {
         if (sbHuffRSize == 0)
         {
@@ -1017,8 +1015,7 @@ public class TextRegion implements Region
         amountOfSymbols = symbols.size();
     }
 
-    private HuffmanTable getUserTable(final int tablePosition)
-            throws InvalidHeaderValueException, IOException
+    private HuffmanTable getUserTable(final int tablePosition) throws IOException
     {
         int tableCounter = 0;
 

@@ -34,8 +34,7 @@ public class EndOfStripe implements SegmentData
     private SubInputStream subInputStream;
     private int lineNumber;
 
-    private void parseHeader()
-            throws IOException, IntegerMaxValueException, InvalidHeaderValueException
+    private void parseHeader() throws IOException
     {
         lineNumber = (int) (subInputStream.readBits(32) & 0xffffffff);
     }
