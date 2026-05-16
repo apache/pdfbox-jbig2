@@ -16,6 +16,23 @@
 --->
 # Release notes
 
+- [PDFBOX-6152](https://issues.apache.org/jira/browse/PDFBOX-6152): InvalidHeaderValueException: Width/Heigth must be greater than zero.
+- [PDFBOX-6154](https://issues.apache.org/jira/browse/PDFBOX-6154): HENABLESKIP isn't supported
+- [PDFBOX-6155](https://issues.apache.org/jira/browse/PDFBOX-6155): AT (Adaptive template pixels) -1 byte skipped
+- [PDFBOX-6156](https://issues.apache.org/jira/browse/PDFBOX-6156): RegionBitmap bit blit slightly too large
+- [PDFBOX-6158](https://issues.apache.org/jira/browse/PDFBOX-6158): HalftoneRegion.renderPattern() doesn't render any patterns
+- [PDFBOX-6159](https://issues.apache.org/jira/browse/PDFBOX-6159): symInRefSize not respected when doing Huffmann decoding
+- [PDFBOX-6160](https://issues.apache.org/jira/browse/PDFBOX-6160): Immediate generic refinement region with no reference not displayed
+- [PDFBOX-6161](https://issues.apache.org/jira/browse/PDFBOX-6161): Immediate generic refinement region with no reference wrongly displayed
+- [PDFBOX-6162](https://issues.apache.org/jira/browse/PDFBOX-6162): Reuse of symbol context not properly supported
+- [PDFBOX-6199](https://issues.apache.org/jira/browse/PDFBOX-6199): Template 1 handling with TPGRON not supported
+- [PDFBOX-5597](https://issues.apache.org/jira/browse/PDFBOX-5597): JBIG2 image drawn is garbled when using subsampling
+- [PDFBOX-6147](https://issues.apache.org/jira/browse/PDFBOX-6147): NPE in JBIG2Page.getWidth()
+- [PDFBOX-6148](https://issues.apache.org/jira/browse/PDFBOX-6148): JBIG2ImageReader methods breaks ImageReader contract
+- [PDFBOX-6205](https://issues.apache.org/jira/browse/PDFBOX-6205): Support jacoco
+- [PDFBOX-5535](https://issues.apache.org/jira/browse/PDFBOX-5535): Remove Travis build
+- [PDFBOX-6151](https://issues.apache.org/jira/browse/PDFBOX-6151): Run serenity JBIG2 tests
+
 ## Version 3.0.4 (2022-03-01)
 - [PDFBOX-4671](https://issues.apache.org/jira/browse/PDFBOX-4671): NoClassDefFoundError: Could not initialize class org.apache.pdfbox.jbig2.JBIG2ImageReader
 - [PDFBOX-5220](https://issues.apache.org/jira/browse/PDFBOX-5220): Optimizations for Bitmaps

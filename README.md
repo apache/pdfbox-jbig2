@@ -19,9 +19,6 @@
 The Java ImageIO plugin for JBIG2 enables access to images encoded using the JBIG2 image compression standard.
 This component is part of the [Apache PDFBox® project](https://pdfbox.apache.org/) 
 
-## Status
-[![Build Status](https://travis-ci.com/apache/pdfbox-jbig2.svg?branch=master)](https://travis-ci.com/apache/pdfbox-jbig2)
-
 ## Features
 The key features of the plugin are:
 
@@ -65,7 +62,7 @@ To use the plugin within a Maven POM-based project, simply include a dependency 
     <dependency>
       <groupId>org.apache.pdfbox</groupId>
       <artifactId>jbig2-imageio</artifactId>
-      <version>3.0.4</version>
+      <version>3.0.5</version>
     </dependency>
 
 ### How to deal with embedded JBIG2 data
