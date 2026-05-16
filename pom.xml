@@ -29,7 +29,7 @@
     
     <groupId>org.apache.pdfbox</groupId>
     <artifactId>jbig2-imageio</artifactId>
-    <version>3.0.5-SNAPSHOT</version>
+    <version>3.0.5</version>
 	
     <name>PDFBox JBIG2 ImageIO plugin</name>
 	
@@ -218,7 +218,7 @@
       <connection>scm:git:http://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</connection>
       <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/pdfbox-jbig2.git</developerConnection>
       <url>https://git-wip-us.apache.org/repos/asf?p=pdfbox-jbig2.git</url>
-      <tag>HEAD</tag>
+      <tag>3.0.5</tag>
   </scm>
 	
     <dependencies>
@@ -499,7 +499,7 @@
                             <classpathScope>test</classpathScope>
                             <arguments>
                                 <argument>-classpath</argument>
-                                <classpath/>  <!-- expands to full test classpath -->
+                                <classpath />  <!-- expands to full test classpath -->
                                 <argument>-XX:+FlightRecorder</argument>
                                 <argument>-XX:StartFlightRecording=filename=${project.build.directory}/arithmetic-decoder.jfr,settings=profile,dumponexit=true</argument>
                                 <argument>org.openjdk.jmh.Main</argument>
