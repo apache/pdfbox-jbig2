@@ -603,11 +603,11 @@ Subject: [VOTE] Release Apache PDFBox JBIG2 ImageIO ${project.version}
 
 A candidate for the PDFBox JBIG2 ImageIO ${project.version} release is available at:
 
-    https://dist.apache.org/repos/dist/dev/pdfbox/jbig2-imageio-${project.version}/
+    https://dist.apache.org/repos/dist/dev/pdfbox/jbig2-imageio/${project.version}/
 
 The release candidate is a zip archive of the sources in:
 
-    https://github.com/apache/pdfbox-jbig2/tree/jbig2-imageio-${project.version}/
+    https://github.com/apache/pdfbox-jbig2/tree/${project.version}/
 
 The SHA-512 checksum of the archive is ${checksum}.
 
