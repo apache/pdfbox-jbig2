@@ -29,7 +29,6 @@ import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.MemoryCacheImageInputStream;
 
 import org.apache.pdfbox.jbig2.Bitmap;
-import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.apache.pdfbox.jbig2.io.SubInputStream;
 
 import org.junit.Test;
@@ -38,7 +37,7 @@ public class MMRDecompressorTest
 {
 
     @Test
-    public void mmrDecodingTest() throws IOException, InvalidHeaderValueException
+    public void mmrDecodingTest() throws IOException
     {
         final byte[] expected = new byte[] { 0, 0, 2, 34, 38, 102, -17, -1, 2, 102, 102, //
                 -18, -18, -17, -1, -1, 0, 2, 102, 102, 127, //
