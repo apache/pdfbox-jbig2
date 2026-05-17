@@ -31,7 +31,6 @@ import javax.imageio.stream.MemoryCacheImageInputStream;
 import org.apache.pdfbox.jbig2.JBIG2ImageReader;
 import org.apache.pdfbox.jbig2.JBIG2ImageReaderSpi;
 import org.apache.pdfbox.jbig2.TestImage;
-import org.apache.pdfbox.jbig2.err.InvalidHeaderValueException;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -43,7 +42,7 @@ public class TextRegionTest
 
     @Ignore
     @Test
-    public void textRegionWith() throws IOException, InvalidHeaderValueException
+    public void textRegionWith() throws IOException
     {
 
         int pageNumber = 0;
