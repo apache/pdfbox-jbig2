@@ -45,7 +45,9 @@ public class EncodedTable extends HuffmanTable
 
         List<Code> codeTable = new ArrayList<Code>();
 
-        int prefLen, rangeLen, rangeLow;
+        int prefLen;
+        int rangeLen;
+        int rangeLow;
         int curRangeLow = table.getHtLow();
 
         /* Annex B.2 5) - decode table lines */

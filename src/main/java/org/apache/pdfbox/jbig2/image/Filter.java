@@ -99,7 +99,8 @@ abstract class Filter
 
         private double J1(final double x)
         {
-            double p, q;
+            double p;
+            double q;
 
             int i;
 
@@ -126,7 +127,8 @@ abstract class Filter
 
         private double P1(final double x)
         {
-            double p, q;
+            double p;
+            double q;
 
             int i;
 
@@ -150,7 +152,8 @@ abstract class Filter
 
         private double Q1(final double x)
         {
-            double p, q;
+            double p;
+            double q;
 
             int i;
 
@@ -173,7 +176,8 @@ abstract class Filter
 
         private double BesselOrderOne(double x)
         {
-            double p, q;
+            double p;
+            double q;
 
             if (x == 0.0)
                 return 0.0;
@@ -379,7 +383,8 @@ abstract class Filter
         @Override
         public double f(double x)
         {
-            double b, c;
+            double b;
+            double c;
 
             b = 1.0 / 3.0;
             c = 1.0 / 3.0;

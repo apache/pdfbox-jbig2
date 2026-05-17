@@ -49,7 +49,8 @@ public class ArithmeticIntegerDecoder
         int prev = 1;
 
         int v = 0;
-        int d, s;
+        int d;
+        int s;
 
         int bitsToRead;
         int offset;

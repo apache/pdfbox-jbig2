@@ -200,7 +200,8 @@ public class HalftoneRegion implements Region
      */
     private void renderPattern(final int[][] grayScaleValues)
     {
-        int x = 0, y = 0;
+        int x = 0;
+        int y = 0;
 
         // 1)
         for (int m = 0; m < hGridHeight; m++)

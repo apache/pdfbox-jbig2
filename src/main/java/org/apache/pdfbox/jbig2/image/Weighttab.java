@@ -25,7 +25,8 @@ import org.apache.pdfbox.jbig2.util.Utils;
 final class Weighttab
 {
     final int[] weights; /* weight[i] goes with pixel at i0+i */
-    final int i0, i1; /* range of samples is [i0..i1-1] */
+    final int i0; /* range of samples is [i0..i1-1] */
+    final int i1; 
 
     /*
      * make_weighttab: sample the continuous filter, scaled by ap.scale and positioned at continuous source coordinate

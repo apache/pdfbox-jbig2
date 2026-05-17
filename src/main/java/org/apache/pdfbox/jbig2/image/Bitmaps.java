@@ -538,7 +538,8 @@ public class Bitmaps
         int startLine = 0;
         int srcStartIdx = 0;
         int srcEndIdx = (src.getRowStride() - 1);
-        int x1 = x, y1 = y;
+        int x1 = x;
+        int y1 = y;
 
         // Ignore those parts of the source bitmap which would be placed outside the target bitmap.
         if (x < 0)

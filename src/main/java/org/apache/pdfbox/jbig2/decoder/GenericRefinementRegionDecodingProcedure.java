@@ -64,7 +64,7 @@ public class GenericRefinementRegionDecodingProcedure
      * <p>The two concrete implementations ({@link #T0}, {@link #T1}) correspond
      * to GRTEMPLATE values 0 and 1 as defined in §6.3.3 / Figures 14–15.</p>
      */
-    public static abstract class Template
+    public abstract static class Template
     {
         protected abstract short form(short c1, short c2, short c3, short c4, short c5);
 
@@ -418,9 +418,16 @@ public class GenericRefinementRegionDecodingProcedure
             final int lineOffset, int byteIndex, final int currentLine, int refByteIndex,
             Template templateFormation) throws IOException
     {
-        short c1, c2, c3, c4, c5;
+        short c1;
+        short c2;
+        short c3;
+        short c4;
+        short c5;
 
-        int w1, w2, w3, w4;
+        int w1;
+        int w2;
+        int w3;
+        int w4;
         w1 = w2 = w3 = w4 = 0;
 
         if (currentLine >= 1 && (currentLine - 1) < referenceBitmap.getHeight())
