@@ -549,13 +549,13 @@ public class SymbolDictionary implements Dictionary
             final int[] newSymbolsWidths)
     {
 
+        sbSymbols.ensureCapacity(amountOfDecodedSymbols);
+        int startColumn = 0;
         for (int i = heightClassFirstSymbol; i < amountOfDecodedSymbols; i++)
         {
-            int startColumn = 0;
-
-            for (int j = heightClassFirstSymbol; j <= i - 1; j++)
+            if (i > heightClassFirstSymbol)
             {
-                startColumn += newSymbolsWidths[j];
+                startColumn += newSymbolsWidths[i - 1];
             }
 
             final Rectangle roi = new Rectangle(startColumn, 0, newSymbolsWidths[i],
