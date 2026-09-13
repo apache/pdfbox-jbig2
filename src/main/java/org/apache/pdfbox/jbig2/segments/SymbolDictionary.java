@@ -553,12 +553,11 @@ public class SymbolDictionary implements Dictionary
         int startColumn = 0;
         for (int i = heightClassFirstSymbol; i < amountOfDecodedSymbols; i++)
         {
-            final int symbolWidth = newSymbolsWidths[i];
-            final Rectangle roi = new Rectangle(startColumn, 0, symbolWidth, heightClassHeight);
+            final Rectangle roi = new Rectangle(startColumn, 0, newSymbolsWidths[i], heightClassHeight);
             final Bitmap symbolBitmap = Bitmaps.extract(roi, heightClassCollectiveBitmap);
             newSymbols[i] = symbolBitmap;
             sbSymbols.add(symbolBitmap);
-            startColumn += symbolWidth;
+            startColumn += newSymbolsWidths[i];
         }
     }
 
