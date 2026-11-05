@@ -125,6 +125,10 @@ public class PatternDictionary implements Dictionary
         {
             throw new InvalidHeaderValueException("Width/Heigth must be greater than zero.");
         }
+        if (grayMax < 0 || grayMax == Integer.MAX_VALUE)
+        {
+            throw new InvalidHeaderValueException("Invalid GRAYMAX value: " + grayMax);
+        }
     }
 
     /**
