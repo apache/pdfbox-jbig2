@@ -399,12 +399,6 @@ public class SymbolDictionary implements Dictionary
                 }
             }
 
-            // Integer coders only needed for arithmetic path
-            if (!isHuffmanEncoded) {
-                resetIntegerCoderStatistics();
-            }
-
-            /* 6.5.5 1) */
             final long totalSymbols = (long) amountOfImportedSymbols + amountOfNewSymbols;
             if (amountOfNewSymbols < 0 || amountOfImportedSymbols < 0 ||
                 amountOfExportSymbolss < 0 || totalSymbols > Integer.MAX_VALUE ||
@@ -414,6 +408,13 @@ public class SymbolDictionary implements Dictionary
                         + amountOfImportedSymbols + ", new=" + amountOfNewSymbols
                         + ", exported=" + amountOfExportSymbolss);
             }
+
+            // Integer coders only needed for arithmetic path
+            if (!isHuffmanEncoded) {
+                resetIntegerCoderStatistics();
+            }
+
+            /* 6.5.5 1) */
             newSymbols = new Bitmap[amountOfNewSymbols];
 
             /* 6.5.5 2) */
