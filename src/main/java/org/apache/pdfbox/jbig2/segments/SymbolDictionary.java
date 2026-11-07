@@ -405,11 +405,14 @@ public class SymbolDictionary implements Dictionary
             }
 
             /* 6.5.5 1) */
-            if (amountOfNewSymbols < 0 || amountOfImportedSymbols < 0
-                    || (long) amountOfImportedSymbols + amountOfNewSymbols > Integer.MAX_VALUE)
+            final long totalSymbols = (long) amountOfImportedSymbols + amountOfNewSymbols;
+            if (amountOfNewSymbols < 0 || amountOfImportedSymbols < 0 ||
+                amountOfExportSymbolss < 0 || totalSymbols > Integer.MAX_VALUE ||
+                amountOfExportSymbolss > totalSymbols)
             {
-                throw new InvalidHeaderValueException("Invalid number of symbols: imported="
-                        + amountOfImportedSymbols + ", new=" + amountOfNewSymbols);
+                 throw new InvalidHeaderValueException("Invalid number of symbols: imported="
+                        + amountOfImportedSymbols + ", new=" + amountOfNewSymbols
+                        + ", exported=" + amountOfExportSymbolss);
             }
             newSymbols = new Bitmap[amountOfNewSymbols];
 
