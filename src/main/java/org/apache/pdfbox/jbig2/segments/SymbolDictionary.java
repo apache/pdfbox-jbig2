@@ -385,7 +385,13 @@ public class SymbolDictionary implements Dictionary
         if (null == exportSymbols)
         {
             if (useRefinementAggregation)
+            {
                 sbSymCodeLen = getSbSymCodeLen();
+                if (sbSymCodeLen > 30)
+                {
+                    throw new InvalidHeaderValueException("Invalid sbSymCodeLen value " + sbSymCodeLen);
+                }
+            }
 
             // decodes all referred segments including lastSymbolDictionary
             setSymbolsArray();
