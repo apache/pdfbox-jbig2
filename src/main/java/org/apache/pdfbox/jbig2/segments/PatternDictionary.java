@@ -127,7 +127,7 @@ public class PatternDictionary implements Dictionary
         }
         // Guard the int arithmetic on grayMax: (grayMax + 1) is used as a collection
         // capacity and (grayMax + 1) * hdpWidth as a bitmap width.
-        if (grayMax < 0 || (long) (grayMax + 1) * hdpWidth > Integer.MAX_VALUE)
+        if (grayMax < 0 || ((long) grayMax + 1) * hdpWidth > Integer.MAX_VALUE)
         {
             throw new InvalidHeaderValueException("Invalid GRAYMAX value: " + grayMax);
         }
