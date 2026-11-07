@@ -59,7 +59,8 @@ public class Bitmap
         this.height = height;
         this.width = width;
         this.rowStride = (int) (((long) width + 7) >> 3);
-        if ((long) this.height * this.rowStride > Integer.MAX_VALUE)
+        if (width > Integer.MAX_VALUE - 7
+                || (long) this.height * this.rowStride > Integer.MAX_VALUE)
         {
             throw new IllegalArgumentException(
                     "Bitmap dimensions too large: " + width + "x" + height);
