@@ -385,7 +385,13 @@ public class SymbolDictionary implements Dictionary
         if (null == exportSymbols)
         {
             if (useRefinementAggregation)
+            {
                 sbSymCodeLen = getSbSymCodeLen();
+                if (!isHuffmanEncoded && sbSymCodeLen > 30)
+                {
+                    throw new InvalidHeaderValueException("Invalid sbSymCodeLen value " + sbSymCodeLen);
+                }
+            }
 
             // decodes all referred segments including lastSymbolDictionary
             setSymbolsArray();
@@ -397,6 +403,16 @@ public class SymbolDictionary implements Dictionary
                 } else {
                     resetBitmapCodingStatistics();
                 }
+            }
+
+            final long totalSymbols = (long) amountOfImportedSymbols + amountOfNewSymbols;
+            if (amountOfNewSymbols < 0 || amountOfImportedSymbols < 0 ||
+                amountOfExportSymbolss < 0 || totalSymbols > Integer.MAX_VALUE ||
+                amountOfExportSymbolss > totalSymbols)
+            {
+                 throw new InvalidHeaderValueException("Invalid number of symbols: imported="
+                        + amountOfImportedSymbols + ", new=" + amountOfNewSymbols
+                        + ", exported=" + amountOfExportSymbolss);
             }
 
             // Integer coders only needed for arithmetic path

@@ -51,10 +51,20 @@ public class Bitmap
      */
     public Bitmap(int width, int height)
     {
+        if (width < 0 || height < 0)
+        {
+            throw new IllegalArgumentException(
+                    "Bitmap dimensions must not be negative: " + width + "x" + height);
+        }
         this.height = height;
         this.width = width;
-        this.rowStride = (width + 7) >> 3;
-
+        this.rowStride = (int) (((long) width + 7) >> 3);
+        if (width > Integer.MAX_VALUE - 7
+                || (long) this.height * this.rowStride > Integer.MAX_VALUE)
+        {
+            throw new IllegalArgumentException(
+                    "Bitmap dimensions too large: " + width + "x" + height);
+        }
         bitmapBytes = new byte[this.height * this.rowStride];
     }
 

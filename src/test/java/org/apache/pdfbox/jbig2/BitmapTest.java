@@ -105,4 +105,18 @@ public class BitmapTest
         assertEquals(width, bitmap.getWidth());
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void negativeDimensionsThrowTest()
+    {
+        new Bitmap(-1, 10);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void oversizedDimensionsThrowTest()
+    {
+        // height * rowStride overflows int (2^32 bytes); previously this produced an
+        // undersized, zero-length backing array instead of failing cleanly.
+        new Bitmap(0x40000, 0x20000);
+    }
+
 }

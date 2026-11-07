@@ -158,6 +158,12 @@ public class HalftoneRegion implements Region
         {
 
             /* 6.6.5, page 40 */
+            if (hGridWidth < 0 || hGridHeight < 0
+                    || (long) hGridWidth * hGridHeight > Integer.MAX_VALUE)
+            {
+                throw new InvalidHeaderValueException(
+                        "Invalid halftone grid dimensions: " + hGridWidth + "x" + hGridHeight);
+            }
             /* 1) */
             halftoneRegionBitmap = new Bitmap(regionInfo.getBitmapWidth(),
                     regionInfo.getBitmapHeight());
