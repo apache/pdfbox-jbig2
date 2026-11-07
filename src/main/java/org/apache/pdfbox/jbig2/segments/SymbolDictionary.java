@@ -387,7 +387,7 @@ public class SymbolDictionary implements Dictionary
             if (useRefinementAggregation)
             {
                 sbSymCodeLen = getSbSymCodeLen();
-                if (sbSymCodeLen > 30)
+                if (!isHuffmanEncoded && sbSymCodeLen > 30)
                 {
                     throw new InvalidHeaderValueException("Invalid sbSymCodeLen value " + sbSymCodeLen);
                 }
